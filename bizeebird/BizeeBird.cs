@@ -3,7 +3,7 @@ using Gtk;
 
 namespace bizeebird
 {
-	class MainClass
+	class BizeeBird
 	{
 		public static void Main (string[] args)
 		{
