@@ -18,13 +18,13 @@ namespace BizeeBirdBoarding
 
 		protected void onNewCustomerClicked (object sender, EventArgs e)
 		{
-			NewAppointmentDialog dialog = new NewAppointmentDialog ();
+			NewCustomerDialog dialog = new NewCustomerDialog ();
 			dialog.ShowAll ();
 		}
 
 		protected void onNewApointmentButtonClicked (object sender, EventArgs e)
 		{
-			NewCustomerDialog dialog = new NewCustomerDialog ();
+			NewAppointmentDialog dialog = new NewAppointmentDialog ();
 			dialog.ShowAll ();
 		}
 	}
