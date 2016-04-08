@@ -1,6 +1,5 @@
 using System;
 using Gtk;
-using BizeeBirdBoarding;
 
 namespace BizeeBirdBoarding
 {
@@ -25,8 +24,8 @@ namespace BizeeBirdBoarding
 
 		protected void onNewApointmentButtonClicked (object sender, EventArgs e)
 		{
-			//TODO
-			throw new NotImplementedException ();
+			NewCustomerDialog dialog = new NewCustomerDialog ();
+			dialog.ShowAll ();
 		}
 	}
 }

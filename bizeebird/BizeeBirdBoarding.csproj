@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CAB4D2A0-0FDD-4BEE-8AF9-80E84EA38B2F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>bizeebird</RootNamespace>
+    <RootNamespace>BizeeBirdBoarding</RootNamespace>
     <AssemblyName>bizeebird</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -75,6 +75,8 @@
     <Compile Include="NewAppointmentDialog.cs" />
     <Compile Include="gtk-gui\BizeeBirdBoarding.NewAppointmentDialog.cs" />
     <Compile Include="gtk-gui\BizeeBirdBoarding.MainWindow.cs" />
+    <Compile Include="NewCustomerDialog.cs" />
+    <Compile Include="gtk-gui\BizeeBirdBoarding.NewCustomerDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
