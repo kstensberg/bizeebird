@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bizeebird", "bizeebird\bizeebird.csproj", "{CAB4D2A0-0FDD-4BEE-8AF9-80E84EA38B2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizeeBirdBoarding", "bizeebird\BizeeBirdBoarding.csproj", "{CAB4D2A0-0FDD-4BEE-8AF9-80E84EA38B2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,6 @@ Global
 		{CAB4D2A0-0FDD-4BEE-8AF9-80E84EA38B2F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = bizeebird\bizeebird.csproj
+		StartupItem = bizeebird\BizeeBirdBoarding.csproj
 	EndGlobalSection
 EndGlobal

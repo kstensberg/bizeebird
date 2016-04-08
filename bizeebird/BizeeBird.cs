@@ -1,7 +1,7 @@
 using System;
 using Gtk;
 
-namespace bizeebird
+namespace BizeeBirdBoarding
 {
 	class BizeeBird
 	{

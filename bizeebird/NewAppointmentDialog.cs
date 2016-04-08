@@ -1,6 +1,6 @@
 using System;
 
-namespace bizeebird
+namespace BizeeBirdBoarding
 {
 	public partial class NewAppointmentDialog : Gtk.Dialog
 	{
