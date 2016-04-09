@@ -14,11 +14,11 @@
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
-      <widget class="Gtk.VBox" id="vbox1">
+      <widget class="Gtk.VBox" id="topLevelVbox">
         <property name="MemberName" />
         <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.HButtonBox" id="hbuttonbox1">
+          <widget class="Gtk.HButtonBox" id="toolbarButtonBox">
             <property name="MemberName" />
             <property name="Size">2</property>
             <property name="LayoutStyle">Start</property>
@@ -60,30 +60,30 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Notebook" id="notebook1">
+          <widget class="Gtk.Notebook" id="notebook">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
             <property name="CurrentPage">2</property>
             <child>
-              <widget class="Gtk.HBox" id="hbox1">
+              <widget class="Gtk.HBox" id="appointmentsTabHbox">
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
                 <child>
-                  <widget class="Gtk.Frame" id="frame1">
+                  <widget class="Gtk.Frame" id="upcomingDropOffsFrame">
                     <property name="MemberName" />
                     <property name="ShadowType">In</property>
                     <child>
-                      <widget class="Gtk.Alignment" id="GtkAlignment">
+                      <widget class="Gtk.Alignment" id="upcomingDropOffsGtkAlignment">
                         <property name="MemberName" />
                         <property name="Xalign">0</property>
                         <property name="Yalign">0</property>
                         <property name="LeftPadding">12</property>
                         <child>
-                          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+                          <widget class="Gtk.ScrolledWindow" id="upcomingDropOffsGtkScrolledWindow">
                             <property name="MemberName" />
                             <property name="ShadowType">In</property>
                             <child>
-                              <widget class="Gtk.TreeView" id="treeview1">
+                              <widget class="Gtk.TreeView" id="upcomingDropOffsTreeView">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="ShowScrollbars">True</property>
@@ -94,7 +94,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="GtkLabel2">
+                      <widget class="Gtk.Label" id="upcomingDropOffsLabel">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">&lt;b&gt;Upcoming Drop Offs&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
@@ -110,21 +110,21 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Frame" id="frame2">
+                  <widget class="Gtk.Frame" id="upcomingPickupsFrame">
                     <property name="MemberName" />
                     <property name="ShadowType">In</property>
                     <child>
-                      <widget class="Gtk.Alignment" id="GtkAlignment1">
+                      <widget class="Gtk.Alignment" id="upcomingPickupsAlignment">
                         <property name="MemberName" />
                         <property name="Xalign">0</property>
                         <property name="Yalign">0</property>
                         <property name="LeftPadding">12</property>
                         <child>
-                          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
+                          <widget class="Gtk.ScrolledWindow" id="upcomingPickupsScrolledWindow">
                             <property name="MemberName" />
                             <property name="ShadowType">In</property>
                             <child>
-                              <widget class="Gtk.TreeView" id="treeview2">
+                              <widget class="Gtk.TreeView" id="upcomingPickupsTreeview">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="ShowScrollbars">True</property>
@@ -135,7 +135,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="GtkLabel3">
+                      <widget class="Gtk.Label" id="upcomingPickupsLabel">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">&lt;b&gt;Upcoming Pickups&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
@@ -153,7 +153,7 @@
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="label1">
+              <widget class="Gtk.Label" id="appointmentsTabLabel">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">Appointments</property>
               </widget>
@@ -162,11 +162,11 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow2">
+              <widget class="Gtk.ScrolledWindow" id="customersScrolledWindow">
                 <property name="MemberName" />
                 <property name="ShadowType">In</property>
                 <child>
-                  <widget class="Gtk.TreeView" id="treeview3">
+                  <widget class="Gtk.TreeView" id="customersTreeview">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
@@ -178,7 +178,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Label" id="label3">
+              <widget class="Gtk.Label" id="customerTabLabel">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">Customers</property>
               </widget>
@@ -187,11 +187,11 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow3">
+              <widget class="Gtk.ScrolledWindow" id="boardingScrolledWindow">
                 <property name="MemberName" />
                 <property name="ShadowType">In</property>
                 <child>
-                  <widget class="Gtk.TreeView" id="treeview4">
+                  <widget class="Gtk.TreeView" id="boardingTreeview">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
@@ -203,7 +203,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Label" id="label4">
+              <widget class="Gtk.Label" id="boardingTabLabel">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">Boarding</property>
               </widget>
@@ -1106,7 +1106,6 @@
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="Label" translatable="yes">Female</property>
-                                    <property name="Active">False</property>
                                     <property name="DrawIndicator">True</property>
                                     <property name="HasLabel">True</property>
                                     <property name="UseUnderline">True</property>
