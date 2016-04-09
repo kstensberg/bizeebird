@@ -1,6 +1,6 @@
 using System;
 
-namespace BizeeBirdBoarding
+namespace BizeeBirdBoarding.Ui
 {
 	public partial class NewCustomerDialog : Gtk.Dialog
 	{

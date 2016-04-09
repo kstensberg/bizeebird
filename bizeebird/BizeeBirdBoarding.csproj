@@ -78,19 +78,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="MainWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BizeeBird.cs" />
-    <Compile Include="NewAppointmentDialog.cs" />
-    <Compile Include="gtk-gui\BizeeBirdBoarding.NewAppointmentDialog.cs" />
-    <Compile Include="gtk-gui\BizeeBirdBoarding.MainWindow.cs" />
-    <Compile Include="NewCustomerDialog.cs" />
-    <Compile Include="gtk-gui\BizeeBirdBoarding.NewCustomerDialog.cs" />
     <Compile Include="Db\BizeeBirdDbContext.cs" />
     <Compile Include="Db\Model\Appointment.cs" />
     <Compile Include="Db\Model\Bird.cs" />
     <Compile Include="Db\Model\Customer.cs" />
     <Compile Include="Db\Model\Gender.cs" />
+    <Compile Include="Ui\MainWindow.cs" />
+    <Compile Include="Ui\NewAppointmentDialog.cs" />
+    <Compile Include="Ui\NewCustomerDialog.cs" />
+    <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.NewCustomerDialog.cs" />
+    <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.NewAppointmentDialog.cs" />
+    <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.MainWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -108,5 +108,6 @@
   <ItemGroup>
     <Folder Include="Db\" />
     <Folder Include="Db\Model\" />
+    <Folder Include="Ui\" />
   </ItemGroup>
 </Project>
