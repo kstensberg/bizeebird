@@ -1,7 +1,7 @@
 using System;
 using Gtk;
 
-namespace BizeeBirdBoarding
+namespace BizeeBirdBoarding.Ui
 {
 	public partial class MainWindow: Gtk.Window
 	{	
