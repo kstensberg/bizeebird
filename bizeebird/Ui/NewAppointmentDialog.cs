@@ -8,6 +8,16 @@ namespace BizeeBirdBoarding.Ui
 		{
 			this.Build ();
 		}
+
+		protected void onOkButtonClicked (object sender, EventArgs e)
+		{
+			throw new NotImplementedException ();
+		}
+
+		protected void onCancelButtonClicked (object sender, EventArgs e)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }
 
