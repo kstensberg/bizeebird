@@ -1,10 +1,9 @@
-using System;
-using Gtk;
 using BizeeBirdBoarding.Ui;
+using Gtk;
 
 namespace BizeeBirdBoarding
 {
-	class BizeeBird
+    class BizeeBird
 	{
 		public static void Main (string[] args)
 		{
