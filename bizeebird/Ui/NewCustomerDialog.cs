@@ -9,6 +9,8 @@ namespace BizeeBirdBoarding.Ui
 {
     public partial class NewCustomerDialog : Gtk.Dialog
 	{
+        private List<CustomerDialogPhoneNumberRow> phoneNumberRows = new List<CustomerDialogPhoneNumberRow>();
+
         public NewCustomerDialog ()
 		{
 			this.Build ();
@@ -28,25 +30,36 @@ namespace BizeeBirdBoarding.Ui
                 removePhoneNumberRow(row);
             });
 
+            phoneNumberRows.Add(row);
             phoneNumberContainerVbox.Add(row);
         }
 
         private void removePhoneNumberRow(CustomerDialogPhoneNumberRow row)
         {
+            phoneNumberRows.Remove(row);
             phoneNumberContainerVbox.Remove(row);
+
+            Console.WriteLine("row removed: " + phoneNumberRows.Count);
         }
 
 
         protected void onOkButtonClicked (object sender, EventArgs e)
 		{
+            List<CustomerPhoneNumber> phoneNumbers = new List<CustomerPhoneNumber>();
+
+            foreach (CustomerDialogPhoneNumberRow row in phoneNumberRows)
+            {
+                phoneNumbers.Add(row.getPhoneNumber());
+            }
+
             using (var db = new BizeeBirdDbContext())
             {
-                //TODO get from widgets
                 var customer = new Customer
                 {
-                    Name = "Name",
-                    BoardingRate = 0.0f,
-                    Notes = "Notes"
+                    Name = customerNameEntry.Text,
+                    BoardingRate = boardingRateSpinButton.Value,
+                    Notes = customerNotesTextView.Buffer.Text,
+                    PhoneNumbers = phoneNumbers
                 };
 
                 db.Customers.Add(customer);
