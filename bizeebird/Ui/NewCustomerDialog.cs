@@ -10,6 +10,7 @@ namespace BizeeBirdBoarding.Ui
     public partial class NewCustomerDialog : Gtk.Dialog
 	{
         private List<CustomerDialogPhoneNumberRow> phoneNumberRows = new List<CustomerDialogPhoneNumberRow>();
+        private List<Bird> birds = new List<Bird>();
 
         public NewCustomerDialog ()
 		{
@@ -59,7 +60,8 @@ namespace BizeeBirdBoarding.Ui
                     Name = customerNameEntry.Text,
                     BoardingRate = boardingRateSpinButton.Value,
                     Notes = customerNotesTextView.Buffer.Text,
-                    PhoneNumbers = phoneNumbers
+                    PhoneNumbers = phoneNumbers,
+                    Birds = birds
                 };
 
                 db.Customers.Add(customer);
@@ -76,8 +78,38 @@ namespace BizeeBirdBoarding.Ui
 
 		protected void onBirdAddButtonClicked (object sender, EventArgs e)
 		{
-			throw new NotImplementedException ();
-		}
+            Gender gender;
+
+            if (birdGenderMaleRadioButton.Active)
+                gender = Gender.Male;
+            else
+                gender = Gender.Female;
+
+            Bird bird = new Bird()
+            {
+                Name = birdNameEntry.Text,
+                Breed = birdBreedEntry.Text,
+                Color = birdColorEntry.Text,
+                Age = birdAgeSpinButton.ValueAsInt,
+                Gender = gender,
+                Notes = birdNotesTextView.Buffer.Text
+            };
+
+            birds.Add(bird);
+
+            resetBirdWidgets();
+
+        }
+
+        private void resetBirdWidgets()
+        {
+            birdNameEntry.Text = "";
+            birdBreedEntry.Text = "";
+            birdColorEntry.Text = "";
+            birdAgeSpinButton.Value = 0.0f;
+            birdGenderMaleRadioButton.Activate();
+            birdNotesTextView.Buffer.Clear();
+        }
 
 		protected void onBirdRemoveButtonClicked (object sender, EventArgs e)
 		{
