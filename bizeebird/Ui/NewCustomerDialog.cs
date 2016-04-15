@@ -11,10 +11,51 @@ namespace BizeeBirdBoarding.Ui
 	{
         private List<CustomerDialogPhoneNumberRow> phoneNumberRows = new List<CustomerDialogPhoneNumberRow>();
         private List<Bird> birds = new List<Bird>();
-
+        private Gtk.ListStore birdsListStore;
         public NewCustomerDialog ()
 		{
 			this.Build ();
+            
+            Gtk.TreeViewColumn nameColumn = new Gtk.TreeViewColumn();
+            nameColumn.Title = "Name";
+            Gtk.CellRendererText nameCell = new Gtk.CellRendererText();
+            nameColumn.PackStart(nameCell, true);
+
+            Gtk.TreeViewColumn breedColumn = new Gtk.TreeViewColumn();
+            breedColumn.Title = "Breed";
+            Gtk.CellRendererText breedCell = new Gtk.CellRendererText();
+            breedColumn.PackStart(breedCell, true);
+
+            Gtk.TreeViewColumn colorColumn = new Gtk.TreeViewColumn();
+            colorColumn.Title = "Color";
+            Gtk.CellRendererText  colorCell = new Gtk.CellRendererText();
+            colorColumn.PackStart(colorCell, true);
+
+            Gtk.TreeViewColumn ageColumn = new Gtk.TreeViewColumn();
+            ageColumn.Title = "Age";
+            Gtk.CellRendererText ageCell = new Gtk.CellRendererText();
+            ageColumn.PackStart(ageCell, true);
+
+            Gtk.TreeViewColumn genderColumn = new Gtk.TreeViewColumn();
+            genderColumn.Title = "Gender";
+            Gtk.CellRendererText genderCell = new Gtk.CellRendererText();
+            genderColumn.PackStart(genderCell, true);
+
+            birdsTreeView.AppendColumn(nameColumn);
+			birdsTreeView.AppendColumn(breedColumn);
+            birdsTreeView.AppendColumn(colorColumn);
+            birdsTreeView.AppendColumn(ageColumn);
+            birdsTreeView.AppendColumn(genderColumn);
+
+            nameColumn.AddAttribute(nameCell, "text", 0);
+            breedColumn.AddAttribute(breedCell, "text", 1);
+            colorColumn.AddAttribute(colorCell, "text", 2);
+            ageColumn.AddAttribute(ageCell, "text", 3);
+            genderColumn.AddAttribute(genderCell, "text", 4);
+
+            birdsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(int), typeof(string));
+
+            birdsTreeView.Model = birdsListStore;
 
             addPhoneNumberRow();
         }
@@ -97,11 +138,11 @@ namespace BizeeBirdBoarding.Ui
 
             birds.Add(bird);
 
-            resetBirdWidgets();
+            resetBirdWidgetsAndRefreshBirdsList();
 
         }
 
-        private void resetBirdWidgets()
+        private void resetBirdWidgetsAndRefreshBirdsList()
         {
             birdNameEntry.Text = "";
             birdBreedEntry.Text = "";
@@ -109,6 +150,13 @@ namespace BizeeBirdBoarding.Ui
             birdAgeSpinButton.Value = 0.0f;
             birdGenderMaleRadioButton.Activate();
             birdNotesTextView.Buffer.Clear();
+
+            birdsListStore.Clear();
+            
+            foreach (Bird bird in birds)
+            {
+                birdsListStore.AppendValues(bird.Name, bird.Breed, bird.Color, bird.Age, bird.Gender.ToString());
+            }
         }
 
 		protected void onBirdRemoveButtonClicked (object sender, EventArgs e)
