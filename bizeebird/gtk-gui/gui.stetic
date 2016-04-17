@@ -240,7 +240,8 @@
               <widget class="Gtk.ComboBox" id="birdCombobox">
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
-                <property name="Items" translatable="yes" />
+                <property name="Items" translatable="yes">asdf
+1234</property>
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
@@ -533,7 +534,12 @@
               <widget class="Gtk.ComboBox" id="statusCombobox">
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
-                <property name="Items" translatable="yes" />
+                <property name="Items" translatable="yes">Scheduled
+Checked In
+Checked Out
+Cancelled
+No-Show</property>
+                <property name="Active">0</property>
               </widget>
               <packing>
                 <property name="TopAttach">4</property>

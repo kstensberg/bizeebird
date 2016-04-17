@@ -15,7 +15,7 @@ namespace BizeeBirdBoarding.Db.Model
         public Bird Bird { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public string Status { get; set; }
+        public AppointmentStatus Status { get; set; }
         public bool GroomingWings { get; set; }
         public bool GroomingNails { get; set; }
         public bool CageNeeded { get; set; }

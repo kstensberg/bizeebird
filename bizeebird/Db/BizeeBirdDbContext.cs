@@ -8,6 +8,7 @@ namespace BizeeBirdBoarding.Db
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Bird> Birds { get; set; }
 
         public BizeeBirdDbContext() : base("name=BizeeBirdContext")
         {
