@@ -77,7 +77,7 @@ namespace BizeeBirdBoarding.Ui
             {
                 var appointments = from a in db.Appointments
                                    where a.StartTime <= DateTime.Today
-                                   orderby a.StartTime
+                                   orderby a.StartTime ascending
                                    select a;
 
                 foreach (var row in appointments)
@@ -93,15 +93,35 @@ namespace BizeeBirdBoarding.Ui
             upcomingPickupsTreeview.AppendColumn("Customer", new Gtk.CellRendererText(), "text", 1);
             upcomingPickupsTreeview.AppendColumn("Bird Name", new Gtk.CellRendererText(), "text", 2);
             upcomingPickupsTreeview.AppendColumn("Bird Breed", new Gtk.CellRendererText(), "text", 3);
-            upcomingPickupsTreeview.AppendColumn("Grooming", new Gtk.CellRendererText(), "text", 4);
-            upcomingPickupsTreeview.AppendColumn("Notes", new Gtk.CellRendererText(), "text", 5);
+            upcomingPickupsTreeview.AppendColumn("Wings", new Gtk.CellRendererToggle(), "active", 4);
+            upcomingPickupsTreeview.AppendColumn("Nails", new Gtk.CellRendererToggle(), "active", 5);
+            upcomingPickupsTreeview.AppendColumn("Notes", new Gtk.CellRendererText(), "text", 6);
 
-            UpcomingPickupsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string));
+            UpcomingPickupsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(string));
 
             upcomingPickupsTreeview.Model = UpcomingPickupsListStore;
+
+            updateUpcomingPickupsTreeview();
         }
 
-        
+        private void updateUpcomingPickupsTreeview()
+        {
+            UpcomingPickupsListStore.Clear();
+
+            using (var db = new BizeeBirdDbContext())
+            {
+                var appointments = from a in db.Appointments
+                                   where a.EndTime <= DateTime.Today
+                                   orderby a.EndTime ascending
+                                   select a;
+
+                foreach (var row in appointments)
+                {
+                    UpcomingPickupsListStore.AppendValues(row.StartTime.ToShortDateString(), row.Customer.Name, row.Bird.Name, row.Bird.Breed, row.CageNeeded);
+                }
+            }
+        }
+
 
         protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
