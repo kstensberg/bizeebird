@@ -13,15 +13,16 @@ namespace bizeebird.Ui.Widgets
         private Button AddButton;
         private Button RemoveButton;
 
-        public CustomerDialogPhoneNumberRow()
+        public CustomerDialogPhoneNumberRow(bool removeButtonDisabled)
         {
             Entry = new Entry();
             Add(Entry);
 
-			AddButton = new Button("Add");
+			AddButton = new Button(Stock.Add);
 			Add(AddButton);
 
-			RemoveButton = new Button("Remove");
+			RemoveButton = new Button(Stock.Remove);
+            RemoveButton.Sensitive = !removeButtonDisabled;
             Add(RemoveButton);
 
             ShowAll();

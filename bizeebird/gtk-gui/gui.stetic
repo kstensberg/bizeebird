@@ -867,11 +867,11 @@
                                   <widget class="Gtk.Button" id="addBirdButton">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
-                                    <property name="Type">TextAndIcon</property>
-                                    <property name="Icon">stock:gtk-add Menu</property>
-                                    <property name="Label" translatable="yes">_Add</property>
-                                    <property name="UseUnderline">True</property>
+                                    <property name="UseStock">True</property>
+                                    <property name="Type">StockItem</property>
+                                    <property name="StockId">gtk-add</property>
                                     <signal name="Clicked" handler="onBirdAddButtonClicked" />
+                                    <property name="label">gtk-add</property>
                                   </widget>
                                   <packing>
                                     <property name="Expand">False</property>
@@ -882,11 +882,11 @@
                                   <widget class="Gtk.Button" id="removeBirdButton">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
-                                    <property name="Type">TextAndIcon</property>
-                                    <property name="Icon">stock:gtk-remove Menu</property>
-                                    <property name="Label" translatable="yes">Remove</property>
-                                    <property name="UseUnderline">True</property>
+                                    <property name="UseStock">True</property>
+                                    <property name="Type">StockItem</property>
+                                    <property name="StockId">gtk-remove</property>
                                     <signal name="Clicked" handler="onBirdRemoveButtonClicked" />
+                                    <property name="label">gtk-remove</property>
                                   </widget>
                                   <packing>
                                     <property name="Position">1</property>
@@ -1050,6 +1050,7 @@
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="Label" translatable="yes">Male</property>
+                                    <property name="Active">True</property>
                                     <property name="DrawIndicator">True</property>
                                     <property name="HasLabel">True</property>
                                     <property name="UseUnderline">True</property>
