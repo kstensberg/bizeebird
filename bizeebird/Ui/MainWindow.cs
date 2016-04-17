@@ -11,6 +11,8 @@ namespace BizeeBirdBoarding.Ui
         private Gtk.ListStore CustomersListStore;
         private Gtk.ListStore UpcomingDropOffsListStore;
         private Gtk.ListStore UpcomingPickupsListStore;
+        private Gtk.ListStore HistoryListStore;
+        
 
         public MainWindow() : base(Gtk.WindowType.Toplevel)
         {
@@ -19,6 +21,7 @@ namespace BizeeBirdBoarding.Ui
             initCustomerTreeview();
             initUpcomingDropOffsTreeview();
             initUpcomingPickups();
+            initHistoryTreeview();
         }
 
         private void initCustomerTreeview()
@@ -117,11 +120,46 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (var row in appointments)
                 {
-                    UpcomingPickupsListStore.AppendValues(row.StartTime.ToShortDateString(), row.Customer.Name, row.Bird.Name, row.Bird.Breed, row.CageNeeded);
+                    UpcomingPickupsListStore.AppendValues(row.EndTime.ToShortDateString(), row.Customer.Name, row.Bird.Name, row.Bird.Breed, row.GroomingWings, row.GroomingNails, row.Notes);
                 }
             }
         }
 
+        private void initHistoryTreeview()
+        {
+            historyTreeview.AppendColumn("Customer Name", new Gtk.CellRendererText(), "text", 0);
+            historyTreeview.AppendColumn("Boarding Rate", new Gtk.CellRendererText(), "text", 1);
+            historyTreeview.AppendColumn("Bird Name", new Gtk.CellRendererText(), "text", 2);
+            historyTreeview.AppendColumn("Dates", new Gtk.CellRendererText(), "text", 3);
+            historyTreeview.AppendColumn("Status", new Gtk.CellRendererToggle(), "active", 4);
+            historyTreeview.AppendColumn("Wings", new Gtk.CellRendererToggle(), "active", 5);
+            historyTreeview.AppendColumn("Nails", new Gtk.CellRendererToggle(), "active", 6);
+            historyTreeview.AppendColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 7);
+
+            HistoryListStore = new Gtk.ListStore(typeof(string), typeof(double), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool));
+
+            historyTreeview.Model = HistoryListStore;
+
+            updateHistoryTreeview();
+        }
+
+        private void updateHistoryTreeview()
+        {
+            HistoryListStore.Clear();
+
+            using (var db = new BizeeBirdDbContext())
+            {
+                var appointments = from a in db.Appointments
+                                   where a.EndTime >= DateTime.Today
+                                   orderby a.EndTime descending
+                                   select a;
+
+                foreach (var row in appointments)
+                {
+                    HistoryListStore.AppendValues(row.Customer.Name, row.Customer.BoardingRate, row.Bird.Name, row.StartTime.ToShortDateString() + " - " + row.EndTime.ToShortDateString(), row.Status.ToString(), row.GroomingWings, row.GroomingNails, row.CageNeeded);
+                }
+            }
+        }
 
         protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
@@ -143,7 +181,7 @@ namespace BizeeBirdBoarding.Ui
 
 		protected void onNewApointmentButtonClicked (object sender, EventArgs e)
 		{
-			NewAppointmentDialog dialog = new NewAppointmentDialog ();
+            NewAppointmentDialog dialog = new NewAppointmentDialog ();
 			dialog.ShowAll ();
 		}
 	}

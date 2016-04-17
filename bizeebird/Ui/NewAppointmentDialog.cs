@@ -76,8 +76,8 @@ namespace BizeeBirdBoarding.Ui
                 {
                     Customer = db.Customers.Find(customerId),
                     Bird = db.Birds.Find(birdId),
-                    StartTime = UiUtils.GetDateTimeFromCalendar(startDateCalendar),
-                    EndTime = UiUtils.GetDateTimeFromCalendar(endDateCalendar),
+                    StartTime = GetDateTimeFromCalendar(startDateCalendar),
+                    EndTime = GetDateTimeFromCalendar(endDateCalendar),
                     Status = status,
                     GroomingWings = groomingWingsCheckbox.Active,
                     GroomingNails = groomingNailsCheckbox.Active,
@@ -121,6 +121,11 @@ namespace BizeeBirdBoarding.Ui
                     }
                 }
             }
+        }
+
+        private DateTime GetDateTimeFromCalendar(Calendar calendar)
+        {
+            return new DateTime(calendar.Year, calendar.Month, calendar.Day);
         }
 
     }
