@@ -2,22 +2,32 @@ using BizeeBirdBoarding.Db;
 using BizeeBirdBoarding.Db.Model;
 using Gtk;
 using System;
+using System.Linq;
 
 namespace BizeeBirdBoarding.Ui
 {
     public partial class MainWindow: Gtk.Window
 	{
         private Gtk.ListStore CustomersListStore;
+        private Gtk.ListStore UpcomingDropOffsListStore;
+        private Gtk.ListStore UpcomingPickupsListStore;
 
         public MainWindow() : base(Gtk.WindowType.Toplevel)
         {
             Build();
 
-            UiUtils.addColumnToTreeView(customersTreeview, "Name", 0, "text");
-            UiUtils.addColumnToTreeView(customersTreeview, "Phone Number", 1, "text");
-            UiUtils.addColumnToTreeView(customersTreeview, "E-mail Address", 2, "text");
-            UiUtils.addColumnToTreeView(customersTreeview, "Boarding Rate", 3, "text");
-            UiUtils.addColumnToTreeView(customersTreeview, "Notes", 4, "text");
+            initCustomerTreeview();
+            initUpcomingDropOffsTreeview();
+            initUpcomingPickups();
+        }
+
+        private void initCustomerTreeview()
+        {
+            customersTreeview.AppendColumn("Name", new Gtk.CellRendererText(), "text", 0);
+            customersTreeview.AppendColumn("Phone Number", new Gtk.CellRendererText(), "text", 1);
+            customersTreeview.AppendColumn("E-mail Address", new Gtk.CellRendererText(), "text", 2);
+            customersTreeview.AppendColumn("Boarding Rate", new Gtk.CellRendererText(), "text", 3);
+            customersTreeview.AppendColumn("Notes", new Gtk.CellRendererText(), "text", 4);
 
             CustomersListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(double), typeof(string));
 
@@ -44,6 +54,55 @@ namespace BizeeBirdBoarding.Ui
             }
         }
 
+        private void initUpcomingDropOffsTreeview()
+        {
+            upcomingDropOffsTreeView.AppendColumn("Date", new Gtk.CellRendererText(), "text", 0);
+            upcomingDropOffsTreeView.AppendColumn("Customer", new Gtk.CellRendererText(), "text", 1);
+            upcomingDropOffsTreeView.AppendColumn("Bird Name", new Gtk.CellRendererText(), "text", 2);
+            upcomingDropOffsTreeView.AppendColumn("Bird Breed", new Gtk.CellRendererText(), "text", 3);
+            upcomingDropOffsTreeView.AppendColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 4);
+
+            UpcomingDropOffsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool));
+
+            upcomingDropOffsTreeView.Model = UpcomingDropOffsListStore;
+
+            updateUpcomingDropOffsTreeview();
+        }
+
+        private void updateUpcomingDropOffsTreeview()
+        {
+            UpcomingDropOffsListStore.Clear();
+
+            using (var db = new BizeeBirdDbContext())
+            {
+                var appointments = from a in db.Appointments
+                                   where a.StartTime <= DateTime.Today
+                                   orderby a.StartTime
+                                   select a;
+
+                foreach (var row in appointments)
+                {
+                    UpcomingDropOffsListStore.AppendValues(row.StartTime.ToShortDateString(), row.Customer.Name, row.Bird.Name, row.Bird.Breed, row.CageNeeded);
+                }
+            }
+        }
+
+        private void initUpcomingPickups()
+        {
+            upcomingPickupsTreeview.AppendColumn("Date", new Gtk.CellRendererText(), "text", 0);
+            upcomingPickupsTreeview.AppendColumn("Customer", new Gtk.CellRendererText(), "text", 1);
+            upcomingPickupsTreeview.AppendColumn("Bird Name", new Gtk.CellRendererText(), "text", 2);
+            upcomingPickupsTreeview.AppendColumn("Bird Breed", new Gtk.CellRendererText(), "text", 3);
+            upcomingPickupsTreeview.AppendColumn("Grooming", new Gtk.CellRendererText(), "text", 4);
+            upcomingPickupsTreeview.AppendColumn("Notes", new Gtk.CellRendererText(), "text", 5);
+
+            UpcomingPickupsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string));
+
+            upcomingPickupsTreeview.Model = UpcomingPickupsListStore;
+        }
+
+        
+
         protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
 			Application.Quit ();
@@ -58,7 +117,6 @@ namespace BizeeBirdBoarding.Ui
             {
                 updateCustomerList();
             };
-
 
             dialog.ShowAll ();
 		}

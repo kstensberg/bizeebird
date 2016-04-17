@@ -17,11 +17,11 @@ namespace BizeeBirdBoarding.Ui
 		{
 			this.Build ();
 
-            UiUtils.addColumnToTreeView(birdsTreeView, "Name", 0, "text");
-            UiUtils.addColumnToTreeView(birdsTreeView, "Breed", 1, "text");
-            UiUtils.addColumnToTreeView(birdsTreeView, "Color", 2, "text");
-            UiUtils.addColumnToTreeView(birdsTreeView, "Age", 3, "text");
-            UiUtils.addColumnToTreeView(birdsTreeView, "Gender", 4, "text");
+            birdsTreeView.AppendColumn("Name", new Gtk.CellRendererText(), "text", 0);
+            birdsTreeView.AppendColumn("Breed", new Gtk.CellRendererText(), "text", 1);
+            birdsTreeView.AppendColumn("Color", new Gtk.CellRendererText(), "text", 2);
+            birdsTreeView.AppendColumn("Age", new Gtk.CellRendererText(), "text", 3);
+            birdsTreeView.AppendColumn("Gender", new Gtk.CellRendererText(), "text", 4);
 
             BirdsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(int), typeof(string), typeof(int));
 
