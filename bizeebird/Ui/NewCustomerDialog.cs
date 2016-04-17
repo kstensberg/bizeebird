@@ -9,60 +9,41 @@ namespace BizeeBirdBoarding.Ui
 {
     public partial class NewCustomerDialog : Gtk.Dialog
 	{
-        private List<CustomerDialogPhoneNumberRow> phoneNumberRows = new List<CustomerDialogPhoneNumberRow>();
-        private List<Bird> birds = new List<Bird>();
-        private Gtk.ListStore birdsListStore;
+        private List<CustomerDialogPhoneNumberRow> PhoneNumberRows = new List<CustomerDialogPhoneNumberRow>();
+        private List<Bird> Birds = new List<Bird>();
+        private Gtk.ListStore BirdsListStore;
+
         public NewCustomerDialog ()
 		{
 			this.Build ();
-            
-            Gtk.TreeViewColumn nameColumn = new Gtk.TreeViewColumn();
-            nameColumn.Title = "Name";
-            Gtk.CellRendererText nameCell = new Gtk.CellRendererText();
-            nameColumn.PackStart(nameCell, true);
 
-            Gtk.TreeViewColumn breedColumn = new Gtk.TreeViewColumn();
-            breedColumn.Title = "Breed";
-            Gtk.CellRendererText breedCell = new Gtk.CellRendererText();
-            breedColumn.PackStart(breedCell, true);
+            addColumnToTreeView(birdsTreeView, "Name", 0, "text");
+            addColumnToTreeView(birdsTreeView, "Breed", 1, "text");
+            addColumnToTreeView(birdsTreeView, "Color", 2, "text");
+            addColumnToTreeView(birdsTreeView, "Age", 3, "text");
+            addColumnToTreeView(birdsTreeView, "Gender", 4, "text");
 
-            Gtk.TreeViewColumn colorColumn = new Gtk.TreeViewColumn();
-            colorColumn.Title = "Color";
-            Gtk.CellRendererText  colorCell = new Gtk.CellRendererText();
-            colorColumn.PackStart(colorCell, true);
+            BirdsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(int), typeof(string), typeof(int));
 
-            Gtk.TreeViewColumn ageColumn = new Gtk.TreeViewColumn();
-            ageColumn.Title = "Age";
-            Gtk.CellRendererText ageCell = new Gtk.CellRendererText();
-            ageColumn.PackStart(ageCell, true);
+            birdsTreeView.Model = BirdsListStore;
 
-            Gtk.TreeViewColumn genderColumn = new Gtk.TreeViewColumn();
-            genderColumn.Title = "Gender";
-            Gtk.CellRendererText genderCell = new Gtk.CellRendererText();
-            genderColumn.PackStart(genderCell, true);
-
-            birdsTreeView.AppendColumn(nameColumn);
-			birdsTreeView.AppendColumn(breedColumn);
-            birdsTreeView.AppendColumn(colorColumn);
-            birdsTreeView.AppendColumn(ageColumn);
-            birdsTreeView.AppendColumn(genderColumn);
-
-            nameColumn.AddAttribute(nameCell, "text", 0);
-            breedColumn.AddAttribute(breedCell, "text", 1);
-            colorColumn.AddAttribute(colorCell, "text", 2);
-            ageColumn.AddAttribute(ageCell, "text", 3);
-            genderColumn.AddAttribute(genderCell, "text", 4);
-
-            birdsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(int), typeof(string));
-
-            birdsTreeView.Model = birdsListStore;
-
-            addPhoneNumberRow();
+            addPhoneNumberRow(true);
         }
 
-        private void addPhoneNumberRow()
+        private void addColumnToTreeView(TreeView treeView, string label, int pos, string attribute)
         {
-            CustomerDialogPhoneNumberRow row = new CustomerDialogPhoneNumberRow();
+            Gtk.TreeViewColumn column = new Gtk.TreeViewColumn();
+            column.Title = label;
+            Gtk.CellRendererText cell = new Gtk.CellRendererText();
+            column.PackStart(cell, true);
+            column.AddAttribute(cell, attribute, pos);
+
+            treeView.AppendColumn(column);
+        }
+
+        private void addPhoneNumberRow(bool removeButtonDisabled = false)
+        {
+            CustomerDialogPhoneNumberRow row = new CustomerDialogPhoneNumberRow(removeButtonDisabled);
 
             row.addOnAddButtonClicked(delegate {
                 addPhoneNumberRow();
@@ -72,16 +53,16 @@ namespace BizeeBirdBoarding.Ui
                 removePhoneNumberRow(row);
             });
 
-            phoneNumberRows.Add(row);
+            PhoneNumberRows.Add(row);
             phoneNumberContainerVbox.Add(row);
         }
 
         private void removePhoneNumberRow(CustomerDialogPhoneNumberRow row)
         {
-            phoneNumberRows.Remove(row);
+            PhoneNumberRows.Remove(row);
             phoneNumberContainerVbox.Remove(row);
 
-            Console.WriteLine("row removed: " + phoneNumberRows.Count);
+            Console.WriteLine("row removed: " + PhoneNumberRows.Count);
         }
 
 
@@ -89,7 +70,7 @@ namespace BizeeBirdBoarding.Ui
 		{
             List<CustomerPhoneNumber> phoneNumbers = new List<CustomerPhoneNumber>();
 
-            foreach (CustomerDialogPhoneNumberRow row in phoneNumberRows)
+            foreach (CustomerDialogPhoneNumberRow row in PhoneNumberRows)
             {
                 phoneNumbers.Add(row.getPhoneNumber());
             }
@@ -102,7 +83,7 @@ namespace BizeeBirdBoarding.Ui
                     BoardingRate = boardingRateSpinButton.Value,
                     Notes = customerNotesTextView.Buffer.Text,
                     PhoneNumbers = phoneNumbers,
-                    Birds = birds
+                    Birds = Birds
                 };
 
                 db.Customers.Add(customer);
@@ -136,7 +117,7 @@ namespace BizeeBirdBoarding.Ui
                 Notes = birdNotesTextView.Buffer.Text
             };
 
-            birds.Add(bird);
+            Birds.Add(bird);
 
             resetBirdWidgetsAndRefreshBirdsList();
 
@@ -151,17 +132,27 @@ namespace BizeeBirdBoarding.Ui
             birdGenderMaleRadioButton.Activate();
             birdNotesTextView.Buffer.Clear();
 
-            birdsListStore.Clear();
-            
-            foreach (Bird bird in birds)
+            BirdsListStore.Clear();
+
+            for (int idx = 0; idx < Birds.Count; idx++)
             {
-                birdsListStore.AppendValues(bird.Name, bird.Breed, bird.Color, bird.Age, bird.Gender.ToString());
+                Bird bird = Birds[idx];
+                BirdsListStore.AppendValues(bird.Name, bird.Breed, bird.Color, bird.Age, bird.Gender.ToString(), idx);
             }
         }
 
 		protected void onBirdRemoveButtonClicked (object sender, EventArgs e)
 		{
-			throw new NotImplementedException ();
+            TreeSelection selection = birdsTreeView.Selection;
+            TreeModel model;
+            TreeIter iter;
+
+            if (selection.GetSelected(out model, out iter))
+            {
+                int idx = (int)model.GetValue(iter, 5);
+                Birds.RemoveAt(idx);
+                resetBirdWidgetsAndRefreshBirdsList();
+            }
 		}
 	}
 }
