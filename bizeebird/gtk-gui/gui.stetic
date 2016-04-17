@@ -11,6 +11,8 @@
     <property name="MemberName" />
     <property name="Title" translatable="yes">BiZee Bird Boarding</property>
     <property name="WindowPosition">CenterOnParent</property>
+    <property name="DefaultWidth">1015</property>
+    <property name="DefaultHeight">480</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="topLevelVbox">
@@ -286,7 +288,6 @@
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="Label" translatable="yes">Yes</property>
-                    <property name="Active">True</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
