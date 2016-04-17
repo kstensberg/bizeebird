@@ -9,17 +9,6 @@ namespace BizeeBirdBoarding.Ui
 {
     class UiUtils
     {
-        public static void addColumnToTreeView(TreeView treeView, string label, int pos, string attribute)
-        {
-            Gtk.TreeViewColumn column = new Gtk.TreeViewColumn();
-            column.Title = label;
-            Gtk.CellRendererText cell = new Gtk.CellRendererText();
-            column.PackStart(cell, true);
-            column.AddAttribute(cell, attribute, pos);
-
-            treeView.AppendColumn(column);
-        }
-
         public static DateTime GetDateTimeFromCalendar(Calendar calendar)
         {
             return new DateTime(calendar.Year, calendar.Month, calendar.Day);
