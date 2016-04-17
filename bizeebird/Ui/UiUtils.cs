@@ -19,5 +19,10 @@ namespace BizeeBirdBoarding.Ui
 
             treeView.AppendColumn(column);
         }
+
+        public static DateTime GetDateTimeFromCalendar(Calendar calendar)
+        {
+            return new DateTime(calendar.Year, calendar.Month, calendar.Day);
+        }
     }
 }
