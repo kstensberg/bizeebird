@@ -62,7 +62,7 @@
           <widget class="Gtk.Notebook" id="notebook">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">1</property>
+            <property name="CurrentPage">2</property>
             <child>
               <widget class="Gtk.HBox" id="appointmentsTabHbox">
                 <property name="MemberName" />
@@ -186,11 +186,11 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.ScrolledWindow" id="boardingScrolledWindow">
+              <widget class="Gtk.ScrolledWindow" id="historyScrolledWindow">
                 <property name="MemberName" />
                 <property name="ShadowType">In</property>
                 <child>
-                  <widget class="Gtk.TreeView" id="boardingTreeview">
+                  <widget class="Gtk.TreeView" id="historyTreeview">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
@@ -202,9 +202,9 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Label" id="boardingTabLabel">
+              <widget class="Gtk.Label" id="historyTabLabel">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">Boarding</property>
+                <property name="LabelProp" translatable="yes">History</property>
               </widget>
               <packing>
                 <property name="type">tab</property>
