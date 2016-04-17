@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
 namespace BizeeBirdBoarding.Db.Model
 {
@@ -8,12 +9,10 @@ namespace BizeeBirdBoarding.Db.Model
         [Key]
         public int CustomerId { get; set; }
         public string Name { get; set; }
-
-        public List<CustomerPhoneNumber> PhoneNumbers { get; set; }
-
+        public virtual List<CustomerPhoneNumber> PhoneNumbers { get; set; }
+        public string Email { get; set; }
         public double BoardingRate { get; set; }
         public string Notes { get; set; }
-
-        public List<Bird> Birds { get; set; }
+        public virtual List<Bird> Birds { get; set; }
     }
 }

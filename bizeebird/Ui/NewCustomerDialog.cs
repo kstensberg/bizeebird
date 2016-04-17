@@ -17,28 +17,17 @@ namespace BizeeBirdBoarding.Ui
 		{
 			this.Build ();
 
-            addColumnToTreeView(birdsTreeView, "Name", 0, "text");
-            addColumnToTreeView(birdsTreeView, "Breed", 1, "text");
-            addColumnToTreeView(birdsTreeView, "Color", 2, "text");
-            addColumnToTreeView(birdsTreeView, "Age", 3, "text");
-            addColumnToTreeView(birdsTreeView, "Gender", 4, "text");
+            UiUtils.addColumnToTreeView(birdsTreeView, "Name", 0, "text");
+            UiUtils.addColumnToTreeView(birdsTreeView, "Breed", 1, "text");
+            UiUtils.addColumnToTreeView(birdsTreeView, "Color", 2, "text");
+            UiUtils.addColumnToTreeView(birdsTreeView, "Age", 3, "text");
+            UiUtils.addColumnToTreeView(birdsTreeView, "Gender", 4, "text");
 
             BirdsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(int), typeof(string), typeof(int));
 
             birdsTreeView.Model = BirdsListStore;
 
             addPhoneNumberRow(true);
-        }
-
-        private void addColumnToTreeView(TreeView treeView, string label, int pos, string attribute)
-        {
-            Gtk.TreeViewColumn column = new Gtk.TreeViewColumn();
-            column.Title = label;
-            Gtk.CellRendererText cell = new Gtk.CellRendererText();
-            column.PackStart(cell, true);
-            column.AddAttribute(cell, attribute, pos);
-
-            treeView.AppendColumn(column);
         }
 
         private void addPhoneNumberRow(bool removeButtonDisabled = false)
@@ -83,6 +72,7 @@ namespace BizeeBirdBoarding.Ui
                     BoardingRate = boardingRateSpinButton.Value,
                     Notes = customerNotesTextView.Buffer.Text,
                     PhoneNumbers = phoneNumbers,
+                    Email = emailEntry.Text,
                     Birds = Birds
                 };
 
