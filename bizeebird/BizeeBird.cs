@@ -1,5 +1,10 @@
 using BizeeBirdBoarding.Ui;
 using Gtk;
+using System;
+using System.IO;
+using System.Net;
+using System.Diagnostics;
+using System.Threading;
 
 namespace BizeeBirdBoarding
 {
@@ -7,10 +12,40 @@ namespace BizeeBirdBoarding
 	{
 		public static void Main (string[] args)
 		{
-			Application.Init ();
+            var th = new Thread(AutoUpdateThread);
+            th.Start();
+
+            Application.Init ();
 			MainWindow win = new MainWindow ();
 			win.Show ();
 			Application.Run ();
 		}
+
+        private static void AutoUpdateThread()
+        {
+            try
+            {
+                WebRequest webRequest = WebRequest.Create("http://erza.net/bizeebird/update");
+                webRequest.Headers.Add("Version", "");
+                HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    string installerPath = Path.GetTempPath() + "\\installer.exe";
+                    using (var fileStream = File.Create(installerPath))
+                    {
+                        response.GetResponseStream().CopyTo(fileStream);
+                    }
+
+                    Process.Start(installerPath);
+                    Environment.Exit(0);
+                }
+            }
+            catch (WebException ex)
+            {
+                //TODO log
+                return;
+            }
+        }
 	}
 }
