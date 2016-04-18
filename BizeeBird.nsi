@@ -6,7 +6,7 @@ InstallDir $PROGRAMFILES\bizeebird
 Section
 	SetOutPath $INSTDIR
 	
-	File bizeebird\bin\Release\*
+	File /r bizeebird\bin\Release\*
 
 	WriteUninstaller $INSTDIR\uninstaller.exe
 SectionEnd
