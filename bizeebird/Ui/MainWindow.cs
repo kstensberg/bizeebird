@@ -169,7 +169,7 @@ namespace BizeeBirdBoarding.Ui
 
 		protected void onNewCustomerClicked (object sender, EventArgs e)
 		{
-			NewCustomerDialog dialog = new NewCustomerDialog ();
+			CustomerDialog dialog = new CustomerDialog ();
 
             dialog.Destroyed += delegate
             {
@@ -181,7 +181,7 @@ namespace BizeeBirdBoarding.Ui
 
 		protected void onNewApointmentButtonClicked (object sender, EventArgs e)
 		{
-            NewAppointmentDialog dialog = new NewAppointmentDialog ();
+            AppointmentDialog dialog = new AppointmentDialog ();
 			dialog.ShowAll ();
 		}
 

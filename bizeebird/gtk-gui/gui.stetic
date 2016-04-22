@@ -225,7 +225,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="BizeeBirdBoarding.Ui.NewAppointmentDialog" design-size="400 530">
+  <widget class="Gtk.Dialog" id="BizeeBirdBoarding.Ui.AppointmentDialog" design-size="400 530">
     <property name="MemberName" />
     <property name="Title" translatable="yes">New Appointment</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -292,6 +292,7 @@
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="Label" translatable="yes">Yes</property>
+                    <property name="Active">True</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
@@ -391,7 +392,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Calendar" id="endDatecalendar">
+              <widget class="Gtk.Calendar" id="endDateCalendar">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="DisplayOptions">35</property>
@@ -633,7 +634,7 @@ No-Show</property>
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="BizeeBirdBoarding.Ui.NewCustomerDialog" design-size="551 490">
+  <widget class="Gtk.Dialog" id="BizeeBirdBoarding.Ui.CustomerDialog" design-size="551 490">
     <property name="MemberName" />
     <property name="Title" translatable="yes">New Customer</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -1104,7 +1105,6 @@ No-Show</property>
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="Label" translatable="yes">Male</property>
-                                    <property name="Active">True</property>
                                     <property name="DrawIndicator">True</property>
                                     <property name="HasLabel">True</property>
                                     <property name="UseUnderline">True</property>

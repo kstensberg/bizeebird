@@ -5,9 +5,9 @@ using System;
 
 namespace BizeeBirdBoarding.Ui
 {
-    public partial class NewAppointmentDialog : Gtk.Dialog
+    public partial class AppointmentDialog : Gtk.Dialog
 	{
-		public NewAppointmentDialog ()
+		public AppointmentDialog ()
 		{
 			this.Build();
 
@@ -77,7 +77,7 @@ namespace BizeeBirdBoarding.Ui
                     Customer = db.Customers.Find(customerId),
                     Bird = db.Birds.Find(birdId),
                     StartTime = GetDateTimeFromCalendar(startDateCalendar),
-                    EndTime = GetDateTimeFromCalendar(endDateCalendar),
+					EndTime = GetDateTimeFromCalendar(endDateCalendar),
                     Status = status,
                     GroomingWings = groomingWingsCheckbox.Active,
                     GroomingNails = groomingNailsCheckbox.Active,

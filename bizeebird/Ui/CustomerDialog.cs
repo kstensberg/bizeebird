@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 namespace BizeeBirdBoarding.Ui
 {
-    public partial class NewCustomerDialog : Gtk.Dialog
+    public partial class CustomerDialog : Gtk.Dialog
 	{
         private List<CustomerDialogPhoneNumberRow> PhoneNumberRows = new List<CustomerDialogPhoneNumberRow>();
         private List<Bird> Birds = new List<Bird>();
         private Gtk.ListStore BirdsListStore;
 
-        public NewCustomerDialog ()
+        public CustomerDialog ()
 		{
 			this.Build ();
 
