@@ -64,7 +64,7 @@
           <widget class="Gtk.Notebook" id="notebook">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">2</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.HBox" id="appointmentsTabHbox">
                 <property name="MemberName" />
@@ -88,6 +88,7 @@
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="ShowScrollbars">True</property>
+                                <signal name="RowActivated" handler="onUpcomingDropOffsRowActivated" />
                               </widget>
                             </child>
                           </widget>
@@ -129,6 +130,7 @@
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="ShowScrollbars">True</property>
+                                <signal name="RowActivated" handler="onUpcomingPickupsRowActivated" />
                               </widget>
                             </child>
                           </widget>
@@ -171,6 +173,7 @@
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
+                    <signal name="RowActivated" handler="onCustomersRowActivated" />
                   </widget>
                 </child>
               </widget>
@@ -196,6 +199,7 @@
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
+                    <signal name="RowActivated" handler="onHistoryRowActivated" />
                   </widget>
                 </child>
               </widget>
