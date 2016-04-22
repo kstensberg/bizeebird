@@ -13,6 +13,10 @@ namespace BizeeBirdBoarding.Ui
         private List<Bird> Birds = new List<Bird>();
         private Gtk.ListStore BirdsListStore;
 
+        public CustomerDialog(int customerId) : this()
+        {
+        }
+
         public CustomerDialog ()
 		{
 			this.Build ();
