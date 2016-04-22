@@ -57,6 +57,9 @@ namespace BizeeBirdBoarding.Ui
 
         protected void onOkButtonClicked (object sender, EventArgs e)
 		{
+            if (birdNameEntry.Text.Trim() != "")
+                onBirdAddButtonClicked(sender, e);
+
             List<CustomerPhoneNumber> phoneNumbers = new List<CustomerPhoneNumber>();
 
             foreach (CustomerDialogPhoneNumberRow row in PhoneNumberRows)

@@ -79,7 +79,7 @@ namespace BizeeBirdBoarding.Ui
             using (var db = new BizeeBirdDbContext())
             {
                 var appointments = from a in db.Appointments
-                                   where a.StartTime <= DateTime.Today
+                                   where a.StartTime >= DateTime.Today
                                    orderby a.StartTime ascending
                                    select a;
 
@@ -114,7 +114,7 @@ namespace BizeeBirdBoarding.Ui
             using (var db = new BizeeBirdDbContext())
             {
                 var appointments = from a in db.Appointments
-                                   where a.EndTime <= DateTime.Today
+                                   where a.EndTime >= DateTime.Today
                                    orderby a.EndTime ascending
                                    select a;
 
@@ -150,7 +150,7 @@ namespace BizeeBirdBoarding.Ui
             using (var db = new BizeeBirdDbContext())
             {
                 var appointments = from a in db.Appointments
-                                   where a.EndTime >= DateTime.Today
+                                   where a.EndTime <= DateTime.Today
                                    orderby a.EndTime descending
                                    select a;
 

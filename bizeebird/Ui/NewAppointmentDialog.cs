@@ -125,7 +125,7 @@ namespace BizeeBirdBoarding.Ui
 
         private DateTime GetDateTimeFromCalendar(Calendar calendar)
         {
-            return new DateTime(calendar.Year, calendar.Month, calendar.Day);
+            return calendar.Date;
         }
 
     }
