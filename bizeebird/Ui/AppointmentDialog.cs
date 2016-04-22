@@ -7,7 +7,11 @@ namespace BizeeBirdBoarding.Ui
 {
     public partial class AppointmentDialog : Gtk.Dialog
 	{
-		public AppointmentDialog ()
+        public AppointmentDialog(int appointmentId) : this()
+        {
+        }
+
+        public AppointmentDialog ()
 		{
 			this.Build();
 
