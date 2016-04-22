@@ -96,13 +96,13 @@
     <Compile Include="Db\Model\Customer.cs" />
     <Compile Include="Db\Model\Gender.cs" />
     <Compile Include="Ui\MainWindow.cs" />
-    <Compile Include="Ui\NewAppointmentDialog.cs" />
-    <Compile Include="Ui\NewCustomerDialog.cs" />
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.MainWindow.cs" />
-    <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.NewAppointmentDialog.cs" />
-    <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.NewCustomerDialog.cs" />
     <Compile Include="Ui\Widgets\CustomerDialogPhoneNumberRow.cs" />
+    <Compile Include="Ui\AppointmentDialog.cs" />
+    <Compile Include="Ui\CustomerDialog.cs" />
+    <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.AppointmentDialog.cs" />
+    <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.CustomerDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
