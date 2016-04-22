@@ -184,5 +184,25 @@ namespace BizeeBirdBoarding.Ui
             NewAppointmentDialog dialog = new NewAppointmentDialog ();
 			dialog.ShowAll ();
 		}
+
+		protected void onUpcomingDropOffsRowActivated (object o, RowActivatedArgs args)
+		{
+			throw new NotImplementedException ();
+		}
+
+		protected void onUpcomingPickupsRowActivated (object o, RowActivatedArgs args)
+		{
+			throw new NotImplementedException ();
+		}
+
+		protected void onCustomersRowActivated (object o, RowActivatedArgs args)
+		{
+			throw new NotImplementedException ();
+		}
+
+		protected void onHistoryRowActivated (object o, RowActivatedArgs args)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }
