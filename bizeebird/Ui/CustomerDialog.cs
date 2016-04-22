@@ -9,16 +9,30 @@ namespace BizeeBirdBoarding.Ui
 {
     public partial class CustomerDialog : Gtk.Dialog
 	{
+        private int? customerId;
+
         private List<CustomerDialogPhoneNumberRow> PhoneNumberRows = new List<CustomerDialogPhoneNumberRow>();
         private List<Bird> Birds = new List<Bird>();
         private Gtk.ListStore BirdsListStore;
 
         public CustomerDialog(int customerId) : this()
         {
+            using (var db = new BizeeBirdDbContext())
+            {
+                this.customerId = customerId;
+                Customer customer = db.Customers.Find(customerId);
+
+                customerNameEntry.Text = customer.Name;
+                boardingRateSpinButton.Value = customer.BoardingRate;
+                customerNotesTextView.Buffer.Text = customer.Notes;
+                emailEntry.Text = customer.Email;
+            }
         }
 
         public CustomerDialog ()
 		{
+            this.customerId = null;
+
 			this.Build ();
 
             birdsTreeView.AppendColumn("Name", new Gtk.CellRendererText(), "text", 0);
@@ -73,17 +87,35 @@ namespace BizeeBirdBoarding.Ui
 
             using (var db = new BizeeBirdDbContext())
             {
-                var customer = new Customer
+                if (customerId.HasValue)
                 {
-                    Name = customerNameEntry.Text,
-                    BoardingRate = boardingRateSpinButton.Value,
-                    Notes = customerNotesTextView.Buffer.Text,
-                    PhoneNumbers = phoneNumbers,
-                    Email = emailEntry.Text,
-                    Birds = Birds
-                };
+                    var original = db.Customers.Find(customerId);
 
-                db.Customers.Add(customer);
+                    if (original != null)
+                    {
+                        original.Name = customerNameEntry.Text;
+                        original.BoardingRate = boardingRateSpinButton.Value;
+                        original.Notes = customerNotesTextView.Buffer.Text;
+                        //original.PhoneNumbers = phoneNumbers;
+                        original.Email = emailEntry.Text;
+                        //original.Birds = Birds;
+                    }
+                }
+                else
+                {
+                    var customer = new Customer
+                    {
+                        Name = customerNameEntry.Text,
+                        BoardingRate = boardingRateSpinButton.Value,
+                        Notes = customerNotesTextView.Buffer.Text,
+                        PhoneNumbers = phoneNumbers,
+                        Email = emailEntry.Text,
+                        Birds = Birds
+                    };
+
+                    db.Customers.Add(customer);
+                }
+                
                 db.SaveChanges();
             }
 
