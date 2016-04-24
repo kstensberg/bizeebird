@@ -197,7 +197,7 @@ namespace BizeeBirdBoarding.Ui
 
             if (selection.GetSelected(out model, out iter))
             {
-                int idx = (int)model.GetValue(iter, 5);
+                int idx = (int)model.GetValue(iter, 0);
                 Birds.RemoveAt(idx);
                 resetBirdWidgetsAndRefreshBirdsList();
             }
