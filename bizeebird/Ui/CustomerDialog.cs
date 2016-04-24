@@ -9,7 +9,7 @@ namespace BizeeBirdBoarding.Ui
 {
     public partial class CustomerDialog : Gtk.Dialog
 	{
-        private int? customerId;
+        private int? CustomerId;
 
         private List<CustomerDialogPhoneNumberRow> PhoneNumberRows = new List<CustomerDialogPhoneNumberRow>();
         private List<Bird> Birds = new List<Bird>();
@@ -19,38 +19,57 @@ namespace BizeeBirdBoarding.Ui
         {
             using (var db = new BizeeBirdDbContext())
             {
-                this.customerId = customerId;
+                this.CustomerId = customerId;
                 Customer customer = db.Customers.Find(customerId);
 
                 customerNameEntry.Text = customer.Name;
                 boardingRateSpinButton.Value = customer.BoardingRate;
                 customerNotesTextView.Buffer.Text = customer.Notes;
                 emailEntry.Text = customer.Email;
+
+                if (customer.PhoneNumbers != null && customer.PhoneNumbers.Count > 0)
+                {
+                    removePhoneNumberRow(PhoneNumberRows[0]);
+
+                    foreach (CustomerPhoneNumber phoneNumber in customer.PhoneNumbers)
+                    {
+                        addPhoneNumberRow(true, phoneNumber);
+                    }
+                }
+
+                Birds = customer.Birds;
+
+                resetBirdWidgetsAndRefreshBirdsList();
             }
         }
 
         public CustomerDialog ()
 		{
-            this.customerId = null;
+            this.CustomerId = null;
 
 			this.Build ();
 
-            birdsTreeView.AppendColumn("Name", new Gtk.CellRendererText(), "text", 0);
-            birdsTreeView.AppendColumn("Breed", new Gtk.CellRendererText(), "text", 1);
-            birdsTreeView.AppendColumn("Color", new Gtk.CellRendererText(), "text", 2);
-            birdsTreeView.AppendColumn("Age", new Gtk.CellRendererText(), "text", 3);
-            birdsTreeView.AppendColumn("Gender", new Gtk.CellRendererText(), "text", 4);
+            birdsTreeView.AppendColumn("Name", new Gtk.CellRendererText(), "text", 1);
+            birdsTreeView.AppendColumn("Breed", new Gtk.CellRendererText(), "text", 2);
+            birdsTreeView.AppendColumn("Color", new Gtk.CellRendererText(), "text", 3);
+            birdsTreeView.AppendColumn("Age", new Gtk.CellRendererText(), "text", 4);
+            birdsTreeView.AppendColumn("Gender", new Gtk.CellRendererText(), "text", 5);
 
-            BirdsListStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(int), typeof(string), typeof(int));
+            BirdsListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(int), typeof(string));
 
             birdsTreeView.Model = BirdsListStore;
 
             addPhoneNumberRow(true);
         }
 
-        private void addPhoneNumberRow(bool removeButtonDisabled = false)
+        private void addPhoneNumberRow(bool removeButtonDisabled = false, CustomerPhoneNumber phoneNumber = null)
         {
-            CustomerDialogPhoneNumberRow row = new CustomerDialogPhoneNumberRow(removeButtonDisabled);
+            CustomerDialogPhoneNumberRow row;
+
+            if (phoneNumber != null)
+                row = new CustomerDialogPhoneNumberRow(removeButtonDisabled, phoneNumber.PhoneNumberId, phoneNumber.PhoneNumber);
+            else
+                row = new CustomerDialogPhoneNumberRow(removeButtonDisabled);
 
             row.addOnAddButtonClicked(delegate {
                 addPhoneNumberRow();
@@ -87,9 +106,9 @@ namespace BizeeBirdBoarding.Ui
 
             using (var db = new BizeeBirdDbContext())
             {
-                if (customerId.HasValue)
+                if (CustomerId.HasValue)
                 {
-                    var original = db.Customers.Find(customerId);
+                    var original = db.Customers.Find(CustomerId);
 
                     if (original != null)
                     {
@@ -166,7 +185,7 @@ namespace BizeeBirdBoarding.Ui
             for (int idx = 0; idx < Birds.Count; idx++)
             {
                 Bird bird = Birds[idx];
-                BirdsListStore.AppendValues(bird.Name, bird.Breed, bird.Color, bird.Age, bird.Gender.ToString(), idx);
+                BirdsListStore.AppendValues(idx, bird.Name, bird.Breed, bird.Color, bird.Age, bird.Gender.ToString());
             }
         }
 

@@ -9,13 +9,18 @@ namespace bizeebird.Ui.Widgets
 {
     class CustomerDialogPhoneNumberRow : Gtk.HBox
     {
+        private int? PhoneNumberId;
+
         private Entry Entry;
         private Button AddButton;
         private Button RemoveButton;
 
-        public CustomerDialogPhoneNumberRow(bool removeButtonDisabled)
+        public CustomerDialogPhoneNumberRow(bool removeButtonDisabled, int? phoneNumberId = null, string value = "")
         {
+            PhoneNumberId = phoneNumberId;
+
             Entry = new Entry();
+            Entry.Text = value;
             Add(Entry);
 
 			AddButton = new Button(Stock.Add);
