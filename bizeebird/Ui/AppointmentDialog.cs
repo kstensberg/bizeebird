@@ -7,8 +7,30 @@ namespace BizeeBirdBoarding.Ui
 {
     public partial class AppointmentDialog : Gtk.Dialog
 	{
+        private int? AppointmentId;
+
         public AppointmentDialog(int appointmentId) : this()
         {
+            using (var db = new BizeeBirdDbContext())
+            {
+                this.AppointmentId = appointmentId;
+                Appointment appointment = db.Appointments.Find(AppointmentId);
+
+                setActiveCustomerCombo(appointment.Customer.CustomerId);
+                setActiveBirdCombo(appointment. Bird.BirdId);
+                startDateCalendar.Date = appointment.StartTime;
+                endDateCalendar.Date = appointment.EndTime;
+
+                if (appointment.GroomingWings)
+                    groomingWingsCheckbox.Activate();
+                if (appointment.GroomingNails)
+                    groomingNailsCheckbox.Activate();
+
+                if (appointment.CageNeeded)
+                    cageNeededYesRadioButton.Activate();
+                else
+                    cageNeededNoRadioButton.Activate();
+            }
         }
 
         public AppointmentDialog ()
@@ -106,7 +128,6 @@ namespace BizeeBirdBoarding.Ui
             if (customerCombobox.GetActiveIter(out iter))
             {
                 int customerId = (int)customerCombobox.Model.GetValue(iter, 1);
-                Console.WriteLine();
 
                 birdCombobox.Clear();
                 CellRendererText cell = new CellRendererText();
@@ -132,6 +153,31 @@ namespace BizeeBirdBoarding.Ui
             return calendar.Date;
         }
 
+        private void setActiveCustomerCombo(int customerId)
+        {
+            setComboActive(customerCombobox, customerId, 1);
+
+        }
+
+        private void setActiveBirdCombo(int birdId)
+        {
+            setComboActive(birdCombobox, birdId, 1);
+        }
+
+        private void setComboActive(ComboBox combo, int key, int modelPos)
+        {
+            TreeIter ti;
+            combo.Model.GetIterFirst(out ti);
+            do
+            {
+                if ((int)combo.Model.GetValue(ti, modelPos) == key)
+                {
+                    combo.SetActiveIter(ti);
+                    break;
+                }
+
+            } while (combo.Model.IterNext(ref ti));
+        }
     }
 }
 
