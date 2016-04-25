@@ -4,6 +4,7 @@ using BizeeBirdBoarding.Db.Model;
 using Gtk;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BizeeBirdBoarding.Ui
 {
@@ -27,7 +28,7 @@ namespace BizeeBirdBoarding.Ui
                 customerNotesTextView.Buffer.Text = customer.Notes;
                 emailEntry.Text = customer.Email;
 
-                if (customer.PhoneNumbers != null && customer.PhoneNumbers.Count > 0)
+                if (customer.PhoneNumbers != null && customer.PhoneNumbers.Count() > 0)
                 {
                     removePhoneNumberRow(PhoneNumberRows[0]);
 
@@ -37,7 +38,7 @@ namespace BizeeBirdBoarding.Ui
                     }
                 }
 
-                Birds = customer.Birds;
+                Birds = customer.Birds.ToList();
 
                 resetBirdWidgetsAndRefreshBirdsList();
             }
@@ -112,6 +113,7 @@ namespace BizeeBirdBoarding.Ui
 
                     if (original != null)
                     {
+                        //TODO
                         original.Name = customerNameEntry.Text;
                         original.BoardingRate = boardingRateSpinButton.Value;
                         original.Notes = customerNotesTextView.Buffer.Text;

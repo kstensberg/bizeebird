@@ -165,16 +165,63 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.ScrolledWindow" id="customersScrolledWindow">
+              <widget class="Gtk.VBox" id="customerTabVbox">
                 <property name="MemberName" />
-                <property name="ShadowType">In</property>
+                <property name="Spacing">6</property>
                 <child>
-                  <widget class="Gtk.TreeView" id="customersTreeview">
+                  <widget class="Gtk.HBox" id="hbox1">
                     <property name="MemberName" />
-                    <property name="CanFocus">True</property>
-                    <property name="ShowScrollbars">True</property>
-                    <signal name="RowActivated" handler="onCustomersRowActivated" />
+                    <property name="Spacing">6</property>
+                    <child>
+                      <widget class="Gtk.Label" id="customerSearchLabel">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">Search</property>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Entry" id="customerSearchEntry">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="IsEditable">True</property>
+                        <property name="InvisibleChar">●</property>
+                        <signal name="Changed" handler="onCustomerSearchEntryChanged" />
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                      </packing>
+                    </child>
                   </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">False</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ScrolledWindow" id="customersScrolledWindow">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TreeView" id="customersTreeview">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                        <signal name="RowActivated" handler="onCustomersRowActivated" />
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">False</property>
+                  </packing>
                 </child>
               </widget>
               <packing>
@@ -191,16 +238,63 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.ScrolledWindow" id="historyScrolledWindow">
+              <widget class="Gtk.VBox" id="historyTablVbox">
                 <property name="MemberName" />
-                <property name="ShadowType">In</property>
+                <property name="Spacing">6</property>
                 <child>
-                  <widget class="Gtk.TreeView" id="historyTreeview">
+                  <widget class="Gtk.HBox" id="historySearchHbox">
                     <property name="MemberName" />
-                    <property name="CanFocus">True</property>
-                    <property name="ShowScrollbars">True</property>
-                    <signal name="RowActivated" handler="onHistoryRowActivated" />
+                    <property name="Spacing">6</property>
+                    <child>
+                      <widget class="Gtk.Label" id="historySearchLabel">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">Search</property>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Entry" id="historySearchEntry">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="IsEditable">True</property>
+                        <property name="InvisibleChar">●</property>
+                        <signal name="Changed" handler="onHistorySearchEntryChanged" />
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                      </packing>
+                    </child>
                   </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ScrolledWindow" id="historyScrolledWindow">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TreeView" id="historyTreeview">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                        <signal name="RowActivated" handler="onHistoryRowActivated" />
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
                 </child>
               </widget>
               <packing>
@@ -292,7 +386,6 @@
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="Label" translatable="yes">Yes</property>
-                    <property name="Active">True</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
