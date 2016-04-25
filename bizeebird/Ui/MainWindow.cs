@@ -2,6 +2,7 @@ using BizeeBirdBoarding.Db;
 using BizeeBirdBoarding.Db.Model;
 using Gtk;
 using System;
+using System.Data.Entity;
 using System.Linq;
 
 namespace BizeeBirdBoarding.Ui
@@ -41,11 +42,28 @@ namespace BizeeBirdBoarding.Ui
 
         private void updateCustomerList()
         {
+            string searchTerm = customerSearchEntry.Text.Trim();
+
             CustomersListStore.Clear();
 
             using (var db = new BizeeBirdDbContext())
             {
-                foreach (Customer row in db.Customers)
+                IQueryable set;
+                if (searchTerm.Length > 0)
+                {
+                    set = db.Customers.Where(
+                        c => c.Name.ToLower().Contains(searchTerm.ToLower()) || 
+                        c.Email.ToLower().Contains(searchTerm.ToLower()) || 
+                        c.Notes.ToLower().Contains(searchTerm.ToLower()) ||
+                        c.PhoneNumbers.Any(p => p.PhoneNumber.ToLower().Contains(searchTerm.ToLower())) ||
+                        c.Birds.Any(b => b.Name.ToLower().Contains(searchTerm.ToLower())));
+                }
+                else
+                {
+                    set = db.Customers;
+                }
+
+                foreach (Customer row in set)
                 {
                     string phoneNumber = "";
 
@@ -169,20 +187,52 @@ namespace BizeeBirdBoarding.Ui
 
 		protected void onNewCustomerClicked (object sender, EventArgs e)
 		{
-			CustomerDialog dialog = new CustomerDialog ();
+            ShowCustomerDialog(null);
+        }
+
+        private void ShowCustomerDialog(int? customerId)
+        {
+            CustomerDialog dialog = null;
+
+            if (customerId.HasValue)
+                dialog = new CustomerDialog(customerId.Value);
+            else
+                dialog = new CustomerDialog();
 
             dialog.Destroyed += delegate
             {
                 updateCustomerList();
+                updateHistoryTreeview();
+                updateUpcomingDropOffsTreeview();
+                updateUpcomingPickupsTreeview();
             };
 
-            dialog.ShowAll ();
-		}
+            dialog.ShowAll();
+        }
 
-		protected void onNewApointmentButtonClicked (object sender, EventArgs e)
+        private void ShowAppointmentDialog(int? appointmentId)
+        {
+            AppointmentDialog dialog = null;
+
+            if (appointmentId.HasValue)
+                dialog = new AppointmentDialog(appointmentId.Value);
+            else
+                dialog = new AppointmentDialog();
+
+            dialog.Destroyed += delegate
+            {
+                updateCustomerList();
+                updateHistoryTreeview();
+                updateUpcomingDropOffsTreeview();
+                updateUpcomingPickupsTreeview();
+            };
+
+            dialog.ShowAll();
+        }
+
+        protected void onNewApointmentButtonClicked (object sender, EventArgs e)
 		{
-            AppointmentDialog dialog = new AppointmentDialog ();
-			dialog.ShowAll ();
+            ShowAppointmentDialog(null);
 		}
 
 		protected void onUpcomingDropOffsRowActivated (object o, RowActivatedArgs args)
@@ -191,8 +241,7 @@ namespace BizeeBirdBoarding.Ui
             UpcomingDropOffsListStore.GetIter(out iter, args.Path);
             int appointmentId = (int)UpcomingDropOffsListStore.GetValue(iter, 0);
 
-            AppointmentDialog dialog = new AppointmentDialog(appointmentId);
-            dialog.ShowAll();
+            ShowAppointmentDialog(appointmentId);
         }
 
 		protected void onUpcomingPickupsRowActivated (object o, RowActivatedArgs args)
@@ -201,8 +250,7 @@ namespace BizeeBirdBoarding.Ui
             UpcomingPickupsListStore.GetIter(out iter, args.Path);
             int appointmentId = (int)UpcomingPickupsListStore.GetValue(iter, 0);
 
-            AppointmentDialog dialog = new AppointmentDialog(appointmentId);
-            dialog.ShowAll();
+            ShowAppointmentDialog(appointmentId);
         }
 
 		protected void onCustomersRowActivated (object o, RowActivatedArgs args)
@@ -211,12 +259,21 @@ namespace BizeeBirdBoarding.Ui
             CustomersListStore.GetIter(out iter, args.Path);
             int customerId = (int)CustomersListStore.GetValue(iter, 0);
 
-            CustomerDialog dialog = new CustomerDialog(customerId);
-            dialog.ShowAll();
+            ShowCustomerDialog(customerId);
 		}
 
 		protected void onHistoryRowActivated (object o, RowActivatedArgs args)
 		{
         }
+
+		protected void onCustomerSearchEntryChanged (object sender, EventArgs e)
+		{
+            updateCustomerList();
+		}
+
+		protected void onHistorySearchEntryChanged (object sender, EventArgs e)
+		{
+            updateHistoryTreeview();
+		}
 	}
 }

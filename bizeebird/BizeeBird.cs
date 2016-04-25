@@ -41,7 +41,7 @@ namespace BizeeBirdBoarding
                     Environment.Exit(0);
                 }
             }
-            catch (WebException ex)
+            catch (WebException)
             {
                 //TODO log
                 return;
