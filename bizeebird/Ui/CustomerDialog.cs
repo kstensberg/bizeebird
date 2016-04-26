@@ -30,17 +30,17 @@ namespace BizeeBirdBoarding.Ui
 
                 if (customer.PhoneNumbers != null && customer.PhoneNumbers.Count() > 0)
                 {
-                    removePhoneNumberRow(PhoneNumberRows[0]);
+                    RemovePhoneNumberRow(PhoneNumberRows[0]);
 
                     foreach (CustomerPhoneNumber phoneNumber in customer.PhoneNumbers)
                     {
-                        addPhoneNumberRow(true, phoneNumber);
+                        AddPhoneNumberRow(true, phoneNumber);
                     }
                 }
 
                 Birds = customer.Birds.ToList();
 
-                resetBirdWidgetsAndRefreshBirdsList();
+                ResetBirdWidgetsAndRefreshBirdsList();
             }
         }
 
@@ -60,10 +60,10 @@ namespace BizeeBirdBoarding.Ui
 
             birdsTreeView.Model = BirdsListStore;
 
-            addPhoneNumberRow(true);
+            AddPhoneNumberRow(true);
         }
 
-        private void addPhoneNumberRow(bool removeButtonDisabled = false, CustomerPhoneNumber phoneNumber = null)
+        private void AddPhoneNumberRow(bool removeButtonDisabled = false, CustomerPhoneNumber phoneNumber = null)
         {
             CustomerDialogPhoneNumberRow row;
 
@@ -73,18 +73,18 @@ namespace BizeeBirdBoarding.Ui
                 row = new CustomerDialogPhoneNumberRow(removeButtonDisabled);
 
             row.addOnAddButtonClicked(delegate {
-                addPhoneNumberRow();
+                AddPhoneNumberRow();
             });
 
             row.addOnRemoveButtonClicked(delegate {
-                removePhoneNumberRow(row);
+                RemovePhoneNumberRow(row);
             });
 
             PhoneNumberRows.Add(row);
             phoneNumberContainerVbox.Add(row);
         }
 
-        private void removePhoneNumberRow(CustomerDialogPhoneNumberRow row)
+        private void RemovePhoneNumberRow(CustomerDialogPhoneNumberRow row)
         {
             PhoneNumberRows.Remove(row);
             phoneNumberContainerVbox.Remove(row);
@@ -169,11 +169,11 @@ namespace BizeeBirdBoarding.Ui
 
             Birds.Add(bird);
 
-            resetBirdWidgetsAndRefreshBirdsList();
+            ResetBirdWidgetsAndRefreshBirdsList();
 
         }
 
-        private void resetBirdWidgetsAndRefreshBirdsList()
+        private void ResetBirdWidgetsAndRefreshBirdsList()
         {
             birdNameEntry.Text = "";
             birdBreedEntry.Text = "";
@@ -201,7 +201,7 @@ namespace BizeeBirdBoarding.Ui
             {
                 int idx = (int)model.GetValue(iter, 0);
                 Birds.RemoveAt(idx);
-                resetBirdWidgetsAndRefreshBirdsList();
+                ResetBirdWidgetsAndRefreshBirdsList();
             }
 		}
 	}
