@@ -27,13 +27,13 @@ namespace BizeeBirdBoarding.Ui
 
         private void initCustomerTreeview()
         {
-            customersTreeview.AppendColumn("Name", new Gtk.CellRendererText(), "text", 1);
-            customersTreeview.AppendColumn("Phone Number", new Gtk.CellRendererText(), "text", 2);
-            customersTreeview.AppendColumn("E-mail Address", new Gtk.CellRendererText(), "text", 3);
-            customersTreeview.AppendColumn("Boarding Rate", new Gtk.CellRendererText(), "text", 4);
-            customersTreeview.AppendColumn("Notes", new Gtk.CellRendererText(), "text", 5);
+            customersTreeview.AppendColumn(MakeColumn("Name", new Gtk.CellRendererText(), "text", 1, false));
+            customersTreeview.AppendColumn(MakeColumn("Phone Number", new Gtk.CellRendererText(), "text", 2, false));
+            customersTreeview.AppendColumn(MakeColumn("E-mail Address", new Gtk.CellRendererText(), "text", 3, false));
+            customersTreeview.AppendColumn(MakeColumn("Boarding Rate", new Gtk.CellRendererText(), "text", 4, false));
+            customersTreeview.AppendColumn(MakeColumn("Notes", new Gtk.CellRendererText(), "text", 5, true));
 
-            CustomersListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(double), typeof(string));
+            CustomersListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string));
 
             customersTreeview.Model = CustomersListStore;
 
@@ -70,18 +70,18 @@ namespace BizeeBirdBoarding.Ui
                     if (row.PhoneNumbers != null && row.PhoneNumbers.Count > 0)
                         phoneNumber = row.PhoneNumbers[0].PhoneNumber;
 
-                    CustomersListStore.AppendValues(row.CustomerId, row.Name, phoneNumber, row.Email, row.BoardingRate, row.Notes);
+                    CustomersListStore.AppendValues(row.CustomerId, row.Name, phoneNumber, row.Email, row.BoardingRate.ToString("C2"), row.Notes);
                 }
             }
         }
 
         private void initUpcomingDropOffsTreeview()
         {
-            upcomingDropOffsTreeView.AppendColumn("Date", new Gtk.CellRendererText(), "text", 1);
-            upcomingDropOffsTreeView.AppendColumn("Customer", new Gtk.CellRendererText(), "text", 2);
-            upcomingDropOffsTreeView.AppendColumn("Bird Name", new Gtk.CellRendererText(), "text", 3);
-            upcomingDropOffsTreeView.AppendColumn("Bird Breed", new Gtk.CellRendererText(), "text", 4);
-            upcomingDropOffsTreeView.AppendColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 5);
+            upcomingDropOffsTreeView.AppendColumn(MakeColumn("Date", new Gtk.CellRendererText(), "text", 1, false));
+            upcomingDropOffsTreeView.AppendColumn(MakeColumn("Customer", new Gtk.CellRendererText(), "text", 2, true));
+            upcomingDropOffsTreeView.AppendColumn(MakeColumn("Bird Name", new Gtk.CellRendererText(), "text", 3, true));
+            upcomingDropOffsTreeView.AppendColumn(MakeColumn("Bird Breed", new Gtk.CellRendererText(), "text", 4, false));
+            upcomingDropOffsTreeView.AppendColumn(MakeColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 5, false));
 
             UpcomingDropOffsListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool));
 
@@ -110,13 +110,13 @@ namespace BizeeBirdBoarding.Ui
 
         private void initUpcomingPickups()
         {
-            upcomingPickupsTreeview.AppendColumn("Date", new Gtk.CellRendererText(), "text", 1);
-            upcomingPickupsTreeview.AppendColumn("Customer", new Gtk.CellRendererText(), "text", 2);
-            upcomingPickupsTreeview.AppendColumn("Bird Name", new Gtk.CellRendererText(), "text", 3);
-            upcomingPickupsTreeview.AppendColumn("Bird Breed", new Gtk.CellRendererText(), "text", 4);
-            upcomingPickupsTreeview.AppendColumn("Wings", new Gtk.CellRendererToggle(), "active", 5);
-            upcomingPickupsTreeview.AppendColumn("Nails", new Gtk.CellRendererToggle(), "active", 6);
-            upcomingPickupsTreeview.AppendColumn("Notes", new Gtk.CellRendererText(), "text", 7);
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Date", new Gtk.CellRendererText(), "text", 1, false));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Customer", new Gtk.CellRendererText(), "text", 2, true));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Bird Name", new Gtk.CellRendererText(), "text", 3,true));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Bird Breed", new Gtk.CellRendererText(), "text", 4, false));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Wings", new Gtk.CellRendererToggle(), "active", 5, false));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Nails", new Gtk.CellRendererToggle(), "active", 6, false));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Notes", new Gtk.CellRendererText(), "text", 7,true));
 
             UpcomingPickupsListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(string));
 
@@ -143,18 +143,33 @@ namespace BizeeBirdBoarding.Ui
             }
         }
 
+        private TreeViewColumn MakeColumn(string title, CellRenderer cellRenderer, string attrib, int value, bool expand = false)
+        {
+            Gtk.TreeViewColumn column = new Gtk.TreeViewColumn();
+            column.Title = title;
+
+            column.PackStart(cellRenderer, true);
+
+            column.Expand = expand;
+
+            column.AddAttribute(cellRenderer, attrib, value);
+
+            return column;
+        }
+
         private void initHistoryTreeview()
         {
-            historyTreeview.AppendColumn("Customer Name", new Gtk.CellRendererText(), "text", 1);
-            historyTreeview.AppendColumn("Boarding Rate", new Gtk.CellRendererText(), "text", 2);
-            historyTreeview.AppendColumn("Bird Name", new Gtk.CellRendererText(), "text", 3);
-            historyTreeview.AppendColumn("Dates", new Gtk.CellRendererText(), "text", 4);
-            historyTreeview.AppendColumn("Status", new Gtk.CellRendererToggle(), "active", 5);
-            historyTreeview.AppendColumn("Wings", new Gtk.CellRendererToggle(), "active", 6);
-            historyTreeview.AppendColumn("Nails", new Gtk.CellRendererToggle(), "active", 7);
-            historyTreeview.AppendColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 8);
+            historyTreeview.AppendColumn(MakeColumn("Customer Name", new Gtk.CellRendererText(), "text", 1, true));
 
-            HistoryListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(double), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool));
+            historyTreeview.AppendColumn(MakeColumn("Boarding Rate", new Gtk.CellRendererText(), "text", 2, true));
+            historyTreeview.AppendColumn(MakeColumn("Bird Name", new Gtk.CellRendererText(), "text", 3, true));
+            historyTreeview.AppendColumn(MakeColumn("Dates", new Gtk.CellRendererText(), "text", 4, true));
+            historyTreeview.AppendColumn(MakeColumn("Status", new Gtk.CellRendererToggle(), "active", 5, false));
+            historyTreeview.AppendColumn(MakeColumn("Wings", new Gtk.CellRendererToggle(), "active", 6, false));
+            historyTreeview.AppendColumn(MakeColumn("Nails", new Gtk.CellRendererToggle(), "active", 7, false));
+            historyTreeview.AppendColumn(MakeColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 8, false));
+
+            HistoryListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool));
 
             historyTreeview.Model = HistoryListStore;
 
@@ -174,7 +189,7 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (var row in appointments)
                 {
-                    HistoryListStore.AppendValues(row.AppointmentId, row.Customer.Name, row.Customer.BoardingRate, row.Bird.Name, row.StartTime.ToShortDateString() + " - " + row.EndTime.ToShortDateString(), row.Status.ToString(), row.GroomingWings, row.GroomingNails, row.CageNeeded);
+                    HistoryListStore.AppendValues(row.AppointmentId, row.Customer.Name, row.Customer.BoardingRate.ToString("C2"), row.Bird.Name, row.StartTime.ToShortDateString() + " - " + row.EndTime.ToShortDateString(), row.Status.ToString(), row.GroomingWings, row.GroomingNails, row.CageNeeded);
                 }
             }
         }
