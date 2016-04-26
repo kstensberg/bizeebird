@@ -79,7 +79,7 @@ namespace BizeeBirdBoarding.Ui
         {
             upcomingDropOffsTreeView.AppendColumn(MakeColumn("Date", new Gtk.CellRendererText(), "text", 1, false));
             upcomingDropOffsTreeView.AppendColumn(MakeColumn("Customer", new Gtk.CellRendererText(), "text", 2, true));
-            upcomingDropOffsTreeView.AppendColumn(MakeColumn("Bird Name", new Gtk.CellRendererText(), "text", 3, true));
+            upcomingDropOffsTreeView.AppendColumn(MakeColumn("Bird Name", new Gtk.CellRendererText(), "text", 3, false));
             upcomingDropOffsTreeView.AppendColumn(MakeColumn("Bird Breed", new Gtk.CellRendererText(), "text", 4, false));
             upcomingDropOffsTreeView.AppendColumn(MakeColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 5, false));
 
@@ -111,8 +111,8 @@ namespace BizeeBirdBoarding.Ui
         private void initUpcomingPickups()
         {
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Date", new Gtk.CellRendererText(), "text", 1, false));
-            upcomingPickupsTreeview.AppendColumn(MakeColumn("Customer", new Gtk.CellRendererText(), "text", 2, true));
-            upcomingPickupsTreeview.AppendColumn(MakeColumn("Bird Name", new Gtk.CellRendererText(), "text", 3,true));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Customer", new Gtk.CellRendererText(), "text", 2, false));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Bird Name", new Gtk.CellRendererText(), "text", 3, false));
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Bird Breed", new Gtk.CellRendererText(), "text", 4, false));
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Wings", new Gtk.CellRendererToggle(), "active", 5, false));
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Nails", new Gtk.CellRendererToggle(), "active", 6, false));
@@ -178,16 +178,28 @@ namespace BizeeBirdBoarding.Ui
 
         private void updateHistoryTreeview()
         {
+            string searchTerm = historySearchEntry.Text.Trim().ToLower();
+
             HistoryListStore.Clear();
 
             using (var db = new BizeeBirdDbContext())
             {
-                var appointments = from a in db.Appointments
-                                   where a.EndTime <= DateTime.Today
-                                   orderby a.EndTime descending
-                                   select a;
+                IQueryable set;
+                if (searchTerm.Length > 0)
+                {
+                    set = db.Appointments.Where(
+                        a => a.Customer.Name.ToLower().Contains(searchTerm) ||
+                        a.Customer.Email.ToLower().Contains(searchTerm) ||
+                        a.Customer.Notes.ToLower().Contains(searchTerm) ||
+                        a.Customer.PhoneNumbers.Any(p => p.PhoneNumber.ToLower().Contains(searchTerm)) ||
+                        a.Bird.Name.ToLower().Contains(searchTerm)).OrderByDescending(a => a.EndTime);
+                }
+                else
+                {
+                    set = db.Appointments.OrderByDescending(a => a.EndTime);
+                }
 
-                foreach (var row in appointments)
+                foreach (Appointment row in set)
                 {
                     HistoryListStore.AppendValues(row.AppointmentId, row.Customer.Name, row.Customer.BoardingRate.ToString("C2"), row.Bird.Name, row.StartTime.ToShortDateString() + " - " + row.EndTime.ToShortDateString(), row.Status.ToString(), row.GroomingWings, row.GroomingNails, row.CageNeeded);
                 }
