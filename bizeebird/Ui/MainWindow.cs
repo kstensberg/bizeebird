@@ -19,13 +19,13 @@ namespace BizeeBirdBoarding.Ui
         {
             Build();
 
-            initCustomerTreeview();
-            initUpcomingDropOffsTreeview();
-            initUpcomingPickups();
-            initHistoryTreeview();
+            InitCustomerTreeview();
+            InitUpcomingDropOffsTreeview();
+            InitUpcomingPickups();
+            InitHistoryTreeview();
         }
 
-        private void initCustomerTreeview()
+        private void InitCustomerTreeview()
         {
             customersTreeview.AppendColumn(MakeColumn("Name", new Gtk.CellRendererText(), "text", 1, false));
             customersTreeview.AppendColumn(MakeColumn("Phone Number", new Gtk.CellRendererText(), "text", 2, false));
@@ -37,10 +37,10 @@ namespace BizeeBirdBoarding.Ui
 
             customersTreeview.Model = CustomersListStore;
 
-            updateCustomerList();
+            UpdateCustomerList();
         }
 
-        private void updateCustomerList()
+        private void UpdateCustomerList()
         {
             string searchTerm = customerSearchEntry.Text.Trim();
 
@@ -75,7 +75,7 @@ namespace BizeeBirdBoarding.Ui
             }
         }
 
-        private void initUpcomingDropOffsTreeview()
+        private void InitUpcomingDropOffsTreeview()
         {
             upcomingDropOffsTreeView.AppendColumn(MakeColumn("Date", new Gtk.CellRendererText(), "text", 1, false));
             upcomingDropOffsTreeView.AppendColumn(MakeColumn("Customer", new Gtk.CellRendererText(), "text", 2, true));
@@ -87,10 +87,10 @@ namespace BizeeBirdBoarding.Ui
 
             upcomingDropOffsTreeView.Model = UpcomingDropOffsListStore;
 
-            updateUpcomingDropOffsTreeview();
+            UpdateUpcomingDropOffsTreeview();
         }
 
-        private void updateUpcomingDropOffsTreeview()
+        private void UpdateUpcomingDropOffsTreeview()
         {
             UpcomingDropOffsListStore.Clear();
 
@@ -108,7 +108,7 @@ namespace BizeeBirdBoarding.Ui
             }
         }
 
-        private void initUpcomingPickups()
+        private void InitUpcomingPickups()
         {
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Date", new Gtk.CellRendererText(), "text", 1, false));
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Customer", new Gtk.CellRendererText(), "text", 2, false));
@@ -122,10 +122,10 @@ namespace BizeeBirdBoarding.Ui
 
             upcomingPickupsTreeview.Model = UpcomingPickupsListStore;
 
-            updateUpcomingPickupsTreeview();
+            UpdateUpcomingPickupsTreeview();
         }
 
-        private void updateUpcomingPickupsTreeview()
+        private void UpdateUpcomingPickupsTreeview()
         {
             UpcomingPickupsListStore.Clear();
 
@@ -157,7 +157,7 @@ namespace BizeeBirdBoarding.Ui
             return column;
         }
 
-        private void initHistoryTreeview()
+        private void InitHistoryTreeview()
         {
             historyTreeview.AppendColumn(MakeColumn("Customer Name", new Gtk.CellRendererText(), "text", 1, true));
 
@@ -173,10 +173,10 @@ namespace BizeeBirdBoarding.Ui
 
             historyTreeview.Model = HistoryListStore;
 
-            updateHistoryTreeview();
+            UpdateHistoryTreeview();
         }
 
-        private void updateHistoryTreeview()
+        private void UpdateHistoryTreeview()
         {
             string searchTerm = historySearchEntry.Text.Trim().ToLower();
 
@@ -228,10 +228,10 @@ namespace BizeeBirdBoarding.Ui
 
             dialog.Destroyed += delegate
             {
-                updateCustomerList();
-                updateHistoryTreeview();
-                updateUpcomingDropOffsTreeview();
-                updateUpcomingPickupsTreeview();
+                UpdateCustomerList();
+                UpdateHistoryTreeview();
+                UpdateUpcomingDropOffsTreeview();
+                UpdateUpcomingPickupsTreeview();
             };
 
             dialog.ShowAll();
@@ -248,10 +248,10 @@ namespace BizeeBirdBoarding.Ui
 
             dialog.Destroyed += delegate
             {
-                updateCustomerList();
-                updateHistoryTreeview();
-                updateUpcomingDropOffsTreeview();
-                updateUpcomingPickupsTreeview();
+                UpdateCustomerList();
+                UpdateHistoryTreeview();
+                UpdateUpcomingDropOffsTreeview();
+                UpdateUpcomingPickupsTreeview();
             };
 
             dialog.ShowAll();
@@ -295,12 +295,12 @@ namespace BizeeBirdBoarding.Ui
 
 		protected void onCustomerSearchEntryChanged (object sender, EventArgs e)
 		{
-            updateCustomerList();
+            UpdateCustomerList();
 		}
 
 		protected void onHistorySearchEntryChanged (object sender, EventArgs e)
 		{
-            updateHistoryTreeview();
+            UpdateHistoryTreeview();
 		}
 	}
 }
