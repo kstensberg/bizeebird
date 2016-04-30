@@ -15,11 +15,19 @@ namespace BizeeBirdBoarding
             var th = new Thread(AutoUpdateThread);
             th.Start();
 
+            SetDataDirectory();
+
             Application.Init ();
 			MainWindow win = new MainWindow ();
 			win.Show ();
 			Application.Run ();
 		}
+
+        private static void SetDataDirectory()
+        {
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "BizeeBird");
+            AppDomain.CurrentDomain.SetData("DataDirectory", path);
+        }
 
         private static void AutoUpdateThread()
         {

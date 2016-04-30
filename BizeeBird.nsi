@@ -1,17 +1,13 @@
 # define installer name
-OutFile "installer.exe"
+OutFile "BizeeBird-1.0.exe"
 
 InstallDir $PROGRAMFILES\bizeebird
 
 Section
 	SetOutPath $INSTDIR
-	
 	File bizeebird\bin\Release\atk-sharp.dll
 	File bizeebird\bin\Release\bizeebird.exe
 	File bizeebird\bin\Release\bizeebird.exe.config
-	File bizeebird\bin\Release\bizeebird.vshost.exe
-	File bizeebird\bin\Release\bizeebird.vshost.exe.config
-	File bizeebird\bin\Release\bizeebird.vshost.exe.manifest
 	File bizeebird\bin\Release\EntityFramework.dll
 	File bizeebird\bin\Release\EntityFramework.SqlServer.dll
 	File bizeebird\bin\Release\EntityFramework.SqlServer.xml
@@ -29,6 +25,10 @@ Section
 	File /r bizeebird\bin\Release\x64
 	File /r bizeebird\bin\Release\x86
 
+	File "C:\Program Files (x86)\GtkSharp\2.12\bin\*.dll"
+	
+	CreateShortcut "$DESKTOP\bizeebird.lnk" "$INSTDIR\bizeebird.exe"
+	
 	WriteUninstaller $INSTDIR\uninstaller.exe
 SectionEnd
 

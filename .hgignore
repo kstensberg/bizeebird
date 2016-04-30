@@ -156,4 +156,4 @@ Desktop.ini
 
 */gtk-gui/*.cs
 *.userprefs
-installer.exe
+*.exe
