@@ -89,6 +89,7 @@
     <Reference Include="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Db\Model\AppointmentBird.cs" />
     <Compile Include="Db\Model\AppointmentStatus.cs" />
     <Compile Include="Db\Model\CustomerPhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

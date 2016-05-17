@@ -103,7 +103,7 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (var row in appointments)
                 {
-                    UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, row.Bird.Name, row.Bird.Breed, row.CageNeeded);
+                    UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.First().CageNeeded);
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (var row in appointments)
                 {
-                    UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, row.Bird.Name, row.Bird.Breed, row.GroomingWings, row.GroomingNails, row.Notes);
+                    UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.First().GroomingWings, row.AppointmentBirds.First().GroomingNails, row.Notes);
                 }
             }
         }
@@ -192,7 +192,7 @@ namespace BizeeBirdBoarding.Ui
                         a.Customer.Email.ToLower().Contains(searchTerm) ||
                         a.Customer.Notes.ToLower().Contains(searchTerm) ||
                         a.Customer.PhoneNumbers.Any(p => p.PhoneNumber.ToLower().Contains(searchTerm)) ||
-                        a.Bird.Name.ToLower().Contains(searchTerm)).OrderByDescending(a => a.EndTime);
+                        a.AppointmentBirds.First().Bird.Name.ToLower().Contains(searchTerm)).OrderByDescending(a => a.EndTime);
                 }
                 else
                 {
@@ -201,7 +201,7 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (Appointment row in set)
                 {
-                    HistoryListStore.AppendValues(row.AppointmentId, row.Customer.Name, row.Customer.BoardingRate.ToString("C2"), row.Bird.Name, row.StartTime.ToShortDateString() + " - " + row.EndTime.ToShortDateString(), row.Status.ToString(), row.GroomingWings, row.GroomingNails, row.CageNeeded);
+                    HistoryListStore.AppendValues(row.AppointmentId, row.Customer.Name, row.Customer.BoardingRate.ToString("C2"), row.AppointmentBirds.First().Bird.Name, row.StartTime.ToShortDateString() + " - " + row.EndTime.ToShortDateString(), row.Status.ToString(), row.AppointmentBirds.First().GroomingWings, row.AppointmentBirds.First().GroomingNails, row.AppointmentBirds.First().CageNeeded);
                 }
             }
         }
