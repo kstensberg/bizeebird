@@ -12,13 +12,10 @@ namespace BizeeBirdBoarding.Db.Model
         [Key]
         public int AppointmentId { get; set; }
         public virtual Customer Customer { get; set; }
-        public virtual Bird Bird { get; set; }
+        public virtual List<AppointmentBird> AppointmentBirds { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public AppointmentStatus Status { get; set; }
-        public bool GroomingWings { get; set; }
-        public bool GroomingNails { get; set; }
-        public bool CageNeeded { get; set; }
         public string Notes { get; set; }
     }
 }

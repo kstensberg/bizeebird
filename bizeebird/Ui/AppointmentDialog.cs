@@ -3,6 +3,7 @@ using BizeeBirdBoarding.Db.Model;
 using BizeeBirdBoarding.Ui.Widgets;
 using Gtk;
 using System;
+using System.Collections.Generic;
 
 namespace BizeeBirdBoarding.Ui
 {
@@ -18,19 +19,14 @@ namespace BizeeBirdBoarding.Ui
                 Appointment appointment = db.Appointments.Find(AppointmentId);
 
                 setActiveCustomerCombo(appointment.Customer.CustomerId);
-                setActiveBirdCombo(appointment. Bird.BirdId);
+
                 startDateCalendar.Date = appointment.StartTime;
                 endDateCalendar.Date = appointment.EndTime;
 
-                if (appointment.GroomingWings)
-                    groomingWingsCheckbox.Activate();
-                if (appointment.GroomingNails)
-                    groomingNailsCheckbox.Activate();
-
-                if (appointment.CageNeeded)
-                    cageNeededYesRadioButton.Activate();
-                else
-                    cageNeededNoRadioButton.Activate();
+                foreach (var Bird in appointment.AppointmentBirds)
+                {
+                    //TODO
+                }
             }
         }
 
@@ -79,9 +75,6 @@ namespace BizeeBirdBoarding.Ui
 
             bool cageNeeded = false;
 
-            if (cageNeededYesRadioButton.Active)
-                cageNeeded = true;
-
             using (var db = new BizeeBirdDbContext())
             {
                 TreeIter iter;
@@ -105,13 +98,13 @@ namespace BizeeBirdBoarding.Ui
                 var appointment = new Appointment
                 {
                     Customer = db.Customers.Find(customerId),
-                    Bird = db.Birds.Find(birdId),
+                    AppointmentBirds = new List<AppointmentBird>()
+                    {
+                        //TODO
+                    },
                     StartTime = GetDateTimeFromCalendar(startDateCalendar),
 					EndTime = GetDateTimeFromCalendar(endDateCalendar),
-                    Status = status,
-                    GroomingWings = groomingWingsCheckbox.Active,
-                    GroomingNails = groomingNailsCheckbox.Active,
-                    CageNeeded = cageNeeded
+                    Status = status
                 };
 
                 db.Appointments.Add(appointment);
@@ -158,12 +151,6 @@ namespace BizeeBirdBoarding.Ui
         {
             setComboActive(customerCombobox, customerId, 1);
 
-        }
-
-        private void setActiveBirdCombo(int birdId)
-        {
-            //TODO
-            //setComboActive(birdCombobox, birdId, 1);
         }
 
         private void setComboActive(ComboBox combo, int key, int modelPos)
