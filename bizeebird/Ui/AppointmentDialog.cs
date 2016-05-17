@@ -1,5 +1,6 @@
 using BizeeBirdBoarding.Db;
 using BizeeBirdBoarding.Db.Model;
+using BizeeBirdBoarding.Ui.Widgets;
 using Gtk;
 using System;
 
@@ -91,12 +92,15 @@ namespace BizeeBirdBoarding.Ui
                 }
                 int customerId = (int)customerCombobox.Model.GetValue(iter, 1);
 
+                /*
                 if (!birdCombobox.GetActiveIter(out iter))
                 {
                     //TODO error bird not selected
                     return;
                 }
                 int birdId = (int)birdCombobox.Model.GetValue(iter, 1);
+                */
+                int birdId = 0;
 
                 var appointment = new Appointment
                 {
@@ -129,12 +133,7 @@ namespace BizeeBirdBoarding.Ui
             {
                 int customerId = (int)customerCombobox.Model.GetValue(iter, 1);
 
-                birdCombobox.Clear();
-                CellRendererText cell = new CellRendererText();
-                birdCombobox.PackStart(cell, false);
-                birdCombobox.AddAttribute(cell, "text", 0);
-                ListStore store = new ListStore(typeof(string), typeof(int));
-                birdCombobox.Model = store;
+                //TODO clear birdHBox
 
                 using (var db = new BizeeBirdDbContext())
                 {
@@ -142,7 +141,9 @@ namespace BizeeBirdBoarding.Ui
 
                     foreach (Bird row in customer.Birds)
                     {
-                        store.AppendValues(row.Name, row.BirdId);
+                        AppointmentDialogBirdRow birdRow = new AppointmentDialogBirdRow(row.Name, row.BirdId);
+
+                        birdHBox.Add(birdRow);
                     }
                 }
             }
@@ -161,7 +162,8 @@ namespace BizeeBirdBoarding.Ui
 
         private void setActiveBirdCombo(int birdId)
         {
-            setComboActive(birdCombobox, birdId, 1);
+            //TODO
+            //setComboActive(birdCombobox, birdId, 1);
         }
 
         private void setComboActive(ComboBox combo, int key, int modelPos)

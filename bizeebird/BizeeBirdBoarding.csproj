@@ -101,6 +101,7 @@
     <Compile Include="Ui\MainWindow.cs" />
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.MainWindow.cs" />
+    <Compile Include="Ui\Widgets\AppointmentDialogBirdRow.cs" />
     <Compile Include="Ui\Widgets\CustomerDialogPhoneNumberRow.cs" />
     <Compile Include="Ui\AppointmentDialog.cs" />
     <Compile Include="Ui\CustomerDialog.cs" />
