@@ -1,4 +1,5 @@
-﻿using Gtk;
+﻿using BizeeBirdBoarding.Db.Model;
+using Gtk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,51 @@ namespace BizeeBirdBoarding.Ui.Widgets
 {
     class AppointmentDialogBirdRow : Gtk.VBox
     {
-        private int BirdId;
+        public Bird Bird { get; private set; }
+
+        public bool Wings
+        {
+            get
+            {
+                if (!IsEnabled())
+                    return false;
+                else
+                    return WingsCheckButton.Active;
+            }
+        }
+
+        public bool Nails
+        {
+            get
+            {
+                if (!IsEnabled())
+                    return false;
+                else
+                    return NailsCheckButton.Active;
+            }
+        }
+
+        public bool CageNeeded
+        {
+            get
+            {
+                if (!IsEnabled())
+                    return false;
+                else
+                    return CageNeededCheckButton.Active;
+            }
+        }
+
         private CheckButton EnableCheckbutton;
         private CheckButton WingsCheckButton;
         private CheckButton NailsCheckButton;
         private CheckButton CageNeededCheckButton;
 
-        public AppointmentDialogBirdRow(string birdName, int birdId)
+        public AppointmentDialogBirdRow(Bird bird)
         {
-            BirdId = birdId;
+            Bird = bird;
 
-            EnableCheckbutton = new CheckButton(birdName);
+            EnableCheckbutton = new CheckButton(bird.Name);
             EnableCheckbutton.Toggled += OnToggled;
             Add(EnableCheckbutton);
 
@@ -38,9 +73,14 @@ namespace BizeeBirdBoarding.Ui.Widgets
             ShowAll();
         }
 
+        public bool IsEnabled()
+        {
+            return EnableCheckbutton.Active;
+        }
+
         void OnToggled(object sender, EventArgs args)
         {
-            if (EnableCheckbutton.Active)
+            if (IsEnabled())
             {
                 WingsCheckButton.Sensitive = true;
                 NailsCheckButton.Sensitive = true;

@@ -11,7 +11,7 @@ namespace BizeeBirdBoarding.Db.Model
     {
         [Key]
         public int AppointmentBirdId { get; set; }
-        public Bird Bird { get; set; }
+        public virtual Bird Bird { get; set; }
         public bool GroomingWings { get; set; }
         public bool GroomingNails { get; set; }
         public bool CageNeeded { get; set; }
