@@ -73,8 +73,6 @@ namespace BizeeBirdBoarding.Ui
                     break;
             }
 
-            bool cageNeeded = false;
-
             using (var db = new BizeeBirdDbContext())
             {
                 TreeIter iter;
@@ -85,23 +83,32 @@ namespace BizeeBirdBoarding.Ui
                 }
                 int customerId = (int)customerCombobox.Model.GetValue(iter, 1);
 
-                /*
-                if (!birdCombobox.GetActiveIter(out iter))
+                var appointmentBirds = new List<AppointmentBird>();
+
+                foreach (AppointmentDialogBirdRow row in birdHBox.Children)
                 {
-                    //TODO error bird not selected
+                    if (row.IsEnabled())
+                    {
+                        appointmentBirds.Add(new AppointmentBird()
+                        {
+                            Bird = row.Bird,
+                            CageNeeded = row.CageNeeded,
+                            GroomingNails = row.Nails,
+                            GroomingWings = row.Wings
+                        });
+                    }
+                }
+
+                if (appointmentBirds.Count < 1)
+                {
+                    //TODO error no birds selected
                     return;
                 }
-                int birdId = (int)birdCombobox.Model.GetValue(iter, 1);
-                */
-                int birdId = 0;
 
                 var appointment = new Appointment
                 {
                     Customer = db.Customers.Find(customerId),
-                    AppointmentBirds = new List<AppointmentBird>()
-                    {
-                        //TODO
-                    },
+                    AppointmentBirds = appointmentBirds,
                     StartTime = GetDateTimeFromCalendar(startDateCalendar),
 					EndTime = GetDateTimeFromCalendar(endDateCalendar),
                     Status = status
@@ -126,7 +133,10 @@ namespace BizeeBirdBoarding.Ui
             {
                 int customerId = (int)customerCombobox.Model.GetValue(iter, 1);
 
-                //TODO clear birdHBox
+                while (birdHBox.Children.Length > 0)
+                {
+                    birdHBox.Remove(birdHBox.Children[0]);
+                }
 
                 using (var db = new BizeeBirdDbContext())
                 {
@@ -134,7 +144,7 @@ namespace BizeeBirdBoarding.Ui
 
                     foreach (Bird row in customer.Birds)
                     {
-                        AppointmentDialogBirdRow birdRow = new AppointmentDialogBirdRow(row.Name, row.BirdId);
+                        AppointmentDialogBirdRow birdRow = new AppointmentDialogBirdRow(row);
 
                         birdHBox.Add(birdRow);
                     }
