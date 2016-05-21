@@ -98,13 +98,17 @@ namespace BizeeBirdBoarding.Ui
             {
                 DateTime endTime = DateTime.Today.AddDays(60);
                 var appointments = from a in db.Appointments
-                                   where a.StartTime >= DateTime.Today && a.StartTime <= endTime && a.Status != AppointmentStatus.CheckedOut && a.Status != AppointmentStatus.Cancelled
-                                   orderby a.StartTime ascending
-                                   select a;
+                                    where a.StartTime >= DateTime.Today && 
+                                        a.StartTime <= endTime && 
+                                        a.Status != AppointmentStatus.CheckedOut && 
+                                        a.Status != AppointmentStatus.Cancelled && 
+                                        a.Status != AppointmentStatus.CheckedIn
+                                    orderby a.StartTime ascending
+                                    select a;
 
                 foreach (var row in appointments)
                 {
-                    UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.First().CageNeeded);
+                    UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.Exists(a => a.CageNeeded == true));
                 }
             }
         }
@@ -133,13 +137,13 @@ namespace BizeeBirdBoarding.Ui
             using (var db = new BizeeBirdDbContext())
             {
                 var appointments = from a in db.Appointments
-                                   where a.EndTime >= DateTime.Today
+                                   where a.EndTime >= DateTime.Today && a.Status != AppointmentStatus.CheckedOut
                                    orderby a.EndTime ascending
                                    select a;
 
                 foreach (var row in appointments)
                 {
-                    UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.First().GroomingWings, row.AppointmentBirds.First().GroomingNails, row.Notes);
+                    UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.Exists(a => a.GroomingWings == true), row.AppointmentBirds.Exists(a => a.GroomingNails == true), row.Notes);
                 }
             }
         }
@@ -202,7 +206,7 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (Appointment row in set)
                 {
-                    HistoryListStore.AppendValues(row.AppointmentId, row.Customer.Name, row.Customer.BoardingRate.ToString("C2"), row.AppointmentBirds.First().Bird.Name, row.StartTime.ToShortDateString() + " - " + row.EndTime.ToShortDateString(), row.Status.ToString(), row.AppointmentBirds.First().GroomingWings, row.AppointmentBirds.First().GroomingNails, row.AppointmentBirds.First().CageNeeded);
+                    HistoryListStore.AppendValues(row.AppointmentId, row.Customer.Name, row.Customer.BoardingRate.ToString("C2"), row.AppointmentBirds.First().Bird.Name, row.StartTime.ToShortDateString() + " - " + row.EndTime.ToShortDateString(), row.Status.ToString(), row.AppointmentBirds.First().GroomingWings, row.AppointmentBirds.Exists(a => a.GroomingNails), row.AppointmentBirds.Exists(a => a.CageNeeded));
                 }
             }
         }
