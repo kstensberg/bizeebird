@@ -96,8 +96,9 @@ namespace BizeeBirdBoarding.Ui
 
             using (var db = new BizeeBirdDbContext())
             {
+                DateTime endTime = DateTime.Today.AddDays(60);
                 var appointments = from a in db.Appointments
-                                   where a.StartTime >= DateTime.Today
+                                   where a.StartTime >= DateTime.Today && a.StartTime <= endTime && a.Status != AppointmentStatus.CheckedOut && a.Status != AppointmentStatus.Cancelled
                                    orderby a.StartTime ascending
                                    select a;
 
