@@ -192,7 +192,7 @@ namespace BizeeBirdBoarding.Ui
                         a.Customer.Email.ToLower().Contains(searchTerm) ||
                         a.Customer.Notes.ToLower().Contains(searchTerm) ||
                         a.Customer.PhoneNumbers.Any(p => p.PhoneNumber.ToLower().Contains(searchTerm)) ||
-                        a.AppointmentBirds.First().Bird.Name.ToLower().Contains(searchTerm)).OrderByDescending(a => a.EndTime);
+                        a.AppointmentBirds.Any(b => b.Bird.Name.ToLower().Contains(searchTerm))).OrderByDescending(a => a.EndTime);
                 }
                 else
                 {
