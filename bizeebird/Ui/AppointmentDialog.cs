@@ -4,11 +4,17 @@ using BizeeBirdBoarding.Ui.Widgets;
 using Gtk;
 using System;
 using System.Collections.Generic;
+using BizeeBirdBoarding.Db;
+using BizeeBirdBoarding.Db.Model;
+using Gtk;
+using System;
+using System.Data.Entity;
+using System.Linq;
 
 namespace BizeeBirdBoarding.Ui
 {
     public partial class AppointmentDialog : Gtk.Dialog
-	{
+    {
         private int? AppointmentId;
 
         public AppointmentDialog(int appointmentId) : this()
@@ -30,28 +36,15 @@ namespace BizeeBirdBoarding.Ui
             }
         }
 
-        public AppointmentDialog ()
-		{
-			this.Build();
+        public AppointmentDialog()
+        {
+            this.Build();
 
-            customerCombobox.Clear();
-            CellRendererText cell = new CellRendererText();
-            customerCombobox.PackStart(cell, false);
-            customerCombobox.AddAttribute(cell, "text", 0);
-            ListStore store = new ListStore(typeof(string), typeof(int));
-            customerCombobox.Model = store;
-
-            using (var db = new BizeeBirdDbContext())
-            {
-                foreach (Customer row in db.Customers)
-                {
-                    store.AppendValues(row.Name, row.CustomerId);
-                }
-            }
+            updateCustomerCombo("");
         }
 
-		protected void onOkButtonClicked(object sender, EventArgs e)
-		{
+        protected void onOkButtonClicked(object sender, EventArgs e)
+        {
             AppointmentStatus status = AppointmentStatus.Scheduled;
 
             switch (statusCombobox.ActiveText)
@@ -110,7 +103,7 @@ namespace BizeeBirdBoarding.Ui
                     Customer = db.Customers.Find(customerId),
                     AppointmentBirds = appointmentBirds,
                     StartTime = GetDateTimeFromCalendar(startDateCalendar),
-					EndTime = GetDateTimeFromCalendar(endDateCalendar),
+                    EndTime = GetDateTimeFromCalendar(endDateCalendar),
                     Status = status
                 };
 
@@ -121,8 +114,8 @@ namespace BizeeBirdBoarding.Ui
             Destroy();
         }
 
-		protected void onCancelButtonClicked(object sender, EventArgs e)
-		{
+        protected void onCancelButtonClicked(object sender, EventArgs e)
+        {
             Destroy();
         }
 
@@ -132,22 +125,64 @@ namespace BizeeBirdBoarding.Ui
             if (customerCombobox.GetActiveIter(out iter))
             {
                 int customerId = (int)customerCombobox.Model.GetValue(iter, 1);
+                onCustomerSelected(customerId);
+            }
+            else
+            {
+                updateCustomerCombo(customerCombobox.ActiveText);
+            }
+        }
 
-                while (birdHBox.Children.Length > 0)
+        private void onCustomerSelected(int customerId)
+        {
+            while (birdHBox.Children.Length > 0)
+            {
+                birdHBox.Remove(birdHBox.Children[0]);
+            }
+
+            using (var db = new BizeeBirdDbContext())
+            {
+                Customer customer = db.Customers.Find(customerId);
+
+                foreach (Bird row in customer.Birds)
                 {
-                    birdHBox.Remove(birdHBox.Children[0]);
+                    AppointmentDialogBirdRow birdRow = new AppointmentDialogBirdRow(row);
+
+                    birdHBox.Add(birdRow);
+                }
+            }
+        }
+
+        private void updateCustomerCombo(string searchTerm)
+        {
+            customerCombobox.Clear();
+            CellRendererText cell = new CellRendererText();
+            customerCombobox.PackStart(cell, false);
+            customerCombobox.AddAttribute(cell, "text", 0);
+            ListStore store = new ListStore(typeof(string), typeof(int));
+            customerCombobox.Model = store;
+
+            using (var db = new BizeeBirdDbContext())
+            {
+
+                IQueryable set;
+                if (searchTerm != null && searchTerm.Length > 0)
+                {
+                    set = db.Customers.Where(
+                        c => c.Name.ToLower().Contains(searchTerm) ||
+                        c.Email.ToLower().Contains(searchTerm) ||
+                        c.Notes.ToLower().Contains(searchTerm) ||
+                        c.PhoneNumbers.Any(p => p.PhoneNumber.ToLower().Contains(searchTerm)) ||
+                        c.Birds.Any(b => b.Name.ToLower().Contains(searchTerm))).OrderByDescending(c => c.Name);
+                }
+                else
+                {
+                    set = db.Customers;
                 }
 
-                using (var db = new BizeeBirdDbContext())
+                foreach (Customer row in set)
                 {
-                    Customer customer = db.Customers.Find(customerId);
-
-                    foreach (Bird row in customer.Birds)
-                    {
-                        AppointmentDialogBirdRow birdRow = new AppointmentDialogBirdRow(row);
-
-                        birdHBox.Add(birdRow);
-                    }
+                    store.AppendValues(row.Name, row.CustomerId);
                 }
             }
         }
