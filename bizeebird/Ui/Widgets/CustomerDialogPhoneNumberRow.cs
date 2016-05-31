@@ -9,7 +9,11 @@ namespace bizeebird.Ui.Widgets
 {
     class CustomerDialogPhoneNumberRow : Gtk.HBox
     {
-        private int? PhoneNumberId;
+        public int? PhoneNumberId
+        {
+            get;
+            private set;
+        }
 
         private Entry Entry;
         private Button AddButton;

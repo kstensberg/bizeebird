@@ -67,8 +67,8 @@ namespace BizeeBirdBoarding.Ui
                 {
                     string phoneNumber = "";
 
-                    if (row.PhoneNumbers != null && row.PhoneNumbers.Count > 0)
-                        phoneNumber = row.PhoneNumbers[0].PhoneNumber;
+                    if (row.PhoneNumbers != null && row.PhoneNumbers.Count() > 0)
+                        phoneNumber = row.PhoneNumbers.First().PhoneNumber;
 
                     CustomersListStore.AppendValues(row.CustomerId, row.Name, phoneNumber, row.Email, row.BoardingRate.ToString("C2"), row.Notes);
                 }
