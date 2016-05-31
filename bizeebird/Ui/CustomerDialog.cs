@@ -36,7 +36,10 @@ namespace BizeeBirdBoarding.Ui
 
                     foreach (CustomerPhoneNumber phoneNumber in customer.PhoneNumbers)
                     {
-                        AddPhoneNumberRow(true, phoneNumber);
+                        if (PhoneNumberRows.Count() <= 0)
+                            AddPhoneNumberRow(true, phoneNumber);
+                        else
+                            AddPhoneNumberRow(false, phoneNumber);
                     }
                 }
 
@@ -104,26 +107,42 @@ namespace BizeeBirdBoarding.Ui
                 customer.Email = emailEntry.Text;
                 //customer.Birds = Birds;
 
-                foreach (CustomerDialogPhoneNumberRow row in PhoneNumberRows)
-                {
-
-                    if (row.PhoneNumberId.HasValue)
-                    {
-                        CustomerPhoneNumber customerPhoneNumber = db.CustomerPhoneNumbers.Find(row.PhoneNumberId.Value);
-                        customerPhoneNumber.PhoneNumber = row.getPhoneNumber();
-                    }
-                    else
-                    {
-                        customer.PhoneNumbers.Add(new CustomerPhoneNumber()
-                        {
-                            PhoneNumber = row.getPhoneNumber()
-                        });
-                    }
-                }
+                UpdatePhoneNumber(db, customer);
             }
             else
             {
                 //TODO ERROR
+            }
+        }
+
+        private void UpdatePhoneNumber(BizeeBirdDbContext db, Customer customer)
+        {
+            foreach (CustomerDialogPhoneNumberRow row in PhoneNumberRows)
+            {
+
+                if (row.PhoneNumberId.HasValue)
+                {
+                    CustomerPhoneNumber customerPhoneNumber = db.CustomerPhoneNumbers.Find(row.PhoneNumberId.Value);
+                    customerPhoneNumber.PhoneNumber = row.getPhoneNumber();
+                }
+                else
+                {
+                    customer.PhoneNumbers.Add(new CustomerPhoneNumber()
+                    {
+                        PhoneNumber = row.getPhoneNumber()
+                    });
+                }
+            }
+
+            for (int idx = customer.PhoneNumbers.Count() - 1; idx >= 0; idx--)
+            {
+                if (customer.PhoneNumbers[idx].PhoneNumberId != 0)
+                {
+                    bool inPhoneNumberRows = PhoneNumberRows.Where(c => c.PhoneNumberId == customer.PhoneNumbers[idx].PhoneNumberId).Count() > 0;
+
+                    if (!inPhoneNumberRows)
+                        db.CustomerPhoneNumbers.Remove(customer.PhoneNumbers[idx]);
+                }
             }
         }
 
