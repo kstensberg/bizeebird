@@ -319,7 +319,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="BizeeBirdBoarding.Ui.AppointmentDialog" design-size="400 568">
+  <widget class="Gtk.Dialog" id="BizeeBirdBoarding.Ui.AppointmentDialog" design-size="400 609">
     <property name="MemberName" />
     <property name="Title" translatable="yes">New Appointment</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -358,6 +358,7 @@
             <child>
               <widget class="Gtk.ScrolledWindow" id="birdScrolledWindow">
                 <property name="MemberName" />
+                <property name="HeightRequest">125</property>
                 <property name="CanFocus">True</property>
                 <property name="VscrollbarPolicy">Never</property>
                 <property name="ShadowType">In</property>
@@ -1085,6 +1086,7 @@ No-Show</property>
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="Label" translatable="yes">Male</property>
+                                    <property name="Active">True</property>
                                     <property name="DrawIndicator">True</property>
                                     <property name="HasLabel">True</property>
                                     <property name="UseUnderline">True</property>
