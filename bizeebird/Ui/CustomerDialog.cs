@@ -4,6 +4,7 @@ using BizeeBirdBoarding.Db.Model;
 using Gtk;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace BizeeBirdBoarding.Ui
@@ -18,9 +19,10 @@ namespace BizeeBirdBoarding.Ui
 
         public CustomerDialog(int customerId) : this()
         {
+            this.CustomerId = customerId;
+
             using (var db = new BizeeBirdDbContext())
             {
-                this.CustomerId = customerId;
                 Customer customer = db.Customers.Find(customerId);
 
                 customerNameEntry.Text = customer.Name;
@@ -88,55 +90,84 @@ namespace BizeeBirdBoarding.Ui
         {
             PhoneNumberRows.Remove(row);
             phoneNumberContainerVbox.Remove(row);
-
-            Console.WriteLine("row removed: " + PhoneNumberRows.Count);
         }
 
+        private void UpdateExistingCustomer(BizeeBirdDbContext db)
+        {
+            Customer customer = db.Customers.Find(CustomerId);
+
+            if (customer != null)
+            {
+                customer.Name = customerNameEntry.Text;
+                customer.BoardingRate = boardingRateSpinButton.Value;
+                customer.Notes = customerNotesTextView.Buffer.Text;
+                customer.Email = emailEntry.Text;
+                //customer.Birds = Birds;
+
+                foreach (CustomerDialogPhoneNumberRow row in PhoneNumberRows)
+                {
+
+                    if (row.PhoneNumberId.HasValue)
+                    {
+                        CustomerPhoneNumber customerPhoneNumber = db.CustomerPhoneNumbers.Find(row.PhoneNumberId.Value);
+                        customerPhoneNumber.PhoneNumber = row.getPhoneNumber();
+                    }
+                    else
+                    {
+                        customer.PhoneNumbers.Add(new CustomerPhoneNumber()
+                        {
+                            PhoneNumber = row.getPhoneNumber()
+                        });
+                    }
+                }
+            }
+            else
+            {
+                //TODO ERROR
+            }
+        }
+
+        private void CreateNewCustomer(BizeeBirdDbContext db)
+        {
+            List<CustomerPhoneNumber> phoneNumbers = new List<CustomerPhoneNumber>();
+
+            foreach (CustomerDialogPhoneNumberRow row in PhoneNumberRows)
+            {
+                phoneNumbers.Add(new CustomerPhoneNumber()
+                {
+                    PhoneNumber = row.getPhoneNumber()
+                });
+            }
+
+            Customer customer = new Customer
+            {
+                Name = customerNameEntry.Text,
+                BoardingRate = boardingRateSpinButton.Value,
+                Notes = customerNotesTextView.Buffer.Text,
+                PhoneNumbers = phoneNumbers,
+                Email = emailEntry.Text,
+                Birds = Birds
+            };
+
+            customer = db.Customers.Add(customer);
+        }
 
         protected void onOkButtonClicked (object sender, EventArgs e)
 		{
             if (birdNameEntry.Text.Trim() != "")
                 onBirdAddButtonClicked(sender, e);
 
-            List<CustomerPhoneNumber> phoneNumbers = new List<CustomerPhoneNumber>();
-
-            foreach (CustomerDialogPhoneNumberRow row in PhoneNumberRows)
-            {
-                phoneNumbers.Add(row.getPhoneNumber());
-            }
-
             using (var db = new BizeeBirdDbContext())
             {
                 if (CustomerId.HasValue)
                 {
-                    var original = db.Customers.Find(CustomerId);
-
-                    if (original != null)
-                    {
-                        //TODO
-                        original.Name = customerNameEntry.Text;
-                        original.BoardingRate = boardingRateSpinButton.Value;
-                        original.Notes = customerNotesTextView.Buffer.Text;
-                        //original.PhoneNumbers = phoneNumbers;
-                        original.Email = emailEntry.Text;
-                        //original.Birds = Birds;
-                    }
+                    UpdateExistingCustomer(db);
                 }
                 else
                 {
-                    var customer = new Customer
-                    {
-                        Name = customerNameEntry.Text,
-                        BoardingRate = boardingRateSpinButton.Value,
-                        Notes = customerNotesTextView.Buffer.Text,
-                        PhoneNumbers = phoneNumbers,
-                        Email = emailEntry.Text,
-                        Birds = Birds
-                    };
-
-                    db.Customers.Add(customer);
+                    CreateNewCustomer(db);
                 }
-                
+
                 db.SaveChanges();
             }
 

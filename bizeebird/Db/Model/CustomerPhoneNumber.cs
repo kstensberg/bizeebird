@@ -12,12 +12,5 @@ namespace BizeeBirdBoarding.Db.Model
         [Key]
         public int PhoneNumberId { get; set; }
         public string PhoneNumber { get; set; }
-
-        public static implicit operator CustomerPhoneNumber(string phoneNumber)
-        {
-            CustomerPhoneNumber customerPhoneNumber = new CustomerPhoneNumber();
-            customerPhoneNumber.PhoneNumber = phoneNumber;
-            return customerPhoneNumber;
-        }
     }
 }
