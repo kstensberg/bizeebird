@@ -146,6 +146,9 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (Bird row in customer.Birds)
                 {
+                    if (row.Deleted)
+                        continue;
+
                     AppointmentDialogBirdRow birdRow = new AppointmentDialogBirdRow(row);
 
                     birdHBox.Add(birdRow);
