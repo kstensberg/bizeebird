@@ -11,6 +11,7 @@ namespace BizeeBirdBoarding.Db.Model
     {
         [Key]
         public int BirdId { get; set; }
+        public bool Deleted { get; set; }
         public string Name { get; set; }
         public string Breed { get; set; }
         public string Color { get; set; }

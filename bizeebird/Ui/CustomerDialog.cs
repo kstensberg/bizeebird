@@ -105,9 +105,10 @@ namespace BizeeBirdBoarding.Ui
                 customer.BoardingRate = boardingRateSpinButton.Value;
                 customer.Notes = customerNotesTextView.Buffer.Text;
                 customer.Email = emailEntry.Text;
-                //customer.Birds = Birds;
 
-                UpdatePhoneNumber(db, customer);
+                UpdatePhoneNumbers(db, customer);
+
+                UpdateBirds(db, customer);
             }
             else
             {
@@ -115,8 +116,23 @@ namespace BizeeBirdBoarding.Ui
             }
         }
 
-        private void UpdatePhoneNumber(BizeeBirdDbContext db, Customer customer)
+        private void UpdatePhoneNumbers(BizeeBirdDbContext db, Customer customer)
         {
+            for (int idx = customer.PhoneNumbers.Count() - 1; idx >= 0; idx--)
+            {
+                var dbPhoneNumber = customer.PhoneNumbers[idx];
+
+                //TODO I'm not sure this is a very reliable check for new records.  shouldn't we add a foreign key to CustomerPhoneNumbers and iterate on that
+                //instead of using customer.PhoneNumbers?
+                if (dbPhoneNumber.PhoneNumberId != 0)
+                {
+                    bool inPhoneNumberRows = PhoneNumberRows.Where(pn => pn.PhoneNumberId == dbPhoneNumber.PhoneNumberId).Count() > 0;
+
+                    if (!inPhoneNumberRows)
+                        db.CustomerPhoneNumbers.Remove(dbPhoneNumber);
+                }
+            }
+
             foreach (CustomerDialogPhoneNumberRow row in PhoneNumberRows)
             {
 
@@ -134,14 +150,29 @@ namespace BizeeBirdBoarding.Ui
                 }
             }
 
-            for (int idx = customer.PhoneNumbers.Count() - 1; idx >= 0; idx--)
-            {
-                if (customer.PhoneNumbers[idx].PhoneNumberId != 0)
-                {
-                    bool inPhoneNumberRows = PhoneNumberRows.Where(c => c.PhoneNumberId == customer.PhoneNumbers[idx].PhoneNumberId).Count() > 0;
+            
+        }
 
-                    if (!inPhoneNumberRows)
-                        db.CustomerPhoneNumbers.Remove(customer.PhoneNumbers[idx]);
+        private void UpdateBirds(BizeeBirdDbContext db, Customer customer)
+        {
+            foreach (Bird bird in Birds)
+            {
+                //TODO should we check for new records this way?
+                if (bird.BirdId != 0)
+                {
+                    Bird dbBird = db.Birds.Find(bird.BirdId);
+
+                    dbBird.Deleted = bird.Deleted;
+                    dbBird.Name = bird.Name;
+                    dbBird.Breed = bird.Breed;
+                    dbBird.Color = bird.Color;
+                    dbBird.Age = bird.Age;
+                    dbBird.Gender = bird.Gender;
+                    dbBird.Notes = bird.Notes;
+                }
+                else
+                {
+                    customer.Birds.Add(bird);
                 }
             }
         }
@@ -214,7 +245,8 @@ namespace BizeeBirdBoarding.Ui
                 Color = birdColorEntry.Text,
                 Age = birdAgeSpinButton.ValueAsInt,
                 Gender = gender,
-                Notes = birdNotesTextView.Buffer.Text
+                Notes = birdNotesTextView.Buffer.Text,
+                Deleted = false
             };
 
             Birds.Add(bird);
@@ -237,7 +269,9 @@ namespace BizeeBirdBoarding.Ui
             for (int idx = 0; idx < Birds.Count; idx++)
             {
                 Bird bird = Birds[idx];
-                BirdsListStore.AppendValues(idx, bird.Name, bird.Breed, bird.Color, bird.Age, bird.Gender.ToString());
+
+                if (!bird.Deleted)
+                    BirdsListStore.AppendValues(idx, bird.Name, bird.Breed, bird.Color, bird.Age, bird.Gender.ToString());
             }
         }
 
@@ -250,7 +284,12 @@ namespace BizeeBirdBoarding.Ui
             if (selection.GetSelected(out model, out iter))
             {
                 int idx = (int)model.GetValue(iter, 0);
-                Birds.RemoveAt(idx);
+
+                if (Birds.ElementAt(idx).BirdId == 0)
+                    Birds.RemoveAt(idx);
+                else
+                    Birds.ElementAt(idx).Deleted = true;
+
                 ResetBirdWidgetsAndRefreshBirdsList();
             }
 		}
