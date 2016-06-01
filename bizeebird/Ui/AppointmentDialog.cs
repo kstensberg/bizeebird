@@ -29,9 +29,21 @@ namespace BizeeBirdBoarding.Ui
                 startDateCalendar.Date = appointment.StartTime;
                 endDateCalendar.Date = appointment.EndTime;
 
-                foreach (var Bird in appointment.AppointmentBirds)
+                SetAppointmentStatus(appointment.Status);
+
+                foreach (var appointmentBird in appointment.AppointmentBirds)
                 {
-                    //TODO
+                    foreach (AppointmentDialogBirdRow row in birdHBox.Children)
+                    {
+                        if (appointmentBird.Bird.BirdId == row.Bird.BirdId)
+                        {
+                            row.BirdSelected = true;
+
+                            row.Wings = appointmentBird.GroomingWings;
+                            row.Nails = appointmentBird.GroomingNails;
+                            row.CageNeeded = appointmentBird.CageNeeded;
+                        }
+                    }
                 }
             }
         }
@@ -45,78 +57,170 @@ namespace BizeeBirdBoarding.Ui
 
         protected void onOkButtonClicked(object sender, EventArgs e)
         {
-            AppointmentStatus status = AppointmentStatus.Scheduled;
-
-            switch (statusCombobox.ActiveText)
-            {
-                case "Scheduled":
-                    status = AppointmentStatus.Scheduled;
-                    break;
-                case "Checked In":
-                    status = AppointmentStatus.CheckedIn;
-                    break;
-                case "Checked Out":
-                    status = AppointmentStatus.CheckedOut;
-                    break;
-                case "Cancelled":
-                    status = AppointmentStatus.Cancelled;
-                    break;
-                case "No-Show":
-                    status = AppointmentStatus.NoShow;
-                    break;
-            }
-
             using (var db = new BizeeBirdDbContext())
             {
-                TreeIter iter;
-                if (!customerCombobox.GetActiveIter(out iter))
-                {
-                    //TODO error customer not selected
-                    return;
-                }
-                int customerId = (int)customerCombobox.Model.GetValue(iter, 1);
+                if (!AppointmentId.HasValue)
+                    SaveNewAppointment(db);
+                else
+                    SaveExistingAppointment(db);
 
-                var appointmentBirds = new List<AppointmentBird>();
-
-                foreach (AppointmentDialogBirdRow row in birdHBox.Children)
-                {
-                    if (row.IsEnabled())
-                    {
-                        appointmentBirds.Add(new AppointmentBird()
-                        {
-                            Bird = row.Bird,
-                            CageNeeded = row.CageNeeded,
-                            GroomingNails = row.Nails,
-                            GroomingWings = row.Wings
-                        });
-                    }
-                }
-
-                if (appointmentBirds.Count < 1)
-                {
-                    //TODO error no birds selected
-                    return;
-                }
-
-                var appointment = new Appointment
-                {
-                    Customer = db.Customers.Find(customerId),
-                    AppointmentBirds = appointmentBirds,
-                    StartTime = GetDateTimeFromCalendar(startDateCalendar),
-                    EndTime = GetDateTimeFromCalendar(endDateCalendar),
-                    Status = status
-                };
-
-                db.Appointments.Add(appointment);
                 db.SaveChanges();
             }
 
             Destroy();
         }
 
+        private void SaveNewAppointment(BizeeBirdDbContext db)
+        {
+            TreeIter iter;
+            if (!customerCombobox.GetActiveIter(out iter))
+            {
+                //TODO error customer not selected
+                return;
+            }
+            int customerId = (int)customerCombobox.Model.GetValue(iter, 1);
+
+            if (!HasBirdSelected())
+            {
+                //TODO error no birds selected
+                return;
+            }
+
+            var appointmentBirds = new List<AppointmentBird>();
+
+            foreach (AppointmentDialogBirdRow row in birdHBox.Children)
+            {
+                if (row.BirdSelected)
+                {
+                    appointmentBirds.Add(new AppointmentBird()
+                    {
+                        Bird = db.Birds.Find(row.Bird.BirdId),
+                        CageNeeded = row.CageNeeded,
+                        GroomingNails = row.Nails,
+                        GroomingWings = row.Wings
+                    });
+                }
+            }
+
+            if (appointmentBirds.Count < 1)
+            {
+                //TODO error no birds selected
+                return;
+            }
+
+            var appointment = new Appointment
+            {
+                Customer = db.Customers.Find(customerId),
+                AppointmentBirds = appointmentBirds,
+                StartTime = GetDateTimeFromCalendar(startDateCalendar),
+                EndTime = GetDateTimeFromCalendar(endDateCalendar),
+                Status = GetAppointmentStatus(statusCombobox.ActiveText)
+            };
+
+            db.Appointments.Add(appointment);
+        }
+
+        private void SaveExistingAppointment(BizeeBirdDbContext db)
+        {
+            TreeIter iter;
+            if (!customerCombobox.GetActiveIter(out iter))
+            {
+                //TODO error customer not selected
+                return;
+            }
+            int customerId = (int)customerCombobox.Model.GetValue(iter, 1);
+
+            if (!HasBirdSelected())
+            {
+                //TODO error no birds selected
+                return;
+            }
+
+            Appointment appointment = db.Appointments.Find(AppointmentId);
+
+            appointment.Customer = db.Customers.Find(customerId);
+            appointment.StartTime = GetDateTimeFromCalendar(startDateCalendar);
+            appointment.EndTime = GetDateTimeFromCalendar(endDateCalendar);
+            appointment.Status = GetAppointmentStatus(statusCombobox.ActiveText);
+
+            for (int idx = appointment.AppointmentBirds.Count() - 1; idx >= 0; idx--)
+            {
+                db.AppointmentBirds.Remove(appointment.AppointmentBirds[idx]);
+            }
+
+            var appointmentBirds = new List<AppointmentBird>();
+
+            foreach (AppointmentDialogBirdRow row in birdHBox.Children)
+            {
+                if (row.BirdSelected)
+                {
+                    appointmentBirds.Add(new AppointmentBird()
+                    {
+                        Bird = db.Birds.Find(row.Bird.BirdId),
+                        CageNeeded = row.CageNeeded,
+                        GroomingNails = row.Nails,
+                        GroomingWings = row.Wings
+                    });
+                }
+            }
+
+            appointment.AppointmentBirds = appointmentBirds;
+        }
+
+        private bool HasBirdSelected()
+        {
+            foreach (AppointmentDialogBirdRow row in birdHBox.Children)
+            {
+                if (row.BirdSelected)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         protected void onCancelButtonClicked(object sender, EventArgs e)
         {
             Destroy();
+        }
+
+        private AppointmentStatus GetAppointmentStatus(string appointmentStatus)
+        {
+            switch (appointmentStatus)
+            {
+                case "Scheduled":
+                    return AppointmentStatus.Scheduled;
+                case "Checked In":
+                    return AppointmentStatus.CheckedIn;
+                case "Checked Out":
+                    return AppointmentStatus.CheckedOut;
+                case "Cancelled":
+                    return AppointmentStatus.Cancelled;
+                case "No-Show":
+                    return AppointmentStatus.NoShow;
+            }
+
+            return AppointmentStatus.Scheduled;
+        }
+
+        private void SetAppointmentStatus(AppointmentStatus status)
+        {
+            Gtk.TreeIter iter;
+            statusCombobox.Model.GetIterFirst(out iter);
+            do
+            {
+                GLib.Value thisRow = new GLib.Value();
+                statusCombobox.Model.GetValue(iter, 0, ref thisRow);
+
+                var comboStatus = GetAppointmentStatus(thisRow.Val as string);
+
+                if (comboStatus == status)
+                {
+                    statusCombobox.SetActiveIter(iter);
+                    return;
+                }
+            } while (statusCombobox.Model.IterNext(ref iter));
         }
 
         protected void onCustomerComboChanged(object sender, EventArgs e)

@@ -12,14 +12,30 @@ namespace BizeeBirdBoarding.Ui.Widgets
     {
         public Bird Bird { get; private set; }
 
+        public bool BirdSelected
+        {
+            get
+            {
+                return EnableCheckbutton.Active;
+            }
+            set
+            {
+                EnableCheckbutton.Active = value;
+            }
+        }
+
         public bool Wings
         {
             get
             {
-                if (!IsEnabled())
+                if (!BirdSelected)
                     return false;
                 else
                     return WingsCheckButton.Active;
+            }
+            set
+            {
+                WingsCheckButton.Active = value;
             }
         }
 
@@ -27,10 +43,14 @@ namespace BizeeBirdBoarding.Ui.Widgets
         {
             get
             {
-                if (!IsEnabled())
+                if (!BirdSelected)
                     return false;
                 else
                     return NailsCheckButton.Active;
+            }
+            set
+            {
+                NailsCheckButton.Active = value;
             }
         }
 
@@ -38,10 +58,14 @@ namespace BizeeBirdBoarding.Ui.Widgets
         {
             get
             {
-                if (!IsEnabled())
+                if (!BirdSelected)
                     return false;
                 else
                     return CageNeededCheckButton.Active;
+            }
+            set
+            {
+                CageNeededCheckButton.Active = value;
             }
         }
 
@@ -73,14 +97,11 @@ namespace BizeeBirdBoarding.Ui.Widgets
             ShowAll();
         }
 
-        public bool IsEnabled()
-        {
-            return EnableCheckbutton.Active;
-        }
+        
 
         void OnToggled(object sender, EventArgs args)
         {
-            if (IsEnabled())
+            if (BirdSelected)
             {
                 WingsCheckButton.Sensitive = true;
                 NailsCheckButton.Sensitive = true;
