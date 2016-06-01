@@ -10,6 +10,7 @@ namespace BizeeBirdBoarding.Db
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Bird> Birds { get; set; }
         public DbSet<CustomerPhoneNumber> CustomerPhoneNumbers { get; set; }
+        public DbSet<AppointmentBird> AppointmentBirds { get; set; }
 
         public BizeeBirdDbContext() : base("name=BizeeBirdContext")
         {
