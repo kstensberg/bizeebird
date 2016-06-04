@@ -60,8 +60,9 @@ namespace BizeeBirdBoarding.Ui
             birdsTreeView.AppendColumn("Color", new Gtk.CellRendererText(), "text", 3);
             birdsTreeView.AppendColumn("Age", new Gtk.CellRendererText(), "text", 4);
             birdsTreeView.AppendColumn("Gender", new Gtk.CellRendererText(), "text", 5);
+            birdsTreeView.AppendColumn("Notes", new Gtk.CellRendererText(), "text", 6);
 
-            BirdsListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(int), typeof(string));
+            BirdsListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(int), typeof(string), typeof(string));
 
             birdsTreeView.Model = BirdsListStore;
 
@@ -271,7 +272,7 @@ namespace BizeeBirdBoarding.Ui
                 Bird bird = Birds[idx];
 
                 if (!bird.Deleted)
-                    BirdsListStore.AppendValues(idx, bird.Name, bird.Breed, bird.Color, bird.Age, bird.Gender.ToString());
+                    BirdsListStore.AppendValues(idx, bird.Name, bird.Breed, bird.Color, bird.Age, bird.Gender.ToString(), bird.Notes);
             }
         }
 
