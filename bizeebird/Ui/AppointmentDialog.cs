@@ -31,6 +31,8 @@ namespace BizeeBirdBoarding.Ui
 
                 SetAppointmentStatus(appointment.Status);
 
+                notesTextView.Buffer.Text = appointment.Notes;
+
                 foreach (var appointmentBird in appointment.AppointmentBirds)
                 {
                     foreach (AppointmentDialogBirdRow row in birdHBox.Children)
@@ -114,7 +116,8 @@ namespace BizeeBirdBoarding.Ui
                 AppointmentBirds = appointmentBirds,
                 StartTime = GetDateTimeFromCalendar(startDateCalendar),
                 EndTime = GetDateTimeFromCalendar(endDateCalendar),
-                Status = GetAppointmentStatus(statusCombobox.ActiveText)
+                Status = GetAppointmentStatus(statusCombobox.ActiveText),
+                Notes = notesTextView.Buffer.Text
             };
 
             db.Appointments.Add(appointment);
@@ -142,6 +145,7 @@ namespace BizeeBirdBoarding.Ui
             appointment.StartTime = GetDateTimeFromCalendar(startDateCalendar);
             appointment.EndTime = GetDateTimeFromCalendar(endDateCalendar);
             appointment.Status = GetAppointmentStatus(statusCombobox.ActiveText);
+            appointment.Notes = notesTextView.Buffer.Text;
 
             for (int idx = appointment.AppointmentBirds.Count() - 1; idx >= 0; idx--)
             {
