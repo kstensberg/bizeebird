@@ -56,11 +56,11 @@ namespace BizeeBirdBoarding.Ui
                         c.Email.ToLower().Contains(searchTerm.ToLower()) || 
                         c.Notes.ToLower().Contains(searchTerm.ToLower()) ||
                         c.PhoneNumbers.Any(p => p.PhoneNumber.ToLower().Contains(searchTerm.ToLower())) ||
-                        c.Birds.Any(b => b.Name.ToLower().Contains(searchTerm.ToLower()))).OrderByDescending(c => c.Name);
+                        c.Birds.Any(b => b.Name.ToLower().Contains(searchTerm.ToLower()))).OrderBy(c => c.Name);
                 }
                 else
                 {
-                    set = db.Customers;
+                    set = db.Customers.OrderBy(c => c.Name);
                 }
 
                 foreach (Customer row in set)
