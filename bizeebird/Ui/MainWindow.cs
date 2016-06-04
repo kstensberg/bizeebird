@@ -294,6 +294,11 @@ namespace BizeeBirdBoarding.Ui
 
 		protected void onHistoryRowActivated (object o, RowActivatedArgs args)
 		{
+            TreeIter iter;
+            HistoryListStore.GetIter(out iter, args.Path);
+            int appointmentId = (int)HistoryListStore.GetValue(iter, 0);
+
+            ShowAppointmentDialog(appointmentId);
         }
 
 		protected void onCustomerSearchEntryChanged (object sender, EventArgs e)
