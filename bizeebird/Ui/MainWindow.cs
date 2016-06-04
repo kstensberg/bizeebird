@@ -169,12 +169,12 @@ namespace BizeeBirdBoarding.Ui
             historyTreeview.AppendColumn(MakeColumn("Boarding Rate", new Gtk.CellRendererText(), "text", 2, true));
             historyTreeview.AppendColumn(MakeColumn("Bird Name", new Gtk.CellRendererText(), "text", 3, true));
             historyTreeview.AppendColumn(MakeColumn("Dates", new Gtk.CellRendererText(), "text", 4, true));
-            historyTreeview.AppendColumn(MakeColumn("Status", new Gtk.CellRendererToggle(), "active", 5, false));
+            historyTreeview.AppendColumn(MakeColumn("Status", new Gtk.CellRendererText(), "text", 5, false));
             historyTreeview.AppendColumn(MakeColumn("Wings", new Gtk.CellRendererToggle(), "active", 6, false));
             historyTreeview.AppendColumn(MakeColumn("Nails", new Gtk.CellRendererToggle(), "active", 7, false));
             historyTreeview.AppendColumn(MakeColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 8, false));
 
-            HistoryListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool));
+            HistoryListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(bool));
 
             historyTreeview.Model = HistoryListStore;
 
