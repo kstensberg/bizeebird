@@ -34,7 +34,7 @@ namespace BizeeBirdBoarding
             try
             {
                 WebRequest webRequest = WebRequest.Create("http://erza.net/bizeebird/update");
-                webRequest.Headers.Add("Version", "");
+                webRequest.Headers.Add("Version", "1.0");
                 HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
 
                 if (response.StatusCode == HttpStatusCode.OK)
