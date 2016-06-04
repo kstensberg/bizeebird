@@ -100,9 +100,7 @@ namespace BizeeBirdBoarding.Ui
                 var appointments = from a in db.Appointments
                                     where a.StartTime >= DateTime.Today && 
                                         a.StartTime <= endTime && 
-                                        a.Status != AppointmentStatus.CheckedOut && 
-                                        a.Status != AppointmentStatus.Cancelled && 
-                                        a.Status != AppointmentStatus.CheckedIn
+                                        a.Status == AppointmentStatus.Scheduled
                                     orderby a.StartTime ascending
                                     select a;
 
@@ -137,7 +135,7 @@ namespace BizeeBirdBoarding.Ui
             using (var db = new BizeeBirdDbContext())
             {
                 var appointments = from a in db.Appointments
-                                   where a.EndTime >= DateTime.Today && a.Status != AppointmentStatus.CheckedOut
+                                   where a.EndTime >= DateTime.Today && a.Status == AppointmentStatus.CheckedIn
                                    orderby a.EndTime ascending
                                    select a;
 
