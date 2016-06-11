@@ -252,6 +252,8 @@ namespace BizeeBirdBoarding.Ui
             {
                 Customer customer = db.Customers.Find(customerId);
 
+                boardingRateEntry.Text = customer.BoardingRate.ToString("C2");
+
                 foreach (Bird row in customer.Birds)
                 {
                     if (row.Deleted)
