@@ -119,9 +119,10 @@ namespace BizeeBirdBoarding.Ui
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Bird Breed", new Gtk.CellRendererText(), "text", 4, false));
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Wings", new Gtk.CellRendererToggle(), "active", 5, false));
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Nails", new Gtk.CellRendererToggle(), "active", 6, false));
-            upcomingPickupsTreeview.AppendColumn(MakeColumn("Notes", new Gtk.CellRendererText(), "text", 7,true));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Rate", new Gtk.CellRendererText(), "text", 7, false));
+            upcomingPickupsTreeview.AppendColumn(MakeColumn("Notes", new Gtk.CellRendererText(), "text", 8,true));
 
-            UpcomingPickupsListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(string));
+            UpcomingPickupsListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(string), typeof(string));
 
             upcomingPickupsTreeview.Model = UpcomingPickupsListStore;
 
@@ -141,7 +142,7 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (var row in appointments)
                 {
-                    UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.Exists(a => a.GroomingWings == true), row.AppointmentBirds.Exists(a => a.GroomingNails == true), row.Notes);
+                    UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.Exists(a => a.GroomingWings == true), row.AppointmentBirds.Exists(a => a.GroomingNails == true), row.Customer.BoardingRate.ToString("C2"), row.Notes);
                 }
             }
         }
