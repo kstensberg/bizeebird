@@ -2,6 +2,7 @@ using BizeeBirdBoarding.Db;
 using BizeeBirdBoarding.Db.Model;
 using Gtk;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -106,7 +107,10 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (var row in appointments)
                 {
-                    UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.Exists(a => a.CageNeeded == true));
+                    string birdsList = AppointmentBirdListToNameString(row.AppointmentBirds);
+                    string breedList = AppointmentBirdListToBreedString(row.AppointmentBirds);
+
+                    UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, birdsList, breedList, row.AppointmentBirds.Exists(a => a.CageNeeded == true));
                 }
             }
         }
@@ -142,9 +146,36 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (var row in appointments)
                 {
-                    UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, row.AppointmentBirds.First().Bird.Name, row.AppointmentBirds.First().Bird.Breed, row.AppointmentBirds.Exists(a => a.GroomingWings == true), row.AppointmentBirds.Exists(a => a.GroomingNails == true), row.Customer.BoardingRate.ToString("C2"), row.Notes);
+                    string birdsList = AppointmentBirdListToNameString(row.AppointmentBirds);
+                    string breedList = AppointmentBirdListToBreedString(row.AppointmentBirds);
+
+                    UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, birdsList, breedList, row.AppointmentBirds.Exists(a => a.GroomingWings == true), row.AppointmentBirds.Exists(a => a.GroomingNails == true), row.Customer.BoardingRate.ToString("C2"), row.Notes);
                 }
             }
+        }
+
+        private string AppointmentBirdListToNameString(List<AppointmentBird> birds)
+        {
+            string birdsList = "";
+
+            foreach (var bird in birds)
+            {
+                birdsList += bird.Bird.Name + ", ";
+            }
+
+            return birdsList.TrimEnd(", ".ToArray());
+        }
+
+        private string AppointmentBirdListToBreedString(List<AppointmentBird> birds)
+        {
+            string birdsList = "";
+
+            foreach (var bird in birds)
+            {
+                birdsList += bird.Bird.Breed + ", ";
+            }
+
+            return birdsList.TrimEnd(", ".ToArray());
         }
 
         private TreeViewColumn MakeColumn(string title, CellRenderer cellRenderer, string attrib, int value, bool expand = false)

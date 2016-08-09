@@ -4,11 +4,6 @@ using BizeeBirdBoarding.Ui.Widgets;
 using Gtk;
 using System;
 using System.Collections.Generic;
-using BizeeBirdBoarding.Db;
-using BizeeBirdBoarding.Db.Model;
-using Gtk;
-using System;
-using System.Data.Entity;
 using System.Linq;
 
 namespace BizeeBirdBoarding.Ui
