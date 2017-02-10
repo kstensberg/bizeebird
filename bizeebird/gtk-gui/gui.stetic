@@ -64,14 +64,14 @@
           <widget class="Gtk.Notebook" id="notebook">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">2</property>
+            <property name="CurrentPage">0</property>
             <child>
-              <widget class="Gtk.HBox" id="appointmentsTabHbox">
+              <widget class="Gtk.HPaned" id="appointmentsTabHPaned">
                 <property name="MemberName" />
-                <property name="Spacing">6</property>
                 <child>
                   <widget class="Gtk.Frame" id="upcomingDropOffsFrame">
                     <property name="MemberName" />
+                    <property name="WidthRequest">450</property>
                     <property name="ShadowType">In</property>
                     <child>
                       <widget class="Gtk.Alignment" id="upcomingDropOffsGtkAlignment">
@@ -107,8 +107,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">0</property>
-                    <property name="AutoSize">False</property>
+                    <property name="Resize">False</property>
                   </packing>
                 </child>
                 <child>
@@ -148,10 +147,6 @@
                       </packing>
                     </child>
                   </widget>
-                  <packing>
-                    <property name="Position">1</property>
-                    <property name="AutoSize">False</property>
-                  </packing>
                 </child>
               </widget>
             </child>
