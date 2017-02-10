@@ -11,7 +11,7 @@ namespace BizeeBirdBoarding.Ui
     public partial class MainWindow: Gtk.Window
 	{
         private Gtk.ListStore CustomersListStore;
-        private Gtk.ListStore UpcomingDropOffsListStore;
+        private TreeStore UpcomingDropOffsListStore;
         private Gtk.ListStore UpcomingPickupsListStore;
         private Gtk.ListStore HistoryListStore;
         
@@ -84,10 +84,10 @@ namespace BizeeBirdBoarding.Ui
             upcomingDropOffsTreeView.AppendColumn(MakeColumn("Bird Breed", new Gtk.CellRendererText(), "text", 4, false));
             upcomingDropOffsTreeView.AppendColumn(MakeColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 5, false));
 
-            UpcomingDropOffsListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool));
+            UpcomingDropOffsListStore = new TreeStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool));
 
             upcomingDropOffsTreeView.Model = UpcomingDropOffsListStore;
-
+            
             UpdateUpcomingDropOffsTreeview();
         }
 
@@ -107,12 +107,28 @@ namespace BizeeBirdBoarding.Ui
 
                 foreach (var row in appointments)
                 {
-                    string birdsList = AppointmentBirdListToNameString(row.AppointmentBirds);
+                    string birdsString = "";
                     string breedList = AppointmentBirdListToBreedString(row.AppointmentBirds);
 
-                    UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, birdsList, breedList, row.AppointmentBirds.Exists(a => a.CageNeeded == true));
+                    if (row.AppointmentBirds.Count() == 1)
+                    {
+                        birdsString = row.AppointmentBirds.First().Bird.Name;
+                    }
+
+                    TreeIter parent = UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, birdsString, breedList, row.AppointmentBirds.Exists(a => a.CageNeeded == true));
+
+                    if (row.AppointmentBirds.Count() > 1)
+                    {
+                        foreach (var bird in row.AppointmentBirds)
+                        {
+                            UpcomingDropOffsListStore.AppendValues(parent, "", "", "", bird.Bird.Name, bird.Bird.Breed, bird.CageNeeded);
+                        }
+                    }
                 }
             }
+
+            //uncommenting this will automaticly expand all the nested rows
+            //upcomingDropOffsTreeView.ExpandAll();
         }
 
         private void InitUpcomingPickups()
