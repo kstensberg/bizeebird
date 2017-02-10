@@ -12,8 +12,8 @@ namespace BizeeBirdBoarding.Ui
 	{
         private Gtk.ListStore CustomersListStore;
         private TreeStore UpcomingDropOffsListStore;
-        private Gtk.ListStore UpcomingPickupsListStore;
-        private Gtk.ListStore HistoryListStore;
+        private TreeStore UpcomingPickupsListStore;
+        private TreeStore HistoryListStore;
         
 
         public MainWindow() : base(Gtk.WindowType.Toplevel)
@@ -108,14 +108,15 @@ namespace BizeeBirdBoarding.Ui
                 foreach (var row in appointments)
                 {
                     string birdsString = "";
-                    string breedList = AppointmentBirdListToBreedString(row.AppointmentBirds);
+                    string breedString = "";
 
                     if (row.AppointmentBirds.Count() == 1)
                     {
                         birdsString = row.AppointmentBirds.First().Bird.Name;
+                        breedString = row.AppointmentBirds.First().Bird.Breed;
                     }
 
-                    TreeIter parent = UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, birdsString, breedList, row.AppointmentBirds.Exists(a => a.CageNeeded == true));
+                    TreeIter parent = UpcomingDropOffsListStore.AppendValues(row.AppointmentId, row.StartTime.ToShortDateString(), row.Customer.Name, birdsString, breedString, row.AppointmentBirds.Exists(a => a.CageNeeded == true));
 
                     if (row.AppointmentBirds.Count() > 1)
                     {
@@ -142,7 +143,7 @@ namespace BizeeBirdBoarding.Ui
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Rate", new Gtk.CellRendererText(), "text", 7, false));
             upcomingPickupsTreeview.AppendColumn(MakeColumn("Notes", new Gtk.CellRendererText(), "text", 8,true));
 
-            UpcomingPickupsListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(string), typeof(string));
+            UpcomingPickupsListStore = new TreeStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(string), typeof(string));
 
             upcomingPickupsTreeview.Model = UpcomingPickupsListStore;
 
@@ -156,42 +157,33 @@ namespace BizeeBirdBoarding.Ui
             using (var db = new BizeeBirdDbContext())
             {
                 var appointments = from a in db.Appointments
-                                   where a.EndTime >= DateTime.Today && a.Status == AppointmentStatus.CheckedIn
+                                   where a.EndTime >= DateTime.Today && 
+                                   a.Status == AppointmentStatus.CheckedIn
                                    orderby a.EndTime ascending
                                    select a;
 
                 foreach (var row in appointments)
                 {
-                    string birdsList = AppointmentBirdListToNameString(row.AppointmentBirds);
-                    string breedList = AppointmentBirdListToBreedString(row.AppointmentBirds);
+                    string birdsString = "";
+                    string breedString = "";
 
-                    UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, birdsList, breedList, row.AppointmentBirds.Exists(a => a.GroomingWings == true), row.AppointmentBirds.Exists(a => a.GroomingNails == true), row.Customer.BoardingRate.ToString("C2"), row.Notes);
+                    if (row.AppointmentBirds.Count() == 1)
+                    {
+                        birdsString = row.AppointmentBirds.First().Bird.Name;
+                        breedString = row.AppointmentBirds.First().Bird.Breed;
+                    }
+
+                    TreeIter parent = UpcomingPickupsListStore.AppendValues(row.AppointmentId, row.EndTime.ToShortDateString(), row.Customer.Name, birdsString, breedString, row.AppointmentBirds.Exists(a => a.GroomingWings == true), row.AppointmentBirds.Exists(a => a.GroomingNails == true), row.Customer.BoardingRate.ToString("C2"), row.Notes);
+
+                    if (row.AppointmentBirds.Count() > 1)
+                    {
+                        foreach (var bird in row.AppointmentBirds)
+                        {
+                            UpcomingPickupsListStore.AppendValues(parent, null, null, null, bird.Bird.Name, bird.Bird.Breed, bird.GroomingWings, bird.GroomingNails, null, null);
+                        }
+                    }
                 }
             }
-        }
-
-        private string AppointmentBirdListToNameString(List<AppointmentBird> birds)
-        {
-            string birdsList = "";
-
-            foreach (var bird in birds)
-            {
-                birdsList += bird.Bird.Name + ", ";
-            }
-
-            return birdsList.TrimEnd(", ".ToArray());
-        }
-
-        private string AppointmentBirdListToBreedString(List<AppointmentBird> birds)
-        {
-            string birdsList = "";
-
-            foreach (var bird in birds)
-            {
-                birdsList += bird.Bird.Breed + ", ";
-            }
-
-            return birdsList.TrimEnd(", ".ToArray());
         }
 
         private TreeViewColumn MakeColumn(string title, CellRenderer cellRenderer, string attrib, int value, bool expand = false)
@@ -220,7 +212,7 @@ namespace BizeeBirdBoarding.Ui
             historyTreeview.AppendColumn(MakeColumn("Nails", new Gtk.CellRendererToggle(), "active", 7, false));
             historyTreeview.AppendColumn(MakeColumn("Cage Needed", new Gtk.CellRendererToggle(), "active", 8, false));
 
-            HistoryListStore = new Gtk.ListStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(bool));
+            HistoryListStore = new TreeStore(typeof(int), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(bool), typeof(bool), typeof(bool));
 
             historyTreeview.Model = HistoryListStore;
 
