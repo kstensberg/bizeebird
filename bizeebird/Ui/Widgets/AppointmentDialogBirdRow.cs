@@ -1,4 +1,5 @@
-﻿using BizeeBirdBoarding.Db.Model;
+﻿using BizeeBirdBoarding.Db;
+using BizeeBirdBoarding.Db.Model;
 using Gtk;
 using System;
 using System.Collections.Generic;
@@ -74,7 +75,7 @@ namespace BizeeBirdBoarding.Ui.Widgets
         private CheckButton NailsCheckButton;
         private CheckButton CageNeededCheckButton;
 
-        public AppointmentDialogBirdRow(Bird bird)
+        public AppointmentDialogBirdRow(Bird bird, Customer customer)
         {
             Bird = bird;
 
@@ -90,9 +91,28 @@ namespace BizeeBirdBoarding.Ui.Widgets
             NailsCheckButton.Sensitive = false;
             Add(NailsCheckButton);
 
-            CageNeededCheckButton = new CheckButton("Cage Needed");
-            CageNeededCheckButton.Sensitive = false;
-            Add(CageNeededCheckButton);
+            using (var db = new BizeeBirdDbContext())
+            {
+                var previousAppointments = db.Appointments.Where(x => x.Customer.CustomerId == customer.CustomerId);
+
+                bool cageNeededCheckBox = false;
+
+                foreach (var appointment in previousAppointments)
+                {
+                    var appointmentBird = appointment.AppointmentBirds.FirstOrDefault(x => x.Bird.BirdId == bird.BirdId);
+
+                    if (appointmentBird != null)
+                    {
+                        cageNeededCheckBox = appointmentBird.CageNeeded;
+                        break;
+                    }
+                }
+
+                CageNeededCheckButton = new CheckButton("Cage Needed");
+                CageNeededCheckButton.Sensitive = false;
+                CageNeededCheckButton.Active = cageNeededCheckBox;
+                Add(CageNeededCheckButton);
+            }
 
             ShowAll();
         }

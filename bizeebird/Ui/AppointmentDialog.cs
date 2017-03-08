@@ -83,7 +83,7 @@ namespace BizeeBirdBoarding.Ui
                 return;
             }
 
-            var appointmentBirds = new List<AppointmentBird>();
+            List<AppointmentBird> appointmentBirds = new List<AppointmentBird>();
 
             foreach (AppointmentDialogBirdRow row in birdHBox.Children)
             {
@@ -254,7 +254,7 @@ namespace BizeeBirdBoarding.Ui
                     if (row.Deleted)
                         continue;
 
-                    AppointmentDialogBirdRow birdRow = new AppointmentDialogBirdRow(row);
+                    AppointmentDialogBirdRow birdRow = new AppointmentDialogBirdRow(row, customer);
 
                     birdHBox.Add(birdRow);
                 }
