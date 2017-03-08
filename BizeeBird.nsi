@@ -1,5 +1,5 @@
 # define installer name
-OutFile "BizeeBird-1.0.exe"
+OutFile "BizeeBird-1.3.exe"
 
 InstallDir $PROGRAMFILES\bizeebird
 

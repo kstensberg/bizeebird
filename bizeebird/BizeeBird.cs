@@ -17,10 +17,10 @@ namespace BizeeBirdBoarding
 
             SetDataDirectory();
 
-            Application.Init ();
-			MainWindow win = new MainWindow ();
-			win.Show ();
-			Application.Run ();
+            Application.Init();
+			MainWindow win = new MainWindow();
+			win.Show();
+			Application.Run();
 		}
 
         private static void SetDataDirectory()
@@ -40,6 +40,7 @@ namespace BizeeBirdBoarding
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     string installerPath = Path.GetTempPath() + "\\installer.exe";
+
                     using (var fileStream = File.Create(installerPath))
                     {
                         response.GetResponseStream().CopyTo(fileStream);
