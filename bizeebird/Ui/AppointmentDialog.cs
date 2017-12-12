@@ -21,7 +21,7 @@ namespace BizeeBirdBoarding.Ui
 
                 setActiveCustomerCombo(appointment.Customer.CustomerId);
 
-                startDateCalendar.Date = appointment.StartTime;
+                //startDateCalendar.Date = appointment.StartTime;
                 endDateCalendar.Date = appointment.EndTime;
 
                 SetAppointmentStatus(appointment.Status);
@@ -48,6 +48,8 @@ namespace BizeeBirdBoarding.Ui
         public AppointmentDialog()
         {
             this.Build();
+
+            startDateContainer.Add(new DateMultiSelect());
 
             updateCustomerCombo("");
         }
@@ -109,7 +111,7 @@ namespace BizeeBirdBoarding.Ui
             {
                 Customer = db.Customers.Find(customerId),
                 AppointmentBirds = appointmentBirds,
-                StartTime = GetDateTimeFromCalendar(startDateCalendar),
+                //StartTime = GetDateTimeFromCalendar(startDateCalendar),
                 EndTime = GetDateTimeFromCalendar(endDateCalendar),
                 Status = GetAppointmentStatus(statusCombobox.ActiveText),
                 Notes = notesTextView.Buffer.Text
@@ -137,7 +139,7 @@ namespace BizeeBirdBoarding.Ui
             Appointment appointment = db.Appointments.Find(AppointmentId);
 
             appointment.Customer = db.Customers.Find(customerId);
-            appointment.StartTime = GetDateTimeFromCalendar(startDateCalendar);
+            //appointment.StartTime = GetDateTimeFromCalendar(startDateCalendar);
             appointment.EndTime = GetDateTimeFromCalendar(endDateCalendar);
             appointment.Status = GetAppointmentStatus(statusCombobox.ActiveText);
             appointment.Notes = notesTextView.Buffer.Text;
