@@ -11,6 +11,8 @@ namespace BizeeBirdBoarding.Ui
     public partial class AppointmentDialog : Gtk.Dialog
     {
         private int? AppointmentId;
+        private DateMultiSelect StartDateSelector;
+        private DateMultiSelect EndDateSelector;
 
         public AppointmentDialog(int appointmentId) : this()
         {
@@ -21,8 +23,8 @@ namespace BizeeBirdBoarding.Ui
 
                 setActiveCustomerCombo(appointment.Customer.CustomerId);
 
-                //startDateCalendar.Date = appointment.StartTime;
-                endDateCalendar.Date = appointment.EndTime;
+                StartDateSelector.Date = appointment.StartTime;
+                EndDateSelector.Date = appointment.EndTime;
 
                 SetAppointmentStatus(appointment.Status);
 
@@ -49,7 +51,11 @@ namespace BizeeBirdBoarding.Ui
         {
             this.Build();
 
-            startDateContainer.Add(new DateMultiSelect());
+            StartDateSelector = new DateMultiSelect();
+            startDateContainer.Add(StartDateSelector);
+
+            EndDateSelector = new DateMultiSelect();
+            endDateContainer.Add(EndDateSelector);
 
             updateCustomerCombo("");
         }
@@ -111,8 +117,8 @@ namespace BizeeBirdBoarding.Ui
             {
                 Customer = db.Customers.Find(customerId),
                 AppointmentBirds = appointmentBirds,
-                //StartTime = GetDateTimeFromCalendar(startDateCalendar),
-                EndTime = GetDateTimeFromCalendar(endDateCalendar),
+                StartTime = StartDateSelector.Date,
+                EndTime = EndDateSelector.Date,
                 Status = GetAppointmentStatus(statusCombobox.ActiveText),
                 Notes = notesTextView.Buffer.Text
             };
@@ -139,8 +145,8 @@ namespace BizeeBirdBoarding.Ui
             Appointment appointment = db.Appointments.Find(AppointmentId);
 
             appointment.Customer = db.Customers.Find(customerId);
-            //appointment.StartTime = GetDateTimeFromCalendar(startDateCalendar);
-            appointment.EndTime = GetDateTimeFromCalendar(endDateCalendar);
+            appointment.StartTime = StartDateSelector.Date;
+            appointment.EndTime = EndDateSelector.Date;
             appointment.Status = GetAppointmentStatus(statusCombobox.ActiveText);
             appointment.Notes = notesTextView.Buffer.Text;
 
@@ -295,11 +301,6 @@ namespace BizeeBirdBoarding.Ui
                     store.AppendValues(row.Name, row.CustomerId);
                 }
             }
-        }
-
-        private DateTime GetDateTimeFromCalendar(Calendar calendar)
-        {
-            return calendar.Date;
         }
 
         private void setActiveCustomerCombo(int customerId)
