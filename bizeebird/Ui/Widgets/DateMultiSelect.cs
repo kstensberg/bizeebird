@@ -18,7 +18,6 @@ namespace BizeeBirdBoarding.Ui.Widgets
 
         private DateTime _Date;
 
-        private Gtk.Calendar calendar;
         private ComboBox MonthCombo;
         private ComboBox DayCombo;
         private ComboBox YearCombo;
@@ -37,9 +36,6 @@ namespace BizeeBirdBoarding.Ui.Widgets
             comboHbox.Add(YearCombo);
             Add(comboHbox);
 
-            calendar = new Gtk.Calendar();
-            Add(calendar);
-
             SetDate(DateTime.Now);
 
             MonthCombo.Changed += OnComboChanged;
@@ -53,16 +49,12 @@ namespace BizeeBirdBoarding.Ui.Widgets
         {
             _Date = dateTime;
 
-            calendar.Date = dateTime;
-
             PopulateDropDowns();
         }
 
         private void PopulateDropDowns()
         {          
             int daysInMonth = DateTime.DaysInMonth(_Date.Year, _Date.Month);
-
-            var test = Enumerable.Range(_Date.Year - 5, _Date.Year + 5);
 
             var years = Enumerable.Range(_Date.Year - 5, 11).Select(x => x.ToString()).ToList();
             var days = Enumerable.Range(1, daysInMonth).Select(x => x.ToString()).ToList();
@@ -80,6 +72,7 @@ namespace BizeeBirdBoarding.Ui.Widgets
 
         private void UpdateCombo(ComboBox comboBox, List<string> values)
         {
+            comboBox.Changed -= OnComboChanged;
             comboBox.Clear();
             CellRendererText cell = new CellRendererText();
             comboBox.PackStart(cell, false);
@@ -91,6 +84,8 @@ namespace BizeeBirdBoarding.Ui.Widgets
             {
                 store.AppendValues(value);
             }
+
+            comboBox.Changed += OnComboChanged;
         }
 
         private void SetComboActive(ComboBox comboBox, string activeValue)
@@ -105,7 +100,9 @@ namespace BizeeBirdBoarding.Ui.Widgets
 
                 if (thisRow.Val.ToString() == activeValue)
                 {
+                    comboBox.Changed -= OnComboChanged;
                     comboBox.SetActiveIter(iter);
+                    comboBox.Changed += OnComboChanged;
                     return;
                 }
             } while (comboBox.Model.IterNext(ref iter));
