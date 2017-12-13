@@ -28,8 +28,8 @@ namespace BizeeBirdBoarding.Ui.Widgets
             DateTime now = DateTime.Now;
 
             MonthCombo = new ComboBox(new string[] { "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
-            YearCombo = new ComboBox();
             DayCombo = new ComboBox();
+            YearCombo = new ComboBox();
 
             HBox comboHbox = new HBox();
             comboHbox.Add(MonthCombo);
@@ -41,6 +41,10 @@ namespace BizeeBirdBoarding.Ui.Widgets
             Add(calendar);
 
             SetDate(DateTime.Now);
+
+            MonthCombo.Changed += OnComboChanged;
+            DayCombo.Changed += OnComboChanged;
+            YearCombo.Changed += OnComboChanged;
 
             ShowAll();
         }
@@ -105,6 +109,64 @@ namespace BizeeBirdBoarding.Ui.Widgets
                     return;
                 }
             } while (comboBox.Model.IterNext(ref iter));
+        }
+
+        private void OnComboChanged(object sender, EventArgs args)
+        {
+            var month = GetComboValue(MonthCombo);
+            var day = GetComboValue(DayCombo);
+            var year = GetComboValue(YearCombo);
+
+            if (month == null || day == null || year == null)
+                return;
+
+            int monthInt = GetNumericMonth(month);
+            int dayInt = Int32.Parse(day);
+            int yearInt = Int32.Parse(year);
+
+            if (month != new DateTimeFormatInfo().GetMonthName(_Date.Month) ||
+                dayInt != _Date.Day ||
+                yearInt != _Date.Year)
+            {
+                DateTime newDate = new DateTime(yearInt, monthInt, dayInt);
+                SetDate(newDate);
+            }
+        }
+
+        private string GetComboValue(ComboBox comboBox)
+        {
+            Gtk.TreeIter iter;
+            comboBox.GetActiveIter(out iter);
+
+            GLib.Value activeRow = new GLib.Value();
+            comboBox.Model.GetValue(iter, 0, ref activeRow);
+
+            if (activeRow.Val == null)
+            {
+                return null;
+            }
+
+            return activeRow.Val.ToString();
+        }
+
+        private int GetNumericMonth(string month)
+        {
+            switch (month)
+            {
+                case "January": return 1;
+                case "Febuary": return 2;
+                case "March": return 3;
+                case "April": return 4;
+                case "May": return 5;
+                case "June": return 6;
+                case "July": return 7;
+                case "August":return 8;
+                case "September": return 9;
+                case "October": return 10;
+                case "November": return 11;
+                case "December": return 12;
+            }
+            return 0;
         }
     }
 }
