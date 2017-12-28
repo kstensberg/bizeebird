@@ -1,16 +1,13 @@
 ﻿using BizeeBirdBoarding.Db;
-using BizeeBirdBoarding.Db.Model;
 using Gtk;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BizeeBirdBoarding.Ui.Widgets
 {
-    class DateMultiSelect : Gtk.HBox
+    class DateMultiSelect : Gtk.Frame
     {
         public DateTime Date
         {
@@ -20,40 +17,60 @@ namespace BizeeBirdBoarding.Ui.Widgets
 
         private DateTime _Date;
 
+        private Gtk.VBox TopVbox;
+        private Gtk.HBox ComboHbox;
+
         private ComboBox MonthCombo;
         private ComboBox DayCombo;
         private ComboBox YearCombo;
+        private Gtk.Calendar Calendar;
 
         public DateMultiSelect()
         {
             DateTime now = DateTime.Now;
 
+            this.ShadowType = ShadowType.EtchedOut;
+            this.BorderWidth = 0;
+
             MonthCombo = new ComboBox();
             DayCombo = new ComboBox();
             YearCombo = new ComboBox();
+            Calendar = new Gtk.Calendar();
 
-            this.Add(MonthCombo);
-            this.Add(DayCombo);
-            this.Add(YearCombo);
+            TopVbox = new VBox();
+            ComboHbox = new HBox();
+
+            ComboHbox.Add(MonthCombo);
+            ComboHbox.Add(DayCombo);
+            ComboHbox.Add(YearCombo);
+
+            TopVbox.Add(ComboHbox);
+
+            TopVbox.Add(Calendar);
+
+            this.Add(TopVbox);
 
             SetDate(DateTime.Now);
 
             MonthCombo.Changed += OnComboChanged;
             DayCombo.Changed += OnComboChanged;
             YearCombo.Changed += OnComboChanged;
+            Calendar.DaySelected += OnCalendarChanged;
 
             ShowAll();
         }
 
         private void SetDate(DateTime dateTime)
         {
-            _Date = dateTime;
+            _Date = dateTime.Date;
 
             PopulateDropDowns();
 
             SetComboActive(MonthCombo, _Date.Month);
             SetComboActive(DayCombo, _Date.Day);
             SetComboActive(YearCombo, _Date.Year);
+
+            SetCalendarActive(_Date);
         }
 
         public void PopulateDropDowns()
@@ -121,6 +138,12 @@ namespace BizeeBirdBoarding.Ui.Widgets
             } while (comboBox.Model.IterNext(ref iter));
         }
 
+        private void SetCalendarActive(DateTime dateTime)
+        {
+            Calendar.SelectMonth((uint)dateTime.Month - 1, (uint)dateTime.Year);
+            Calendar.SelectDay((uint)dateTime.Day);
+        }
+
         private void OnComboChanged(object sender, EventArgs args)
         {
             int month = GetComboValue(MonthCombo);
@@ -138,6 +161,16 @@ namespace BizeeBirdBoarding.Ui.Widgets
                     day = 1;
 
                 DateTime newDate = new DateTime(year, month, day);
+                SetDate(newDate);
+            }
+        }
+
+        private void OnCalendarChanged(object sender, EventArgs args)
+        {
+            DateTime newDate = Calendar.GetDate();
+
+            if (newDate != Date)
+            {
                 SetDate(newDate);
             }
         }
