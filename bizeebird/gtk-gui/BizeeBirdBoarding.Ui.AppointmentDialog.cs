@@ -84,7 +84,7 @@ namespace BizeeBirdBoarding.Ui
             w3.Add(birdHBox);
             birdScrolledWindow.Add(w3);
             topLevelTable.Add(birdScrolledWindow);
-            Table.TableChild w6 = ((Table.TableChild)(topLevelTable[birdScrolledWindow]));
+            Table.TableChild w6 = (Table.TableChild)topLevelTable[birdScrolledWindow];
             w6.TopAttach = 1;
             w6.BottomAttach = 2;
             w6.LeftAttach = 1;
@@ -98,7 +98,7 @@ namespace BizeeBirdBoarding.Ui
             boardingRateEntry.Name = "boardingRateEntry";
             boardingRateEntry.IsEditable = true;
             topLevelTable.Add(boardingRateEntry);
-            Table.TableChild w7 = ((Table.TableChild)(topLevelTable[boardingRateEntry]));
+            Table.TableChild w7 = (Table.TableChild)topLevelTable[boardingRateEntry];
             w7.TopAttach = 2;
             w7.BottomAttach = 3;
             w7.LeftAttach = 1;
@@ -110,7 +110,7 @@ namespace BizeeBirdBoarding.Ui
             boardingRateLabel.Name = "boardingRateLabel";
             boardingRateLabel.LabelProp = "Boarding Rate";
             topLevelTable.Add(boardingRateLabel);
-            Table.TableChild w8 = ((Table.TableChild)(topLevelTable[boardingRateLabel]));
+            Table.TableChild w8 = (Table.TableChild)topLevelTable[boardingRateLabel];
             w8.TopAttach = 2;
             w8.BottomAttach = 3;
             w8.XOptions = AttachOptions.Fill;
@@ -119,7 +119,7 @@ namespace BizeeBirdBoarding.Ui
             customerCombobox = ComboBoxEntry.NewText();
             customerCombobox.Name = "customerCombobox";
             topLevelTable.Add(customerCombobox);
-            Table.TableChild w9 = ((Table.TableChild)(topLevelTable[customerCombobox]));
+            Table.TableChild w9 = (Table.TableChild)topLevelTable[customerCombobox];
             w9.LeftAttach = 1;
             w9.RightAttach = 2;
             w9.XOptions = AttachOptions.Fill;
@@ -129,14 +129,14 @@ namespace BizeeBirdBoarding.Ui
             customerLabel.Name = "customerLabel";
             customerLabel.LabelProp = "Customer";
             topLevelTable.Add(customerLabel);
-            Table.TableChild w10 = ((Table.TableChild)(topLevelTable[customerLabel]));
+            Table.TableChild w10 = (Table.TableChild)topLevelTable[customerLabel];
             w10.XOptions = AttachOptions.Fill;
             w10.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             endDateContainer = new Alignment(0.5F, 0.5F, 1F, 1F);
             endDateContainer.Name = "endDateContainer";
             topLevelTable.Add(endDateContainer);
-            Table.TableChild w11 = ((Table.TableChild)(topLevelTable[endDateContainer]));
+            Table.TableChild w11 = (Table.TableChild)topLevelTable[endDateContainer];
             w11.TopAttach = 4;
             w11.BottomAttach = 5;
             w11.LeftAttach = 1;
@@ -148,7 +148,7 @@ namespace BizeeBirdBoarding.Ui
             endDateLabel.Name = "endDateLabel";
             endDateLabel.LabelProp = "End Date";
             topLevelTable.Add(endDateLabel);
-            Table.TableChild w12 = ((Table.TableChild)(topLevelTable[endDateLabel]));
+            Table.TableChild w12 = (Table.TableChild)topLevelTable[endDateLabel];
             w12.TopAttach = 4;
             w12.BottomAttach = 5;
             w12.XOptions = AttachOptions.Fill;
@@ -158,7 +158,7 @@ namespace BizeeBirdBoarding.Ui
             notesLabel.Name = "notesLabel";
             notesLabel.LabelProp = "Notes";
             topLevelTable.Add(notesLabel);
-            Table.TableChild w13 = ((Table.TableChild)(topLevelTable[notesLabel]));
+            Table.TableChild w13 = (Table.TableChild)topLevelTable[notesLabel];
             w13.TopAttach = 6;
             w13.BottomAttach = 7;
             w13.XOptions = AttachOptions.Fill;
@@ -173,7 +173,7 @@ namespace BizeeBirdBoarding.Ui
             notesTextView.Name = "notesTextView";
             notesScrolledWindow.Add(notesTextView);
             topLevelTable.Add(notesScrolledWindow);
-            Table.TableChild w15 = ((Table.TableChild)(topLevelTable[notesScrolledWindow]));
+            Table.TableChild w15 = (Table.TableChild)topLevelTable[notesScrolledWindow];
             w15.TopAttach = 6;
             w15.BottomAttach = 7;
             w15.LeftAttach = 1;
@@ -183,7 +183,7 @@ namespace BizeeBirdBoarding.Ui
             startDateContainer = new Alignment(0.5F, 0.5F, 1F, 1F);
             startDateContainer.Name = "startDateContainer";
             topLevelTable.Add(startDateContainer);
-            Table.TableChild w16 = ((Table.TableChild)(topLevelTable[startDateContainer]));
+            Table.TableChild w16 = (Table.TableChild)topLevelTable[startDateContainer];
             w16.TopAttach = 3;
             w16.BottomAttach = 4;
             w16.LeftAttach = 1;
@@ -195,7 +195,7 @@ namespace BizeeBirdBoarding.Ui
             startDateLabel.Name = "startDateLabel";
             startDateLabel.LabelProp = "Start Date";
             topLevelTable.Add(startDateLabel);
-            Table.TableChild w17 = ((Table.TableChild)(topLevelTable[startDateLabel]));
+            Table.TableChild w17 = (Table.TableChild)topLevelTable[startDateLabel];
             w17.TopAttach = 3;
             w17.BottomAttach = 4;
             w17.XOptions = AttachOptions.Fill;
@@ -210,7 +210,7 @@ namespace BizeeBirdBoarding.Ui
             statusCombobox.Name = "statusCombobox";
             statusCombobox.Active = 0;
             topLevelTable.Add(statusCombobox);
-            Table.TableChild w18 = ((Table.TableChild)(topLevelTable[statusCombobox]));
+            Table.TableChild w18 = (Table.TableChild)topLevelTable[statusCombobox];
             w18.TopAttach = 5;
             w18.BottomAttach = 6;
             w18.LeftAttach = 1;
@@ -221,13 +221,13 @@ namespace BizeeBirdBoarding.Ui
             statusLabel.Name = "statusLabel";
             statusLabel.LabelProp = "Status";
             topLevelTable.Add(statusLabel);
-            Table.TableChild w19 = ((Table.TableChild)(topLevelTable[statusLabel]));
+            Table.TableChild w19 = (Table.TableChild)topLevelTable[statusLabel];
             w19.TopAttach = 5;
             w19.BottomAttach = 6;
             w19.XOptions = AttachOptions.Fill;
             w19.YOptions = AttachOptions.Fill;
             w1.Add(topLevelTable);
-            Box.BoxChild w20 = ((Box.BoxChild)(w1[topLevelTable]));
+            Box.BoxChild w20 = (Box.BoxChild)w1[topLevelTable];
             w20.Position = 0;
             // Internal child BizeeBirdBoarding.Ui.AppointmentDialog.ActionArea
             HButtonBox w21 = ActionArea;
@@ -244,7 +244,7 @@ namespace BizeeBirdBoarding.Ui
             buttonCancel.UseUnderline = true;
             buttonCancel.Label = "gtk-cancel";
             AddActionWidget(buttonCancel, -6);
-            ButtonBox.ButtonBoxChild w22 = ((ButtonBox.ButtonBoxChild)(w21[buttonCancel]));
+            ButtonBox.ButtonBoxChild w22 = (ButtonBox.ButtonBoxChild)w21[buttonCancel];
             w22.Expand = false;
             w22.Fill = false;
             // Container child actionArea.ButtonBox+ButtonBoxChild
@@ -256,11 +256,11 @@ namespace BizeeBirdBoarding.Ui
             buttonOk.UseUnderline = true;
             buttonOk.Label = "gtk-ok";
             AddActionWidget(buttonOk, -5);
-            ButtonBox.ButtonBoxChild w23 = ((ButtonBox.ButtonBoxChild)(w21[buttonOk]));
+            ButtonBox.ButtonBoxChild w23 = (ButtonBox.ButtonBoxChild)w21[buttonOk];
             w23.Position = 1;
             w23.Expand = false;
             w23.Fill = false;
-            if ((Child != null))
+            if (Child != null)
             {
                 Child.ShowAll();
             }
