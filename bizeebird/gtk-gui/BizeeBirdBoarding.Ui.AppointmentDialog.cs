@@ -62,21 +62,21 @@ namespace BizeeBirdBoarding.Ui
             birdLabel.Name = "birdLabel";
             birdLabel.LabelProp = "Bird";
             topLevelTable.Add(birdLabel);
-            Table.TableChild w2 = ((Table.TableChild)(topLevelTable[birdLabel]));
+            Table.TableChild w2 = (Table.TableChild)topLevelTable[birdLabel];
             w2.TopAttach = 1;
             w2.BottomAttach = 2;
-            w2.XOptions = ((AttachOptions)(4));
-            w2.YOptions = ((AttachOptions)(4));
+            w2.XOptions = AttachOptions.Fill;
+            w2.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             birdScrolledWindow = new ScrolledWindow();
             birdScrolledWindow.HeightRequest = 125;
             birdScrolledWindow.CanFocus = true;
             birdScrolledWindow.Name = "birdScrolledWindow";
-            birdScrolledWindow.VscrollbarPolicy = ((PolicyType)(2));
-            birdScrolledWindow.ShadowType = ((ShadowType)(1));
+            birdScrolledWindow.VscrollbarPolicy = PolicyType.Never;
+            birdScrolledWindow.ShadowType = ShadowType.In;
             // Container child birdScrolledWindow.Container+ContainerChild
             Viewport w3 = new Viewport();
-            w3.ShadowType = ((ShadowType)(0));
+            w3.ShadowType = ShadowType.None;
             // Container child GtkViewport.Container+ContainerChild
             birdHBox = new HBox();
             birdHBox.Name = "birdHBox";
@@ -89,23 +89,22 @@ namespace BizeeBirdBoarding.Ui
             w6.BottomAttach = 2;
             w6.LeftAttach = 1;
             w6.RightAttach = 2;
-            w6.XOptions = ((AttachOptions)(4));
-            w6.YOptions = ((AttachOptions)(4));
+            w6.XOptions = AttachOptions.Fill;
+            w6.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             boardingRateEntry = new Entry();
             boardingRateEntry.Sensitive = false;
             boardingRateEntry.CanFocus = true;
             boardingRateEntry.Name = "boardingRateEntry";
             boardingRateEntry.IsEditable = true;
-            boardingRateEntry.InvisibleChar = '●';
             topLevelTable.Add(boardingRateEntry);
             Table.TableChild w7 = ((Table.TableChild)(topLevelTable[boardingRateEntry]));
             w7.TopAttach = 2;
             w7.BottomAttach = 3;
             w7.LeftAttach = 1;
             w7.RightAttach = 2;
-            w7.XOptions = ((AttachOptions)(4));
-            w7.YOptions = ((AttachOptions)(4));
+            w7.XOptions = AttachOptions.Fill;
+            w7.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             boardingRateLabel = new Label();
             boardingRateLabel.Name = "boardingRateLabel";
@@ -114,8 +113,8 @@ namespace BizeeBirdBoarding.Ui
             Table.TableChild w8 = ((Table.TableChild)(topLevelTable[boardingRateLabel]));
             w8.TopAttach = 2;
             w8.BottomAttach = 3;
-            w8.XOptions = ((AttachOptions)(4));
-            w8.YOptions = ((AttachOptions)(4));
+            w8.XOptions = AttachOptions.Fill;
+            w8.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             customerCombobox = ComboBoxEntry.NewText();
             customerCombobox.Name = "customerCombobox";
@@ -123,16 +122,16 @@ namespace BizeeBirdBoarding.Ui
             Table.TableChild w9 = ((Table.TableChild)(topLevelTable[customerCombobox]));
             w9.LeftAttach = 1;
             w9.RightAttach = 2;
-            w9.XOptions = ((AttachOptions)(4));
-            w9.YOptions = ((AttachOptions)(4));
+            w9.XOptions = AttachOptions.Fill;
+            w9.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             customerLabel = new Label();
             customerLabel.Name = "customerLabel";
             customerLabel.LabelProp = "Customer";
             topLevelTable.Add(customerLabel);
             Table.TableChild w10 = ((Table.TableChild)(topLevelTable[customerLabel]));
-            w10.XOptions = ((AttachOptions)(4));
-            w10.YOptions = ((AttachOptions)(4));
+            w10.XOptions = AttachOptions.Fill;
+            w10.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             endDateContainer = new Alignment(0.5F, 0.5F, 1F, 1F);
             endDateContainer.Name = "endDateContainer";
@@ -142,8 +141,8 @@ namespace BizeeBirdBoarding.Ui
             w11.BottomAttach = 5;
             w11.LeftAttach = 1;
             w11.RightAttach = 2;
-            w11.XOptions = ((AttachOptions)(4));
-            w11.YOptions = ((AttachOptions)(4));
+            w11.XOptions = AttachOptions.Fill;
+            w11.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             endDateLabel = new Label();
             endDateLabel.Name = "endDateLabel";
@@ -152,8 +151,8 @@ namespace BizeeBirdBoarding.Ui
             Table.TableChild w12 = ((Table.TableChild)(topLevelTable[endDateLabel]));
             w12.TopAttach = 4;
             w12.BottomAttach = 5;
-            w12.XOptions = ((AttachOptions)(4));
-            w12.YOptions = ((AttachOptions)(4));
+            w12.XOptions = AttachOptions.Fill;
+            w12.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             notesLabel = new Label();
             notesLabel.Name = "notesLabel";
@@ -162,12 +161,12 @@ namespace BizeeBirdBoarding.Ui
             Table.TableChild w13 = ((Table.TableChild)(topLevelTable[notesLabel]));
             w13.TopAttach = 6;
             w13.BottomAttach = 7;
-            w13.XOptions = ((AttachOptions)(4));
-            w13.YOptions = ((AttachOptions)(4));
+            w13.XOptions = AttachOptions.Fill;
+            w13.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             notesScrolledWindow = new ScrolledWindow();
             notesScrolledWindow.Name = "notesScrolledWindow";
-            notesScrolledWindow.ShadowType = ((ShadowType)(1));
+            notesScrolledWindow.ShadowType = ShadowType.In;
             // Container child notesScrolledWindow.Container+ContainerChild
             notesTextView = new TextView();
             notesTextView.CanFocus = true;
@@ -189,8 +188,8 @@ namespace BizeeBirdBoarding.Ui
             w16.BottomAttach = 4;
             w16.LeftAttach = 1;
             w16.RightAttach = 2;
-            w16.XOptions = ((AttachOptions)(4));
-            w16.YOptions = ((AttachOptions)(4));
+            w16.XOptions = AttachOptions.Fill;
+            w16.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             startDateLabel = new Label();
             startDateLabel.Name = "startDateLabel";
@@ -199,8 +198,8 @@ namespace BizeeBirdBoarding.Ui
             Table.TableChild w17 = ((Table.TableChild)(topLevelTable[startDateLabel]));
             w17.TopAttach = 3;
             w17.BottomAttach = 4;
-            w17.XOptions = ((AttachOptions)(4));
-            w17.YOptions = ((AttachOptions)(4));
+            w17.XOptions = AttachOptions.Fill;
+            w17.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             statusCombobox = ComboBox.NewText();
             statusCombobox.AppendText("Scheduled");
@@ -216,7 +215,7 @@ namespace BizeeBirdBoarding.Ui
             w18.BottomAttach = 6;
             w18.LeftAttach = 1;
             w18.RightAttach = 2;
-            w18.YOptions = ((AttachOptions)(4));
+            w18.YOptions = AttachOptions.Fill;
             // Container child topLevelTable.Table+TableChild
             statusLabel = new Label();
             statusLabel.Name = "statusLabel";
@@ -225,8 +224,8 @@ namespace BizeeBirdBoarding.Ui
             Table.TableChild w19 = ((Table.TableChild)(topLevelTable[statusLabel]));
             w19.TopAttach = 5;
             w19.BottomAttach = 6;
-            w19.XOptions = ((AttachOptions)(4));
-            w19.YOptions = ((AttachOptions)(4));
+            w19.XOptions = AttachOptions.Fill;
+            w19.YOptions = AttachOptions.Fill;
             w1.Add(topLevelTable);
             Box.BoxChild w20 = ((Box.BoxChild)(w1[topLevelTable]));
             w20.Position = 0;
@@ -235,7 +234,7 @@ namespace BizeeBirdBoarding.Ui
             w21.Name = "actionArea";
             w21.Spacing = 10;
             w21.BorderWidth = 5;
-            w21.LayoutStyle = ((ButtonBoxStyle)(4));
+            w21.LayoutStyle = ButtonBoxStyle.End;
             // Container child actionArea.ButtonBox+ButtonBoxChild
             buttonCancel = new Button();
             buttonCancel.CanDefault = true;

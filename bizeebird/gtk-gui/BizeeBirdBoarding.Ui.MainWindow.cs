@@ -81,7 +81,7 @@ namespace BizeeBirdBoarding.Ui
             // Container child topLevelVbox.Box+BoxChild
             toolbarButtonBox = new HButtonBox();
             toolbarButtonBox.Name = "toolbarButtonBox";
-            toolbarButtonBox.LayoutStyle = ((ButtonBoxStyle)(3));
+            toolbarButtonBox.LayoutStyle = ButtonBoxStyle.Start;
             // Container child toolbarButtonBox.ButtonBox+ButtonBoxChild
             button1 = new Button();
             button1.CanFocus = true;
@@ -89,7 +89,7 @@ namespace BizeeBirdBoarding.Ui
             button1.UseUnderline = true;
             button1.Label = "New Customer";
             toolbarButtonBox.Add(button1);
-            ButtonBox.ButtonBoxChild w1 = ((ButtonBox.ButtonBoxChild)(toolbarButtonBox[button1]));
+            ButtonBox.ButtonBoxChild w1 = (ButtonBox.ButtonBoxChild)toolbarButtonBox[button1];
             w1.Expand = false;
             w1.Fill = false;
             // Container child toolbarButtonBox.ButtonBox+ButtonBoxChild
@@ -99,7 +99,7 @@ namespace BizeeBirdBoarding.Ui
             button2.UseUnderline = true;
             button2.Label = "New Appointment";
             toolbarButtonBox.Add(button2);
-            ButtonBox.ButtonBoxChild w2 = ((ButtonBox.ButtonBoxChild)(toolbarButtonBox[button2]));
+            ButtonBox.ButtonBoxChild w2 = (ButtonBox.ButtonBoxChild)toolbarButtonBox[button2];
             w2.Position = 1;
             w2.Expand = false;
             w2.Fill = false;
@@ -120,15 +120,15 @@ namespace BizeeBirdBoarding.Ui
             upcomingDropOffsFrame = new Frame();
             upcomingDropOffsFrame.WidthRequest = 450;
             upcomingDropOffsFrame.Name = "upcomingDropOffsFrame";
-            upcomingDropOffsFrame.ShadowType = ((ShadowType)(1));
+            upcomingDropOffsFrame.ShadowType = ShadowType.In;
             // Container child upcomingDropOffsFrame.Container+ContainerChild
             upcomingDropOffsGtkAlignment = new Alignment(0F, 0F, 1F, 1F);
             upcomingDropOffsGtkAlignment.Name = "upcomingDropOffsGtkAlignment";
-            upcomingDropOffsGtkAlignment.LeftPadding = ((uint)(12));
+            upcomingDropOffsGtkAlignment.LeftPadding = 12;
             // Container child upcomingDropOffsGtkAlignment.Container+ContainerChild
             upcomingDropOffsGtkScrolledWindow = new ScrolledWindow();
             upcomingDropOffsGtkScrolledWindow.Name = "upcomingDropOffsGtkScrolledWindow";
-            upcomingDropOffsGtkScrolledWindow.ShadowType = ((ShadowType)(1));
+            upcomingDropOffsGtkScrolledWindow.ShadowType = ShadowType.In;
             // Container child upcomingDropOffsGtkScrolledWindow.Container+ContainerChild
             upcomingDropOffsTreeView = new TreeView();
             upcomingDropOffsTreeView.CanFocus = true;
@@ -142,20 +142,20 @@ namespace BizeeBirdBoarding.Ui
             upcomingDropOffsLabel.UseMarkup = true;
             upcomingDropOffsFrame.LabelWidget = upcomingDropOffsLabel;
             appointmentsTabHPaned.Add(upcomingDropOffsFrame);
-            Paned.PanedChild w7 = ((Paned.PanedChild)(appointmentsTabHPaned[upcomingDropOffsFrame]));
+            Paned.PanedChild w7 = (Paned.PanedChild)appointmentsTabHPaned[upcomingDropOffsFrame];
             w7.Resize = false;
             // Container child appointmentsTabHPaned.Paned+PanedChild
             upcomingPickupsFrame = new Frame();
             upcomingPickupsFrame.Name = "upcomingPickupsFrame";
-            upcomingPickupsFrame.ShadowType = ((ShadowType)(1));
+            upcomingPickupsFrame.ShadowType = ShadowType.In;
             // Container child upcomingPickupsFrame.Container+ContainerChild
             upcomingPickupsAlignment = new Alignment(0F, 0F, 1F, 1F);
             upcomingPickupsAlignment.Name = "upcomingPickupsAlignment";
-            upcomingPickupsAlignment.LeftPadding = ((uint)(12));
+            upcomingPickupsAlignment.LeftPadding = 12;
             // Container child upcomingPickupsAlignment.Container+ContainerChild
             upcomingPickupsScrolledWindow = new ScrolledWindow();
             upcomingPickupsScrolledWindow.Name = "upcomingPickupsScrolledWindow";
-            upcomingPickupsScrolledWindow.ShadowType = ((ShadowType)(1));
+            upcomingPickupsScrolledWindow.ShadowType = ShadowType.In;
             // Container child upcomingPickupsScrolledWindow.Container+ContainerChild
             upcomingPickupsTreeview = new TreeView();
             upcomingPickupsTreeview.CanFocus = true;
@@ -189,7 +189,7 @@ namespace BizeeBirdBoarding.Ui
             customerSearchLabel.Name = "customerSearchLabel";
             customerSearchLabel.LabelProp = "Search";
             hbox1.Add(customerSearchLabel);
-            Box.BoxChild w13 = ((Box.BoxChild)(hbox1[customerSearchLabel]));
+            Box.BoxChild w13 = (Box.BoxChild)hbox1[customerSearchLabel];
             w13.Position = 0;
             w13.Expand = false;
             w13.Fill = false;
@@ -198,29 +198,28 @@ namespace BizeeBirdBoarding.Ui
             customerSearchEntry.CanFocus = true;
             customerSearchEntry.Name = "customerSearchEntry";
             customerSearchEntry.IsEditable = true;
-            customerSearchEntry.InvisibleChar = '●';
             hbox1.Add(customerSearchEntry);
-            Box.BoxChild w14 = ((Box.BoxChild)(hbox1[customerSearchEntry]));
+            Box.BoxChild w14 = (Box.BoxChild)hbox1[customerSearchEntry];
             w14.Position = 1;
             customerTabVbox.Add(hbox1);
-            Box.BoxChild w15 = ((Box.BoxChild)(customerTabVbox[hbox1]));
+            Box.BoxChild w15 = (Box.BoxChild)customerTabVbox[hbox1];
             w15.Position = 0;
             w15.Expand = false;
             w15.Fill = false;
             // Container child customerTabVbox.Box+BoxChild
             customersScrolledWindow = new ScrolledWindow();
             customersScrolledWindow.Name = "customersScrolledWindow";
-            customersScrolledWindow.ShadowType = ((ShadowType)(1));
+            customersScrolledWindow.ShadowType = ShadowType.In;
             // Container child customersScrolledWindow.Container+ContainerChild
             customersTreeview = new TreeView();
             customersTreeview.CanFocus = true;
             customersTreeview.Name = "customersTreeview";
             customersScrolledWindow.Add(customersTreeview);
             customerTabVbox.Add(customersScrolledWindow);
-            Box.BoxChild w17 = ((Box.BoxChild)(customerTabVbox[customersScrolledWindow]));
+            Box.BoxChild w17 = (Box.BoxChild)customerTabVbox[customersScrolledWindow];
             w17.Position = 1;
             notebook.Add(customerTabVbox);
-            Notebook.NotebookChild w18 = ((Notebook.NotebookChild)(notebook[customerTabVbox]));
+            Notebook.NotebookChild w18 = (Notebook.NotebookChild)notebook[customerTabVbox];
             w18.Position = 1;
             // Notebook tab
             customerTabLabel = new Label();
@@ -241,7 +240,7 @@ namespace BizeeBirdBoarding.Ui
             historySearchLabel.Name = "historySearchLabel";
             historySearchLabel.LabelProp = "Search";
             historySearchHbox.Add(historySearchLabel);
-            Box.BoxChild w19 = ((Box.BoxChild)(historySearchHbox[historySearchLabel]));
+            Box.BoxChild w19 = (Box.BoxChild)historySearchHbox[historySearchLabel];
             w19.Position = 0;
             w19.Expand = false;
             w19.Fill = false;
@@ -250,29 +249,28 @@ namespace BizeeBirdBoarding.Ui
             historySearchEntry.CanFocus = true;
             historySearchEntry.Name = "historySearchEntry";
             historySearchEntry.IsEditable = true;
-            historySearchEntry.InvisibleChar = '●';
             historySearchHbox.Add(historySearchEntry);
-            Box.BoxChild w20 = ((Box.BoxChild)(historySearchHbox[historySearchEntry]));
+            Box.BoxChild w20 = (Box.BoxChild)historySearchHbox[historySearchEntry];
             w20.Position = 1;
             historyTablVbox.Add(historySearchHbox);
-            Box.BoxChild w21 = ((Box.BoxChild)(historyTablVbox[historySearchHbox]));
+            Box.BoxChild w21 = (Box.BoxChild)historyTablVbox[historySearchHbox];
             w21.Position = 0;
             w21.Expand = false;
             w21.Fill = false;
             // Container child historyTablVbox.Box+BoxChild
             historyScrolledWindow = new ScrolledWindow();
             historyScrolledWindow.Name = "historyScrolledWindow";
-            historyScrolledWindow.ShadowType = ((ShadowType)(1));
+            historyScrolledWindow.ShadowType = ShadowType.In;
             // Container child historyScrolledWindow.Container+ContainerChild
             historyTreeview = new TreeView();
             historyTreeview.CanFocus = true;
             historyTreeview.Name = "historyTreeview";
             historyScrolledWindow.Add(historyTreeview);
             historyTablVbox.Add(historyScrolledWindow);
-            Box.BoxChild w23 = ((Box.BoxChild)(historyTablVbox[historyScrolledWindow]));
+            Box.BoxChild w23 = (Box.BoxChild)historyTablVbox[historyScrolledWindow];
             w23.Position = 1;
             notebook.Add(historyTablVbox);
-            Notebook.NotebookChild w24 = ((Notebook.NotebookChild)(notebook[historyTablVbox]));
+            Notebook.NotebookChild w24 = (Notebook.NotebookChild)notebook[historyTablVbox];
             w24.Position = 2;
             // Notebook tab
             historyTabLabel = new Label();
@@ -281,7 +279,7 @@ namespace BizeeBirdBoarding.Ui
             notebook.SetTabLabel(historyTablVbox, historyTabLabel);
             historyTabLabel.ShowAll();
             topLevelVbox.Add(notebook);
-            Box.BoxChild w25 = ((Box.BoxChild)(topLevelVbox[notebook]));
+            Box.BoxChild w25 = (Box.BoxChild)topLevelVbox[notebook];
             w25.Position = 1;
             Add(topLevelVbox);
             if ((Child != null))
