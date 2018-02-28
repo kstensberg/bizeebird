@@ -100,7 +100,6 @@
     <Compile Include="Db\Model\Customer.cs" />
     <Compile Include="Db\Model\Gender.cs" />
     <Compile Include="Ui\MainWindow.cs" />
-    <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="gtk-gui\BizeeBirdBoarding.Ui.MainWindow.cs" />
     <Compile Include="Ui\Widgets\AppointmentDialogBirdRow.cs" />
     <Compile Include="Ui\Widgets\CustomerDialogPhoneNumberRow.cs" />
@@ -145,9 +144,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <EmbeddedResource Include="gtk-gui\gui.stetic">
-      <LogicalName>gui.stetic</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
 </Project>

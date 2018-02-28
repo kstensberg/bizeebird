@@ -117,8 +117,6 @@ namespace BizeeBirdBoarding.Ui.Widgets
             ShowAll();
         }
 
-        
-
         void OnToggled(object sender, EventArgs args)
         {
             if (BirdSelected)
