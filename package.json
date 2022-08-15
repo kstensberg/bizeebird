@@ -19,5 +19,8 @@
   "homepage": "https://github.com/kstensberg/bizeebird#readme",
   "devDependencies": {
     "electron": "^20.0.2"
+  },
+  "dependencies": {
+    "sqlite3": "^5.0.11"
   }
 }
