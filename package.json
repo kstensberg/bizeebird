@@ -1,0 +1,23 @@
+{
+  "name": "bizeebird",
+  "version": "2.0.0",
+  "description": "crm boarding app",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kstensberg/bizeebird.git"
+  },
+  "author": "Kevin Stensberg",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/kstensberg/bizeebird/issues"
+  },
+  "homepage": "https://github.com/kstensberg/bizeebird#readme",
+  "devDependencies": {
+    "electron": "^20.0.2"
+  }
+}
