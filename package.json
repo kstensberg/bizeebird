@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "lint": "eslint main.js src/preload/**.js src/renderer/**.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "sqlite3": "^5.0.11"
   },
   "devDependencies": {
-    "electron": "^20.0.2"
+    "electron": "^20.0.2",
+    "eslint": "^8.22.0"
   }
 }
