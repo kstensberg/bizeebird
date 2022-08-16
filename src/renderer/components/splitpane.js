@@ -7,6 +7,7 @@ var SplitPane = {
         Split({
             onDragEnd: function() {
                 const currentSize = document.querySelector('.grid').style['grid-template-columns'];
+                console.log(currentSize);
             },
             columnGutters: [{
                 track: 1,
@@ -32,3 +33,5 @@ var SplitPane = {
         ]);
     }
 };
+
+export { SplitPane };
