@@ -1,10 +1,13 @@
 {
     "env": {
-        "node": false,
-        "browser": true
+      "node": false,
+      "browser": true
     },
     "globals": {
-        "m": true
-      }
-    
-}
+      "m": true,
+      "Split": true
+    },
+    "ignorePatterns": [
+      "lib/**/*.js"
+    ]
+  }
