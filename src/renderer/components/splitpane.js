@@ -1,3 +1,5 @@
+'use strict';
+
 var SplitPane = {
     oninit: function(vnode) {
         console.log('initialized');
