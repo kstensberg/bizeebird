@@ -2,9 +2,7 @@
 'use strict';
 
 import { SplitPane } from './components/splitpane.js';
-
-var root = document.body;
-var count = 0; // added a variable
+import { Tabs } from './components/tabs.js';
 
 var BizeeBirdBoardingApp = {
     view: function() {
@@ -13,21 +11,17 @@ var BizeeBirdBoardingApp = {
                 m('button', {
                     class: 'btn btn-primary',
                     onclick: function() {
-                        contextBridge.openWindow('src/renderer/index.html');
-                        count++;
+                        contextBridge.openWindow('src/renderer/newcustomer.html');
                     }
                 }, 'New Customer'),
                 m('button', {
                     class: 'btn btn-primary',
                     onclick: function() {
-                        count++;
+                        contextBridge.openWindow('src/renderer/newappointment.html');
                     }
                 }, 'New Appointment'),
             ]),
-            m(SplitPane, {
-                leftComponent: m('div', 'LEFT'),
-                rightComponent: m('div', 'RIGHT')
-            })
+            m(Tabs)
         ]);
     }
 };
