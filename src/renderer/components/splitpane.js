@@ -29,8 +29,8 @@ var SplitPane = {
     },
     view: function(vnode) {
         return m('div',  { class: 'grid' }, [
-            m('div', 'LEFT'),
-            m('div', 'RIGHT'),
+            vnode.attrs.leftComponent,
+            vnode.attrs.rightComponent,
             m('div', { class: 'vertical-gutter' }),
         ]);
     }
