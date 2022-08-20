@@ -1,5 +1,4 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./bizeebird-test.db');
+const db = require('../db-management/dbConfig');
 
 const getAllCustomers = () => {
     return new Promise((resolve, reject) => {
@@ -27,12 +26,8 @@ const getSingleCustomer = (searchParam) => {
     });
 };
 
-const customers = getAllCustomers();
-customers.then(
-    result => console.log(result)
-);
-
-const customerResult = getSingleCustomer(1);
-customerResult.then(
-    result => console.log(result)
-);
+const deleteCustomer = (CustomerId) => {
+    db.serialize(() => {
+        db.run('DELETE FROM Customers WHERE CustomerId = ?', CustomerId);
+    });
+};
