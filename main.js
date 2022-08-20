@@ -27,7 +27,7 @@ const createWindow = () => {
     mainWindow.loadFile('src/renderer/index.html');
 
     // Open the DevTools.
-    if (process.env["DEBUG"] !== undefined){
+    if (process.env['DEBUG'] !== undefined){
         mainWindow.webContents.openDevTools();
     }
 };
