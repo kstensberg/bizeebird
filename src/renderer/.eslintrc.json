@@ -5,7 +5,8 @@
     },
     "globals": {
       "m": true,
-      "Split": true
+      "Split": true,
+      "contextBridge": true
     },
     "ignorePatterns": [
       "lib/**/*.js"
