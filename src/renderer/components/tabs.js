@@ -1,5 +1,6 @@
 'use strict';
 
+import { LabeledContainer } from './labeled-container.js';
 import { SplitPane } from './splitpane.js';
 
 var Tabs = {
@@ -29,8 +30,14 @@ var Tabs = {
             [
               m("div", {"class":"tab-pane fade show active","id":"appointments","role":"tabpanel","aria-labelledby":"appointments-tab"}, 
                 m(SplitPane, {
-                    leftComponent: m('div', 'LEFT'),
-                    rightComponent: m('div', 'RIGHT')
+                    leftComponent: m(LabeledContainer, {
+                      label: "Upcoming Drop Offs",
+                      child: m('div', 'RIGHT')
+                  }),
+                    rightComponent: m(LabeledContainer, {
+                      label: "Upcoming Pickups",
+                      child: m('div', 'RIGHT')
+                  })
                 })
               ),
               m("div", {"class":"tab-pane fade","id":"customers","role":"tabpanel","aria-labelledby":"customers-tab"}, 
