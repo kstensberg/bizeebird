@@ -2,6 +2,7 @@
 
 import { LabeledContainer } from './labeled-container.js';
 import { SplitPane } from './splitpane.js';
+import { UpcomingDropoffTable } from './upcoming-dropoff-table.js';
 
 var Tabs = {
     view: function(vnode) {
@@ -32,7 +33,7 @@ var Tabs = {
                             m(SplitPane, {
                                 leftComponent: m(LabeledContainer, {
                                     label: 'Upcoming Drop Offs',
-                                    child: m('div', 'RIGHT')
+                                    child: m(UpcomingDropoffTable)
                                 }),
                                 rightComponent: m(LabeledContainer, {
                                     label: 'Upcoming Pickups',
