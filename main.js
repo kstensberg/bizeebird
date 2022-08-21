@@ -3,6 +3,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
+const getAllCustomers = require('./db-management/Customers/queries/getAllCustomers');
+
 //ipc
 ipcMain.on('open-window', (event, path) => {
     const newWindow = new BrowserWindow({
@@ -13,6 +15,8 @@ ipcMain.on('open-window', (event, path) => {
 
     newWindow.loadFile(path);
 });
+
+ipcMain.handle('getAllCustomers', getAllCustomers);
 
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
