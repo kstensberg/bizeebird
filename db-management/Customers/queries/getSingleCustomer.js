@@ -1,9 +1,9 @@
-const db = require('../db-management/dbConfig');
+const db = require('../../dbConfig');
 
-const getSingleCustomer = (searchParam) => {
+const getSingleCustomer = (customerID) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            db.get('SELECT Name FROM Customers WHERE CustomerId = ?', searchParam, (err, row) => {
+            db.get('SELECT Name, Email, BoardingRate, Notes FROM Customers WHERE CustomerId = ?', customerID, (err, row) => {
                 if (err) {
                     reject(err);
                 }
@@ -12,3 +12,5 @@ const getSingleCustomer = (searchParam) => {
         });
     });
 };
+
+module.exports = getSingleCustomer;
