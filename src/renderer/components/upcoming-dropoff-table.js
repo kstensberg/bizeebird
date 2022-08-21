@@ -3,28 +3,26 @@
 var UpcomingDropoffTable = {
     dataRows: [],
     oninit: async function(vnode) {
-        const response = await window.contextBridge.database.getAllCustomers();
+        const response = await window.contextBridge.database.getUpcomingDropoffs();
 
         for (const row of response) {
-            this.dataRows.push(['08/20/2022', row.Name, 'River', 'Dog', 'false']);
+            this.dataRows.push([row.Date, row.Name, row.BirdName, row.BirdBreed, row.CageNeeded]);
         }
 
         m.redraw();
     },
     view: function(vnode) {
-        
+
         var displayRows = [];
 
-        console.log(this.dataRows);
-
-        for (let dataRow of this.dataRows) {
-            let displayRow = [];
-            for (let dataCol of dataRow) {
+        for (const dataRow of this.dataRows) {
+            const displayRow = [];
+            for (const dataCol of dataRow) {
                 displayRow.push(m('td',
                     dataCol
-                ))
+                ));
             }
-            displayRows.push(displayRow);
+            displayRows.push(m('tr', displayRow));
         }
 
         return m('table', { 'class':'table' },
