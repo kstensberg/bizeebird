@@ -1,7 +1,9 @@
-const db = require('../db-management/dbConfig');
+const db = require('../../dbConfig');
 
-const deleteCustomer = (CustomerId) => {
+const deleteCustomer = (customerId) => {
     db.serialize(() => {
-        db.run('DELETE FROM Customers WHERE CustomerId = ?', CustomerId);
+        db.run('DELETE FROM Customers WHERE CustomerId = ?', customerId);
     });
 };
+
+module.exports = deleteCustomer;
