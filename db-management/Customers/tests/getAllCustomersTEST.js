@@ -6,10 +6,8 @@ describe('DB Tests', function () {
         it('should return a list of all customers', function () {
             const customers = getAllCustomers();
             customers.then(function(result) {
-                console.log('farty fart fart fart');
                 console.log(result);
-            });
-            customers.catch((error) => {
+            }).catch((error) => {
                 console.error(error);
             });
         });
