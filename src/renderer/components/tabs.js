@@ -48,7 +48,7 @@ var Tabs = {
                             m(CustomerSearch)
                         ),
                         m('div', { 'class':'tab-pane fade','id':'history','role':'tabpanel','aria-labelledby':'history-tab' },
-                        m(HistorySearch)
+                            m(HistorySearch)
                         )
                     ]
                 )

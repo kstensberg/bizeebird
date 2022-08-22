@@ -4,7 +4,7 @@ const { ipcMain } = require('electron');
 
 ipcMain.handle('getAllCustomers', require('./db-management/Customers/queries/getAllCustomers'));
 
-ipcMain.handle('searchCustomers', async function(event, searchString) {    
+ipcMain.handle('searchCustomers', async function(event, searchString) {
     return [{
         Name: searchString,
         PhoneNumber: '(206) 552-3618',
@@ -19,7 +19,7 @@ ipcMain.handle('getAllHistory', async function() {
         Name: 'test',
         BoardingRate: 12.34,
         BirdName: 'River',
-        Dates: '12/34/22', 
+        Dates: '12/34/22',
         Status: 'Approved',
         Wings: true,
         Nails: true,
@@ -27,12 +27,12 @@ ipcMain.handle('getAllHistory', async function() {
     }];
 });
 
-ipcMain.handle('searchHistory', async function(event, searchString) {    
+ipcMain.handle('searchHistory', async function(event, searchString) {
     return [{
         Name: searchString,
         BoardingRate: 12.34,
         BirdName: 'River',
-        Dates: '12/34/22', 
+        Dates: '12/34/22',
         Status: 'Approved',
         Wings: true,
         Nails: true,
