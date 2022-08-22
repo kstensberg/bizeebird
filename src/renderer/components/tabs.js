@@ -4,6 +4,8 @@ import { LabeledContainer } from './labeled-container.js';
 import { SplitPane } from './splitpane.js';
 import { UpcomingDropoffsTable } from './upcoming-dropoffs-table.js';
 import { UpcomingPickupsTable } from './upcoming-pickups-table.js';
+import { CustomerSearch } from './customers-search.js';
+import { HistorySearch } from './history-search.js';
 
 var Tabs = {
     view: function(vnode) {
@@ -43,10 +45,10 @@ var Tabs = {
                             })
                         ),
                         m('div', { 'class':'tab-pane fade','id':'customers','role':'tabpanel','aria-labelledby':'customers-tab' },
-                            'customers'
+                            m(CustomerSearch)
                         ),
                         m('div', { 'class':'tab-pane fade','id':'history','role':'tabpanel','aria-labelledby':'history-tab' },
-                            'history'
+                            m(HistorySearch)
                         )
                     ]
                 )

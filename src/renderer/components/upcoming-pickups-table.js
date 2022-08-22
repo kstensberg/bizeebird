@@ -19,7 +19,7 @@ var UpcomingPickupsTable = {
             data: this.dataRows
         });
 
-        
+
     }
 };
 
