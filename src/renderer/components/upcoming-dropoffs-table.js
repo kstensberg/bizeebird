@@ -20,7 +20,7 @@ var UpcomingDropoffsTable = {
             data: this.dataRows
         });
 
-        
+
     }
 };
 

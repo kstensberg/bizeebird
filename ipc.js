@@ -3,6 +3,17 @@
 const { ipcMain } = require('electron');
 
 ipcMain.handle('getAllCustomers', require('./db-management/Customers/queries/getAllCustomers'));
+
+ipcMain.handle('searchCustomers', async function(event, searchString) {    
+    return [{
+        Name: searchString,
+        PhoneNumber: '(206) 552-3618',
+        Email: 'me@me.com',
+        BoardingRate: 12.45,
+        Notes: 'notes'
+    }];
+});
+
 ipcMain.handle('getUpcomingDropoffs', async function() {
     return [{
         Date: '08/20/22',
