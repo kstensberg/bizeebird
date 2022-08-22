@@ -14,6 +14,32 @@ ipcMain.handle('searchCustomers', async function(event, searchString) {
     }];
 });
 
+ipcMain.handle('getAllHistory', async function() {
+    return [{
+        Name: 'test',
+        BoardingRate: 12.34,
+        BirdName: 'River',
+        Dates: '12/34/22', 
+        Status: 'Approved',
+        Wings: true,
+        Nails: true,
+        CageNeeded: true
+    }];
+});
+
+ipcMain.handle('searchHistory', async function(event, searchString) {    
+    return [{
+        Name: searchString,
+        BoardingRate: 12.34,
+        BirdName: 'River',
+        Dates: '12/34/22', 
+        Status: 'Approved',
+        Wings: true,
+        Nails: true,
+        CageNeeded: true
+    }];
+});
+
 ipcMain.handle('getUpcomingDropoffs', async function() {
     return [{
         Date: '08/20/22',
