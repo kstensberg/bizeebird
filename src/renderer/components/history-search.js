@@ -31,7 +31,6 @@ var HistorySearch = {
                     'type':'text',
                     'placeholder':'',
                     onkeyup: function(e) {
-                        console.log(e.target.value);
                         component.updateTable(e.target.value);
                     }
                 }),
