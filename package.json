@@ -4,7 +4,7 @@
   "description": "crm boarding app",
   "main": "main.js",
   "scripts": {
-    "test": "mocha ./db-management/Customers/tests/getAllCustomersTEST.js",
+    "test": "mocha ./db-management/Customers/tests",
     "start": "electron .",
     "start-debug": "DEBUG=TRUE electron .",
     "lint": "eslint \"**/*.js\"",
