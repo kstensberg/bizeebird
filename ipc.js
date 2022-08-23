@@ -1,17 +1,12 @@
 'use strict';
 
 const { ipcMain } = require('electron');
+const searchCustomers = require('./db-management/Customers/queries/searchCustomers');
 
 ipcMain.handle('getAllCustomers', require('./db-management/Customers/queries/getAllCustomers'));
 
 ipcMain.handle('searchCustomers', async function(event, searchString) {
-    return [{
-        Name: searchString,
-        PhoneNumber: '(206) 552-3618',
-        Email: 'me@me.com',
-        BoardingRate: 12.45,
-        Notes: 'notes'
-    }];
+    return searchCustomers(searchString);
 });
 
 ipcMain.handle('getAllHistory', async function() {
