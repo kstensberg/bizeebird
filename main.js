@@ -4,17 +4,6 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 require('./ipc.js');
 
-//ipc
-ipcMain.on('open-window', (event, path) => {
-    const newWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        autoHideMenuBar: true
-    });
-
-    newWindow.loadFile(path);
-});
-
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
         width: 800,
