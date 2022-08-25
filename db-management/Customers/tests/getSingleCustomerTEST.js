@@ -1,30 +1,17 @@
-var assert = require('assert');
+var chai = require('chai'),
+    assert = chai.assert;
 const getSingleCustomer = require('../queries/getSingleCustomer.js');
 
-let expected;
-let actual;
 describe('#getSingleCustomer()', function () {
     it('should return a single customer by ID', async () => {
-        const customer = await getSingleCustomer(1);
-        if (customer.length == 1) {
-            actual = true;
-            expected = true;
-        } else {
-            actual = false;
-            expected = true;
-        }
-        assert.equal(actual, expected);
+        const customer = await getSingleCustomer(592);
+        assert.typeOf(customer, 'object', 'Customer is an object');
+        assert.notEqual(customer.Name, undefined, 'Customer name is not undefined');
+        assert.equal(customer.Name, 'Helen 2');
     });
 
-    it('should fail if no customer is returned', async () => {
+    it('should return null if no customer is found', async () => {
         const customer = await getSingleCustomer(122222);
-        if (customer == undefined) {
-            actual = false;
-            expected = false;
-        } else {
-            actual = true;
-            expected = false;
-        }
-        assert.notEqual(actual, expected);
+        assert.isUndefined(customer);
     });
 });

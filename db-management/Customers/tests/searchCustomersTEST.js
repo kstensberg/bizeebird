@@ -18,7 +18,7 @@ describe('#searchCustomers()', function () {
         assert.isAbove(Object.keys(customer).length, 1);
     });
 
-    it('should pass if more than one customer was located by name', async () => {
+    it('should pass if more than one customer was located by exact name', async () => {
         const customer = await searchCustomers('zzz unknown');
         assert.isAbove(Object.keys(customer).length, 1);
     });
