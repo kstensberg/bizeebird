@@ -57,5 +57,3 @@ ipcMain.handle('getUpcomingPickups', async function() {
         Notes: 'Notes here'
     }];
 });
-
-//getUpcomingPickups
