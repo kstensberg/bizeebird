@@ -82,13 +82,13 @@ m.render(document.body, m('form',
                     [
                         m('div', { 'class':'row' },
                             [
-                                m('div', { style:'border: 1px solid black;', class:'col' },
+                                m('div', { class:'col' },
                                     m(Table, {
                                         headers: ['Name', 'Breed', 'Color', 'Age', 'Gender', 'Notes'],
                                         data: []
                                     })
                                 ),
-                                m('div', { style:'border: 1px solid black;', 'class':'col-md-auto' },
+                                m('div', { 'class': 'col-md-auto' },
                                     m('table',
                                         m('tbody',
                                             [
@@ -116,16 +116,6 @@ m.render(document.body, m('form',
                                                     [
                                                         m('th',
                                                             'Color'
-                                                        ),
-                                                        m('td',
-                                                            m('input', { 'type':'text' })
-                                                        )
-                                                    ]
-                                                ),
-                                                m('tr',
-                                                    [
-                                                        m('th',
-                                                            'Age'
                                                         ),
                                                         m('td',
                                                             m('input', { 'type':'text' })
