@@ -130,5 +130,6 @@ dist
 .pnp.*
 
 bizeebird-test.db
+db-management/bizeebird-old.db
 
 build/
