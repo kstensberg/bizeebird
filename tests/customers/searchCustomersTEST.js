@@ -1,6 +1,6 @@
 var chai = require('chai'),
     assert = chai.assert;
-const searchCustomers = require('../queries/searchCustomers');
+const searchCustomers = require('../../db-management/Customers/queries/searchCustomers');
 
 describe('#searchCustomers()', function () {
     it('should pass if a single customer was located by email address', async () => {
