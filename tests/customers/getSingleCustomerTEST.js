@@ -1,6 +1,6 @@
 var chai = require('chai'),
     assert = chai.assert;
-const getSingleCustomer = require('../queries/getSingleCustomer.js');
+const getSingleCustomer = require('../../db-management/Customers/queries/getSingleCustomer.js');
 
 describe('#getSingleCustomer()', function () {
     it('should return a single customer by ID', async () => {

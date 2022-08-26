@@ -1,5 +1,5 @@
 var assert = require('assert');
-const getAllCustomers = require('../queries/getAllCustomers.js');
+const getAllCustomers = require('../../db-management/Customers/queries/getAllCustomers.js');
 
 describe('#getAllCustomers()', function () {
     it('should return a list of all customers', function () {
