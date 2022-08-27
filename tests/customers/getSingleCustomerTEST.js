@@ -4,10 +4,10 @@ const getSingleCustomer = require('../../db-management/Customers/queries/getSing
 
 describe('#getSingleCustomer()', function () {
     it('should return a single customer by ID', async () => {
-        const customer = await getSingleCustomer(592);
+        const customer = await getSingleCustomer(1);
         assert.typeOf(customer, 'object', 'Customer is an object');
         assert.notEqual(customer.Name, undefined, 'Customer name is not undefined');
-        assert.equal(customer.Name, 'Helen 2');
+        assert.equal(customer.Name, 'Alice Herrin');
     });
 
     it('should return null if no customer is found', async () => {
