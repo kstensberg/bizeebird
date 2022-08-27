@@ -2,6 +2,7 @@
 
 import { LabeledContainer } from './components/labeled-container.js';
 import { Table } from './components/table.js';
+import { IconButton } from './components/icon-button.js';
 
 m.render(document.body, m('form',
     [
@@ -30,8 +31,8 @@ m.render(document.body, m('form',
                             m('td',
                                 [
                                     m('input', { 'type':'tel','name':'phoneNumber' }),
-                                    m('input', { 'class':'btn btn-primary','type':'button','value':'Add' }),
-                                    m('input', { 'class':'btn btn-primary','type':'button','value':'Remove' })
+                                    m(IconButton, { label: 'Add' }),
+                                    m(IconButton, { label: 'Remove' })
                                 ]
                             )
                         ]
@@ -83,10 +84,14 @@ m.render(document.body, m('form',
                         m('div', { 'class':'row' },
                             [
                                 m('div', { class:'col' },
-                                    m(Table, {
-                                        headers: ['Name', 'Breed', 'Color', 'Age', 'Gender', 'Notes'],
-                                        data: []
-                                    })
+                                    [
+                                        m(Table, {
+                                            headers: ['Name', 'Breed', 'Color', 'Age', 'Gender', 'Notes'],
+                                            data: []
+                                        }),
+                                        m(IconButton, { label: 'Add' }),
+                                        m(IconButton, { label: 'Remove' }),
+                                    ]
                                 ),
                                 m('div', { 'class': 'col-md-auto' },
                                     m('table',
@@ -152,7 +157,7 @@ m.render(document.body, m('form',
                 ),
             })
         ),
-        m('input', { 'class':'btn btn-primary', 'type':'submit','value':'Ok' }),
-        m('input', { 'class':'btn btn-primary', 'type':'button','value':'Cancel' })
+        m(IconButton, { label: 'Cancel' }),
+        m(IconButton, { label: 'Ok' }),
     ]
 ));
