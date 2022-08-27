@@ -1,3 +1,7 @@
+'use strict';
+
+import { IconButton } from './components/icon-button.js';
+
 var root = document.body;
 
 m.render(root, m('div', { 'id':'new-appointment-toplevel' },
@@ -125,8 +129,8 @@ m.render(root, m('div', { 'id':'new-appointment-toplevel' },
             ),
             m('div', { 'class':'dialog-buttons' },
                 [
-                    m('input', { 'class':'btn btn-primary','type':'button','value':'OK' }),
-                    m('input', { 'class':'btn btn-primary','type':'button','value':'Cancel' })
+                    m(IconButton, { label: 'Ok' }),
+                    m(IconButton, { label: 'Cancel' })
                 ]
             )
         ]
