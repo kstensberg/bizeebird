@@ -14,7 +14,7 @@ var HistorySearch = {
         }
 
         for (const row of data) {
-            this.dataRows.push([row.Name, row.BoardingRate, row.BirdName, row.Dates, row.Status, row.Wings, row.Nails, row.CageNeeded]);
+            this.dataRows.push([row.CustomerName, row.BoardingRate, row.BirdName, row.Dates, row.Status, row.Wings, row.Nails, row.CageNeeded]);
         }
 
         m.redraw();
