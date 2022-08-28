@@ -3,6 +3,7 @@
 const { ipcMain } = require('electron');
 const searchCustomers = require('./db-management/Customers/queries/searchCustomers');
 const getAllHistory = require('./db-management/Appointments/queries/getAllAppointments');
+const searchHistory = require('./db-management/Appointments/queries/searchHistory');
 
 ipcMain.handle('getAllCustomers', require('./db-management/Customers/queries/getAllCustomers'));
 
@@ -15,16 +16,7 @@ ipcMain.handle('getAllHistory', async function() {
 });
 
 ipcMain.handle('searchHistory', async function(event, searchString) {
-    return [{
-        Name: searchString,
-        BoardingRate: 12.34,
-        BirdName: 'River',
-        Dates: '12/34/22',
-        Status: 'Approved',
-        Wings: true,
-        Nails: true,
-        CageNeeded: true
-    }];
+    return searchHistory(searchString);
 });
 
 ipcMain.handle('getUpcomingDropoffs', async function() {
