@@ -2,7 +2,6 @@
 
 const { ipcMain } = require('electron');
 const searchCustomers = require('./db-management/Customers/queries/searchCustomers');
-const getAllHistory = require('./db-management/Appointments/queries/getAllAppointments');
 const searchHistory = require('./db-management/Appointments/queries/searchHistory');
 
 ipcMain.handle('getAllCustomers', require('./db-management/Customers/queries/getAllCustomers'));
@@ -11,9 +10,7 @@ ipcMain.handle('searchCustomers', async function(event, searchString) {
     return searchCustomers(searchString);
 });
 
-ipcMain.handle('getAllHistory', async function() {
-    return getAllHistory();
-});
+ipcMain.handle('getAllHistory', require('./db-management/Appointments/queries/getAllAppointments'));
 
 ipcMain.handle('searchHistory', async function(event, searchString) {
     return searchHistory(searchString);
