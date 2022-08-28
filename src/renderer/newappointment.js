@@ -5,7 +5,7 @@ import { IconButton } from './components/icon-button.js';
 var root = document.body;
 
 m.render(root, m('div', { 'id':'new-appointment-toplevel' },
-    m('form',
+    m('form', { 'id': 'new-appointment-form' },
         [
             m('div', { 'class':'container' },
                 m('div', { 'class':'row' },
@@ -37,20 +37,10 @@ m.render(root, m('div', { 'id':'new-appointment-toplevel' },
                                         m('tr',
                                             [
                                                 m('th',
-                                                    'Start Date'
+                                                    'Dates'
                                                 ),
                                                 m('td',
-                                                    m('input', { 'name':'startDate','type':'text' })
-                                                )
-                                            ]
-                                        ),
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    'End Date'
-                                                ),
-                                                m('td',
-                                                    m('input', { 'name':'endDate','type':'text' })
+                                                    m('input', { 'name':'daterange','type':'text', 'id': 'datepicker' })
                                                 )
                                             ]
                                         ),
@@ -136,3 +126,14 @@ m.render(root, m('div', { 'id':'new-appointment-toplevel' },
         ]
     )
 ));
+
+
+window.picker = new easepick.create({
+    element: "#datepicker",
+    css: [
+        "./lib/easepick-1.2.0/index.css"
+    ],
+    inline: true,
+    RangePlugin: { delimiter: ":" },
+    plugins: [ "RangePlugin" ]
+});
