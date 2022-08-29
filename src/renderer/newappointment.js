@@ -20,7 +20,7 @@ m.render(root, m('div', { 'id':'new-appointment-toplevel' },
                                                     'Customer'
                                                 ),
                                                 m('td',
-                                                    m('input', { 'name':'customerId','type':'text' })
+                                                    m('select', { 'id': 'customerNameInput', 'name':'customerName' })
                                                 )
                                             ]
                                         ),
@@ -137,3 +137,26 @@ window.picker = new easepick.create({
     RangePlugin: { delimiter: ":" },
     plugins: [ "RangePlugin" ]
 });
+
+const element = document.querySelector('#customerNameInput');
+const choices = new Choices(element, {
+}).setChoices(async function() {
+    const data = await window.contextBridge.database.getAllCustomers();
+    //console.log(data);
+
+    const result = [];
+    for (let idx in data) {
+        result.push({ value: idx, label: data[idx].Name });
+    }
+
+    return result;
+});
+
+element.addEventListener(
+    'change',
+    async function(event) {
+
+      console.log(event.detail);
+    },
+    false,
+  );
