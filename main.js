@@ -1,6 +1,6 @@
 'use strict';
 
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 require('./ipc.js');
 
@@ -21,6 +21,24 @@ const createWindow = () => {
         mainWindow.webContents.openDevTools();
     }
 };
+
+ipcMain.handle('openNewAppointment', function() {
+    const mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        autoHideMenuBar: true,
+        webPreferences: {
+            preload: path.join(__dirname, 'src/preload/index.js')
+        }
+    });
+
+    mainWindow.loadFile('src/renderer/newappointment.html');
+
+    // Open the DevTools.
+    if (process.env['DEBUG'] !== undefined){
+        mainWindow.webContents.openDevTools();
+    }
+});
 
 app.whenReady().then(() => {
     createWindow();

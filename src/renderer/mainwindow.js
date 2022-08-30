@@ -16,8 +16,8 @@ var BizeeBirdBoardingApp = {
                 }, 'New Customer'),
                 m('button', {
                     class: 'btn btn-primary',
-                    onclick: function() {
-                        window.open('./newappointment.html');
+                    onclick: async function() {
+                        const response = await window.contextBridge.openNewAppointment();
                     }
                 }, 'New Appointment'),
             ]),
