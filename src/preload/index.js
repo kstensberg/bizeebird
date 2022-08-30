@@ -1,6 +1,7 @@
 const{ contextBridge, ipcRenderer } = require('electron');
 
-contextBridge.exposeInMainWorld('contextBridge',{
+contextBridge.exposeInMainWorld('contextBridge', {
+    openNewAppointment: (appointmentId) => ipcRenderer.invoke('openNewAppointment', appointmentId),
     database: {
         getAllCustomers: () => ipcRenderer.invoke('getAllCustomers'),
         searchCustomers: (searchString) => ipcRenderer.invoke('searchCustomers', searchString),
