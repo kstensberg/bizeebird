@@ -18,15 +18,4 @@ ipcMain.handle('searchHistory', async function(event, searchString) {
 
 ipcMain.handle('getUpcomingDropoffs', require('./db-management/Appointments/queries/getUpcomingDropoffs'));
 
-ipcMain.handle('getUpcomingPickups', async function() {
-    return [{
-        Date: '08/20/22',
-        Customer: 'Kevin Stensberg',
-        BirdName: 'River',
-        BirdBreed: 'Dog',
-        Wings: true,
-        Nails: true,
-        Rate: 15.00,
-        Notes: 'Notes here'
-    }];
-});
+ipcMain.handle('getUpcomingPickups', require('./db-management/Appointments/queries/getUpcomingPickups'));
