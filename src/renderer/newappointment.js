@@ -129,23 +129,23 @@ m.render(root, m('div', { 'id':'new-appointment-toplevel' },
 
 
 window.picker = new easepick.create({
-    element: "#datepicker",
+    element: '#datepicker',
     css: [
-        "./lib/easepick-1.2.0/index.css"
+        './lib/easepick-1.2.0/index.css'
     ],
     inline: true,
-    RangePlugin: { delimiter: ":" },
-    plugins: [ "RangePlugin" ]
+    RangePlugin: { delimiter: ':' },
+    plugins: [ 'RangePlugin' ]
 });
 
 const element = document.querySelector('#customerNameInput');
-const choices = new Choices(element, {
+new Choices(element, {
 }).setChoices(async function() {
     const data = await window.contextBridge.database.getAllCustomers();
     //console.log(data);
 
     const result = [];
-    for (let idx in data) {
+    for (const idx in data) {
         result.push({ value: idx, label: data[idx].Name });
     }
 
@@ -156,7 +156,7 @@ element.addEventListener(
     'change',
     async function(event) {
 
-      console.log(event.detail);
+        console.log(event.detail);
     },
     false,
-  );
+);

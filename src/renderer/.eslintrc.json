@@ -6,7 +6,9 @@
     "globals": {
       "m": true,
       "Split": true,
-      "contextBridge": true
+      "contextBridge": true,
+      "easepick": true,
+      "Choices": true
     },
     "ignorePatterns": [
       "lib/**/*.js"
