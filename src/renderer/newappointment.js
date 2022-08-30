@@ -142,11 +142,10 @@ const element = document.querySelector('#customerNameInput');
 new Choices(element, {
 }).setChoices(async function() {
     const data = await window.contextBridge.database.getAllCustomers();
-    //console.log(data);
 
     const result = [];
-    for (const idx in data) {
-        result.push({ value: idx, label: data[idx].Name });
+    for (const row of data) {
+        result.push({ value: row.CustomerId, label: row.Name });
     }
 
     return result;
@@ -155,7 +154,6 @@ new Choices(element, {
 element.addEventListener(
     'change',
     async function(event) {
-
         console.log(event.detail);
     },
     false,
