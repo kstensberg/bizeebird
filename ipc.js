@@ -16,15 +16,7 @@ ipcMain.handle('searchHistory', async function(event, searchString) {
     return searchHistory(searchString);
 });
 
-ipcMain.handle('getUpcomingDropoffs', async function() {
-    return [{
-        Date: '08/20/22',
-        Name: 'Kevin Stensberg',
-        BirdName: 'River',
-        BirdBreed: 'Dog',
-        CageNeeded: true
-    }];
-});
+ipcMain.handle('getUpcomingDropoffs', require('./db-management/Appointments/queries/getUpcomingDropoffs'));
 
 ipcMain.handle('getUpcomingPickups', async function() {
     return [{
