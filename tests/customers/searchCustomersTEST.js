@@ -26,12 +26,16 @@ describe('#searchCustomers()', function () {
         });
     });
 
-    it('should pass if more than one customer was located by exact name', async () => {
-        const customer = await searchCustomers('zzz unknown');
-        assert.typeOf(customer, 'array', 'Customer is an array');
-        assert.isAbove(customer.length, 1);
-        customer.forEach(item => {
-            assert.equal(item.Name,'zzz unknown');
-        });
-    });
+    // below test currently deprecated because the query for searching
+    // customers groups by name, thus eliminating duplicates from the search
+    // I am leaving it in just in case it's needed later
+
+    // it('should pass if more than one customer was located by exact name', async () => {
+    //     const customer = await searchCustomers('zzz unknown');
+    //     assert.typeOf(customer, 'array', 'Customer is an array');
+    //     assert.isAbove(customer.length, 1);
+    //     customer.forEach(item => {
+    //         assert.equal(item.Name,'zzz unknown');
+    //     });
+    // });
 });
