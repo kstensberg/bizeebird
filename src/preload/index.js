@@ -9,5 +9,6 @@ contextBridge.exposeInMainWorld('contextBridge', {
         searchHistory: (searchString) => ipcRenderer.invoke('searchHistory', searchString),
         getUpcomingDropoffs: () => ipcRenderer.invoke('getUpcomingDropoffs'),
         getUpcomingPickups: () => ipcRenderer.invoke('getUpcomingPickups'),
+        getCustomerBirds: (customerId) => ipcRenderer.invoke('getCustomerBirds', customerId),
     }
 });

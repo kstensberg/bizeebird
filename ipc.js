@@ -38,3 +38,15 @@ ipcMain.handle('getUpcomingPickups', async function() {
         Notes: 'Notes here'
     }];
 });
+
+ipcMain.handle('getCustomerBirds', async function(event, customerId) {
+    return [{
+        BirdId: 123,
+        Name: 'River',
+        Breed: 'Dog',
+        Color: 'Black',
+        Age: 9,
+        Gender: 1,
+        Notes: "She's a dog."
+    }];
+});
