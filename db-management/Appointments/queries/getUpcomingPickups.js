@@ -9,13 +9,13 @@ const getUpcomingDropoffs = () => {
             'LEFT JOIN Birds ON Birds.Customer_CustomerId = Customers.CustomerId ' +
             'LEFT JOIN Appointments ON Appointments.Customer_CustomerId = Customers.CustomerId ' +
             'LEFT JOIN AppointmentBirds ON AppointmentBirds.Appointment_AppointmentId = Appointments.AppointmentId ' +
-            'WHERE Appointments.EndTime > date("now", "-30 days") AND Appointments.Status = 2 ' +
-            'GROUP BY CustomerId ORDER BY Appointments.StartTime DESC';
-            db.all(query, (err, row) => {
+            'WHERE Appointments.EndTime >= date("now") AND Appointments.Status = 1 ' +
+            'GROUP BY Appointments.AppointmentId ORDER BY Appointments.EndTime ASC';
+            db.all(query, (err, rows) => {
                 if (err) {
                     reject(err);
                 }
-                resolve(row);
+                resolve(rows);
             });
         });
     });
