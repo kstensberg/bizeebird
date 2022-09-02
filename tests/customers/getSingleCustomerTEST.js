@@ -1,3 +1,5 @@
+const db = require('./dbConfig.js');
+
 var chai = require('chai'),
     assert = chai.assert;
 const getSingleCustomer = require('../../db-management/Customers/queries/getSingleCustomer.js');
