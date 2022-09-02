@@ -1,6 +1,4 @@
-const db = require('../../dbConfig');
-
-const searchHistory = (searchString) => {
+const searchHistory = (db, searchString) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             searchString = '%' + searchString + '%';
