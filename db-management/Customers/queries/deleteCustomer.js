@@ -1,6 +1,4 @@
-const db = require('../../dbConfig');
-
-const deleteCustomer = (customerId) => {
+const deleteCustomer = (db, customerId) => {
     db.serialize(() => {
         db.run('DELETE FROM Customers WHERE CustomerId = ?', customerId);
     });
