@@ -18,4 +18,6 @@ ipcMain.handle('searchHistory', async function(event, searchString) {
 
 ipcMain.handle('getUpcomingDropoffs', require('./db-management/Appointments/queries/getUpcomingDropoffs'));
 
+ipcMain.handle('getUpcomingDropoffs', require('./db-management/Appointments/queries/getUpcomingDropoffs'));
+
 ipcMain.handle('getUpcomingPickups', require('./db-management/Appointments/queries/getUpcomingPickups'));
