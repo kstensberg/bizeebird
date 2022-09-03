@@ -14,7 +14,7 @@ var HistorySearch = {
         }
 
         for (const row of data) {
-            this.dataRows.push([row.CustomerName, row.BoardingRate, row.BirdName, row.Dates, row.Status, row.Wings, row.Nails, row.CageNeeded]);
+            this.dataRows.push([row.CustomerName, row.BoardingRate, row.BirdName, row.Breed, row.Dates, row.Status, row.Wings, row.Nails, row.CageNeeded]);
         }
 
         m.redraw();
@@ -38,7 +38,7 @@ var HistorySearch = {
                     'History Search'
                 )]),
             m(Table, {
-                headers: ['Customer Name', 'Boarding Rate', 'Bird Name', 'Dates', 'Status', 'Wings', 'Nails', 'Cage Needed'],
+                headers: ['Customer Name', 'Boarding Rate', 'Bird Name', 'Breed', 'Dates', 'Status', 'Wings', 'Nails', 'Cage Needed'],
                 data: this.dataRows
             }),
         ]);
