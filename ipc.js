@@ -33,3 +33,8 @@ ipcMain.handle('getUpcomingPickups', async function(event) {
     const getUpcomingPickups = require('./db-management/Appointments/queries/getUpcomingPickups');
     return getUpcomingPickups(db);
 });
+
+ipcMain.handle('getCustomerBirds', async function(event) {
+    const getCustomerBirds = require('./db-management/Birds/queries/getCustomerBirds');
+    return getCustomerBirds(db);
+});

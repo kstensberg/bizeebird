@@ -1,4 +1,4 @@
-const getAllBirdsForSingleCustomer = (db, customerID) => {
+const getCustomerBirds = (db, customerID) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             db.all('SELECT BirdId, Deleted, Name, Breed, Color, Age, Gender, ' +
@@ -12,4 +12,4 @@ const getAllBirdsForSingleCustomer = (db, customerID) => {
     });
 };
 
-module.exports = getAllBirdsForSingleCustomer;
+module.exports = getCustomerBirds;
