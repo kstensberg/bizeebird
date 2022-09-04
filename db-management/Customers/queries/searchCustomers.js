@@ -1,4 +1,4 @@
-const db = require('../../dbConfig');
+'use strict';
 
 const searchCustomers = (db, searchString) => {
     return new Promise((resolve, reject) => {

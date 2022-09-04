@@ -1,3 +1,5 @@
+'use strict';
+
 const getUpcomingDropoffs = (db) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {

@@ -1,3 +1,5 @@
+'use strict';
+
 const getSingleCustomer = (db, customerID) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
