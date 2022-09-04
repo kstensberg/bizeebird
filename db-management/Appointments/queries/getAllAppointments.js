@@ -1,3 +1,5 @@
+'use strict';
+
 const getAllAppointments = (db) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {

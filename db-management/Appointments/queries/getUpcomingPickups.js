@@ -1,3 +1,5 @@
+'use strict';
+
 const getUpcomingPickups = (db) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {

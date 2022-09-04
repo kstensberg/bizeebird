@@ -1,3 +1,5 @@
+'use strict';
+
 const updateCustomer = (db, Name, Email, BoardingRate, Notes, CustomerId) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
