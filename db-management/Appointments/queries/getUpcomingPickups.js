@@ -1,4 +1,4 @@
-const getUpcomingDropoffs = (db) => {
+const getUpcomingPickups = (db) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             var query = 'SELECT Customers.CustomerId, Customers.Name, Customers.BoardingRate AS Rate, Birds.Name AS BirdName,' +
@@ -19,4 +19,4 @@ const getUpcomingDropoffs = (db) => {
     });
 };
 
-module.exports = getUpcomingDropoffs;
+module.exports = getUpcomingPickups;

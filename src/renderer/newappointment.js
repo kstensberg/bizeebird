@@ -165,7 +165,6 @@ customerNameInput.addEventListener(
     async function(event) {
         customerId = event.detail.value;
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
-
         birds = [];
 
         for (const dbBird of dbBirds) {
