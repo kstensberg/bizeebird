@@ -5,14 +5,14 @@ var IconButton = {
 
         const imgFilename = vnode.attrs.label.toLowerCase();
 
-        return m('button', { 
+        return m('button', {
             'class':'btn btn-primary',
             'type':'button',
             'onclick': vnode.attrs.onclick
         }, [
-                m('img', { 'src':`./img/${imgFilename}.svg` }),
-                vnode.attrs.label
-            ]
+            m('img', { 'src':`./img/${imgFilename}.svg` }),
+            vnode.attrs.label
+        ]
         );
     }
 };
