@@ -34,7 +34,7 @@ ipcMain.handle('getUpcomingPickups', async function(event) {
     return getUpcomingPickups(db);
 });
 
-ipcMain.handle('getCustomerBirds', async function(event) {
+ipcMain.handle('getCustomerBirds', async function(event, searchString) {
     const getCustomerBirds = require('./db-management/Birds/queries/getCustomerBirds');
-    return getCustomerBirds(db);
+    return getCustomerBirds(db, searchString);
 });
