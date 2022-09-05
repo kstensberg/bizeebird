@@ -38,3 +38,21 @@ ipcMain.handle('getCustomerBirds', async function(event, searchString) {
     const getCustomerBirds = require('./db-management/Birds/queries/getCustomerBirds');
     return getCustomerBirds(db, searchString);
 });
+
+ipcMain.handle('saveAppointment', async function(event, appointment) {
+    console.log(appointment);
+    return {
+        appointmentId: 1234,
+        customerId: 5678,
+        notes: 'notes',
+        startDate: '022-10-05',
+        endDate: '022-10-10',
+        boardingRate: 12.34,
+        status: 'Scheduled',
+        birds: [
+            12,
+            34,
+            56
+        ]
+    };
+});
