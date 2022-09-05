@@ -18,7 +18,7 @@ var NewAppointmentDialog = {
                     m('td',
                         m('input', {
                             'type':'checkbox',
-                            'name':'appointmentBirds[]',
+                            'name':'appointmentBirds',
                             'value':`${bird.id}`
                         })
                     )
@@ -72,7 +72,7 @@ var NewAppointmentDialog = {
                                                             'Boarding Rate'
                                                         ),
                                                         m('td',
-                                                            m('input', { 'name':'boardingRate','type':'text' })
+                                                            m('input', { 'name':'boardingRate','type':'number' })
                                                         )
                                                     ]
                                                 ),
@@ -84,7 +84,7 @@ var NewAppointmentDialog = {
                                                         m('td',
                                                             m('select', { 'name':'status' },
                                                                 [
-                                                                    m('option', { 'value':'scheduled' },
+                                                                    m('option', { 'value':'Scheduled' },
                                                                         'Scheduled'
                                                                     ),
                                                                     m('option', { 'value':'CheckedIn' },
@@ -120,7 +120,38 @@ var NewAppointmentDialog = {
                     ),
                     m('div', { 'class':'dialog-buttons' },
                         [
-                            m(IconButton, { label: 'Ok' }),
+                            m(IconButton, {
+                                label: 'Ok',
+                                onclick: async function() {
+                                    const dateRangeString = document.querySelector('input[name=\'daterange\']').value;
+                                    let startDate = null;
+                                    let endDate = null;
+
+                                    if (dateRangeString !== '') {
+                                        const dateRangeSplit = dateRangeString.split(':');
+                                        startDate = dateRangeSplit[0];
+                                        endDate = dateRangeSplit[1];
+                                    }
+
+                                    const checkboxes = document.querySelectorAll('input[name=\'appointmentBirds\']:checked');
+                                    const birds = [];
+                                    checkboxes.forEach((checkbox) => {
+                                        values.push(checkbox.value);
+                                    });
+
+                                    await window.contextBridge.database.saveAppointment({
+                                        customerId: customerId,
+                                        notes: document.querySelector('textarea[name=\'notes\']').value,
+                                        startDate: startDate,
+                                        endDate: endDate,
+                                        boardingRate: document.querySelector('input[name=\'boardingRate\']').value,
+                                        status: document.querySelector('select[name=\'status\']').value,
+                                        birds: birds
+                                    });
+
+                                    window.close();
+                                }
+                            }),
                             m(IconButton, {
                                 label: 'Cancel',
                                 onclick: async function() {
