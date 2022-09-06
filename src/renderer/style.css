@@ -53,3 +53,7 @@ fieldset.labeled-container {
 #new-appointment-form input[name="daterange"] {
 	display: none;
 }
+
+#bird-table-container table {
+  height: 180px;
+}
