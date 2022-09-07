@@ -14,6 +14,7 @@ var NewCustomerDialog = {
         for (const bird of birds) {
             birdsTableData.push([bird.name, bird.breed, bird.color, bird.age, bird.gender, bird.notes]);
         }
+
         return m('div', { 'id':'new-customer-toplevel' },
             m('form', { 'id': 'new-customer-form' },
                 [
@@ -80,7 +81,7 @@ var NewCustomerDialog = {
                                             )
                                         ),
                                         m('td',
-                                            m('textarea', { 'cols':'23','rows':'4' })
+                                            m('textarea', { 'name': 'customerNotes', 'cols':'23','rows':'4' })
                                         )
                                     ]
                                 )
@@ -98,9 +99,12 @@ var NewCustomerDialog = {
                                                 [
                                                     m(Table, {
                                                         headers: ['Name', 'Breed', 'Color', 'Age', 'Gender', 'Notes'],
-                                                        data: birdsTableData
+                                                        data: birdsTableData,
+                                                        removeButton: async function(index) {
+                                                            birds.splice(index, 1);
+                                                        }
                                                     }),
-                                                    m('div', { style: 'float: left;' },
+                                                    m('div',
                                                         m(IconButton, {
                                                             label: 'Add',
                                                             onclick: async function() {
@@ -116,9 +120,6 @@ var NewCustomerDialog = {
                                                                 document.querySelector('#new-customer-form').reset();
                                                             }
                                                         })
-                                                    ),
-                                                    m('div', { style: 'float: right;' },
-                                                        m(IconButton, { label: 'Remove' })
                                                     ),
 
                                                 ]
@@ -204,8 +205,27 @@ var NewCustomerDialog = {
                             ),
                         })
                     ),
-                    m(IconButton, { label: 'Cancel' }),
-                    m(IconButton, { label: 'Ok' }),
+                    m(IconButton, {
+                        label: 'Cancel',
+                        onclick: async function() {
+                            window.close();
+                        }
+                    }),
+                    m(IconButton, {
+                        label: 'Ok',
+                        onclick: async function() {
+                            await window.contextBridge.database.saveCustomer({
+                                name: document.querySelector('textarea[name="name"]').value,
+                                phoneNumbers: [],
+                                email: document.querySelector('textarea[name="email"]').value,
+                                boardingRate: document.querySelector('textarea[name="boardingRate"]').value,
+                                notes: document.querySelector('select[name="customerNotes"]').value,
+                                birds: birds
+                            });
+
+                            window.close();
+                        }
+                    })
                 ]
             )
         );
