@@ -11,15 +11,30 @@ var Table = {
             ));
         }
 
+        if (vnode.attrs.removeButton !== undefined) {
+            displayHeaders.push(m('td'));
+        }
+
         var displayRows = [];
 
-        for (const dataRow of vnode.attrs.data) {
+        for (const idx in vnode.attrs.data) {
+            const dataRow = vnode.attrs.data[idx];
             const displayRow = [];
             for (const dataCol of dataRow) {
                 displayRow.push(m('td',
                     dataCol
                 ));
             }
+
+            if (vnode.attrs.removeButton !== undefined) {
+
+                displayRow.push(m('td',
+                    m('img', { 'src': './img/delete.svg', onclick: async function() {
+                        return vnode.attrs.removeButton(idx);
+                    } })
+                ));
+            }
+
             displayRows.push(m('tr', displayRow));
         }
 

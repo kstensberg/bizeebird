@@ -39,6 +39,11 @@ ipcMain.handle('getCustomerBirds', async function(event, searchString) {
     return getCustomerBirds(db, searchString);
 });
 
+ipcMain.handle('saveCustomer', async function(event, customer) {
+    console.log(customer);
+});
+
+
 ipcMain.handle('saveAppointment', async function(event, appointment) {
     console.log(appointment);
     return {
