@@ -5,11 +5,21 @@ import { Table } from './components/table.js';
 import { IconButton } from './components/icon-button.js';
 
 const birds = [];
+var phoneNumberCount = 1;
 
 var NewCustomerDialog = {
     view: function() {
 
         const birdsTableData = [];
+        const phoneNumberComponents = [];
+
+        for (let idx = 0; idx < phoneNumberCount; idx++) {
+            phoneNumberComponents.push(
+                m('div', [
+                    m('input', { 'type':'tel', 'name':'phoneNumber', 'class': 'phoneNumberInput' }),
+                ])
+            );
+        }
 
         for (const bird of birds) {
             birdsTableData.push([bird.name, bird.breed, bird.color, bird.age, bird.gender, bird.notes]);
@@ -42,9 +52,22 @@ var NewCustomerDialog = {
                                         ),
                                         m('td',
                                             [
-                                                m('input', { 'type':'tel', 'name':'phoneNumber' }),
-                                                m(IconButton, { label: 'Add' }),
-                                                m(IconButton, { label: 'Remove' })
+                                                m('div', phoneNumberComponents),
+                                                m('div', [
+                                                    m(IconButton, { 
+                                                        label: 'Add', 
+                                                        onclick: async function() {
+                                                            phoneNumberCount++;
+                                                        } 
+                                                    }),
+                                                    m(IconButton, { 
+                                                        label: 'Remove',
+                                                        disabled: phoneNumberCount <= 1,
+                                                        onclick: async function() {
+                                                            phoneNumberCount--;
+                                                        }
+                                                    })
+                                                ]),
                                             ]
                                         )
                                     ]
@@ -214,12 +237,21 @@ var NewCustomerDialog = {
                     m(IconButton, {
                         label: 'Ok',
                         onclick: async function() {
+                            const phoneNumbers = [];
+                            for (const phoneInput of document.getElementsByClassName('phoneNumberInput')) {
+                                const phoneNumber = phoneInput.value.trim();
+
+                                if (phoneNumber !== '') {
+                                    phoneNumbers.push(phoneNumber);
+                                }
+                            }
+                            
                             await window.contextBridge.database.saveCustomer({
-                                name: document.querySelector('textarea[name="name"]').value,
-                                phoneNumbers: [],
-                                email: document.querySelector('textarea[name="email"]').value,
-                                boardingRate: document.querySelector('textarea[name="boardingRate"]').value,
-                                notes: document.querySelector('select[name="customerNotes"]').value,
+                                name: document.querySelector('input[name="name"]').value,
+                                phoneNumbers: phoneNumbers,
+                                email: document.querySelector('input[name="email"]').value,
+                                boardingRate: document.querySelector('input[name="boardingRate"]').value,
+                                notes: document.querySelector('textarea[name="customerNotes"]').value,
                                 birds: birds
                             });
 

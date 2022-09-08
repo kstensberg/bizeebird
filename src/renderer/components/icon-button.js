@@ -8,6 +8,7 @@ var IconButton = {
         return m('button', {
             'class':'btn btn-primary',
             'type':'button',
+            'disabled': vnode.attrs.disabled || false,
             'onclick': vnode.attrs.onclick
         }, [
             m('img', { 'src':`./img/${imgFilename}.svg` }),
