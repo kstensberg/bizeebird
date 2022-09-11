@@ -3,6 +3,7 @@
 
 import { Tabs } from './components/tabs.js';
 
+
 var BizeeBirdBoardingApp = {
     view: function() {
         return m('main', [
@@ -26,3 +27,8 @@ var BizeeBirdBoardingApp = {
 };
 
 m.mount(document.body, BizeeBirdBoardingApp);
+
+
+window.contextBridge.attachEvent('customerSaved', function (){
+    m.mount(document.body, BizeeBirdBoardingApp);
+});
