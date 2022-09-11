@@ -40,7 +40,8 @@ ipcMain.handle('getCustomerBirds', async function(event, searchString) {
 });
 
 ipcMain.handle('saveCustomer', async function(event, customer) {
-    console.log(customer);
+    const saveCustomer = require('./db-management/Create/createAllCustomer');
+    return saveCustomer(db, customer);
 });
 
 
