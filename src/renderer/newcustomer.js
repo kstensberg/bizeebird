@@ -54,13 +54,13 @@ var NewCustomerDialog = {
                                             [
                                                 m('div', phoneNumberComponents),
                                                 m('div', [
-                                                    m(IconButton, { 
-                                                        label: 'Add', 
+                                                    m(IconButton, {
+                                                        label: 'Add',
                                                         onclick: async function() {
                                                             phoneNumberCount++;
-                                                        } 
+                                                        }
                                                     }),
-                                                    m(IconButton, { 
+                                                    m(IconButton, {
                                                         label: 'Remove',
                                                         disabled: phoneNumberCount <= 1,
                                                         onclick: async function() {
@@ -245,7 +245,7 @@ var NewCustomerDialog = {
                                     phoneNumbers.push(phoneNumber);
                                 }
                             }
-                            
+
                             await window.contextBridge.database.saveCustomer({
                                 name: document.querySelector('input[name="name"]').value,
                                 phoneNumbers: phoneNumbers,
