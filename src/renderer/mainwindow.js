@@ -9,8 +9,8 @@ var BizeeBirdBoardingApp = {
             m('div', [
                 m('button', {
                     class: 'btn btn-primary',
-                    onclick: function() {
-                        window.open('./newcustomer.html');
+                    onclick: async function() {
+                        await window.contextBridge.openNewCustomer();
                     }
                 }, 'New Customer'),
                 m('button', {
