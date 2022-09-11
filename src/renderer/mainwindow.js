@@ -30,5 +30,5 @@ m.mount(document.body, BizeeBirdBoardingApp);
 
 
 window.contextBridge.attachEvent('customerSaved', function (){
-    m.mount(document.body, BizeeBirdBoardingApp);
+    m.redraw();
 });
