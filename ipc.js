@@ -1,6 +1,14 @@
 'use strict';
 
-const { ipcMain } = require('electron');
+function triggerEventOnAllWindows(event) {
+    var windows = BrowserWindow.getAllWindows();
+
+    for (const window of windows) {
+        window.webContents.send(event);
+    }
+}
+
+const { BrowserWindow, ipcMain } = require('electron');
 
 const db = require('./db-management/dbConfig');
 
@@ -41,7 +49,9 @@ ipcMain.handle('getCustomerBirds', async function(event, searchString) {
 
 ipcMain.handle('saveCustomer', async function(event, customer) {
     const saveCustomer = require('./db-management/Create/createAllCustomer');
-    return saveCustomer(db, customer);
+    var result = await saveCustomer(db, customer);
+
+    triggerEventOnAllWindows('customerSaved');
 });
 
 

@@ -4,17 +4,21 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 require('./ipc.js');
 
-const createWindow = () => {
+const createMainWindow = () => {
+    return createWindow('src/renderer/index.html', 800, 600);
+}
+
+const createWindow = (loadFile, width, height) => {
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: width,
+        height: height,
         autoHideMenuBar: true,
         webPreferences: {
-            preload: path.join(__dirname, 'src/preload/index.js')
+            preload: path.join(__dirname, 'src/preload.js')
         }
     });
 
-    mainWindow.loadFile('src/renderer/index.html');
+    mainWindow.loadFile(loadFile);
 
     // Open the DevTools.
     if (process.env['DEBUG'] !== undefined){
@@ -23,49 +27,21 @@ const createWindow = () => {
 };
 
 ipcMain.handle('openNewAppointment', function() {
-    const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        autoHideMenuBar: true,
-        webPreferences: {
-            preload: path.join(__dirname, 'src/preload/index.js')
-        }
-    });
-
-    mainWindow.loadFile('src/renderer/newappointment.html');
-
-    // Open the DevTools.
-    if (process.env['DEBUG'] !== undefined){
-        mainWindow.webContents.openDevTools();
-    }
+    return createWindow('src/renderer/newappointment.html', 800, 600);
 });
 
 ipcMain.handle('openNewCustomer', function() {
-    const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        autoHideMenuBar: true,
-        webPreferences: {
-            preload: path.join(__dirname, 'src/preload/index.js')
-        }
-    });
-
-    mainWindow.loadFile('src/renderer/newcustomer.html');
-
-    // Open the DevTools.
-    if (process.env['DEBUG'] !== undefined){
-        mainWindow.webContents.openDevTools();
-    }
+    return createWindow('src/renderer/newcustomer.html', 800, 600);
 });
 
 app.whenReady().then(() => {
-    createWindow();
+    createMainWindow();
 
     app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) {
-            createWindow();
+            createMainWindow();
         }
     });
 });
