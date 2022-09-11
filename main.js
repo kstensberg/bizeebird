@@ -40,6 +40,24 @@ ipcMain.handle('openNewAppointment', function() {
     }
 });
 
+ipcMain.handle('openNewCustomer', function() {
+    const mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        autoHideMenuBar: true,
+        webPreferences: {
+            preload: path.join(__dirname, 'src/preload/index.js')
+        }
+    });
+
+    mainWindow.loadFile('src/renderer/newcustomer.html');
+
+    // Open the DevTools.
+    if (process.env['DEBUG'] !== undefined){
+        mainWindow.webContents.openDevTools();
+    }
+});
+
 app.whenReady().then(() => {
     createWindow();
 
