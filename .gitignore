@@ -129,7 +129,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-bizeebird-test.db
-src/db-management/bizeebird-old.db
-
 build/
