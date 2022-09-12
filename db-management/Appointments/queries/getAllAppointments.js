@@ -8,7 +8,8 @@ const getAllAppointments = (db) => {
             'AppointmentBirds.GroomingWings AS Wings, AppointmentBirds.GroomingNails AS Nails, ' +
             'AppointmentBirds.CageNeeded FROM Appointments LEFT JOIN Customers ON Customers.CustomerId = Appointments.Customer_CustomerId ' +
             'LEFT JOIN AppointmentBirds ON AppointmentBirds.Appointment_AppointmentId = Appointments.AppointmentId ' +
-            'LEFT JOIN Birds ON Birds.BirdId = AppointmentBirds.Bird_BirdId ORDER BY Appointments.StartTime DESC',
+            'LEFT JOIN Birds ON Birds.BirdId = AppointmentBirds.Bird_BirdId WHERE Appointments.StartTime >= DATE("now", "-1 year") ' +
+            'ORDER BY Appointments.StartTime DESC',
             (err, rows) => {
                 if (err) {
                     reject(err);
