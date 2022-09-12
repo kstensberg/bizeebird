@@ -129,8 +129,85 @@ var NewCustomerDialog = {
                                                     removeButton: async function(index) {
                                                         birds.splice(index, 1);
                                                     }
-                                                }),
-                                                m('div',
+                                                })
+                                            ]
+                                        ),
+                                        m('div', { 'class': 'col-md-auto' },
+                                            m('form', { 'id': 'edit-bird-form' },
+                                                [
+                                                    m('table',
+                                                        m('tbody',
+                                                            [
+                                                                m('tr',
+                                                                    [
+                                                                        m('th',
+                                                                            'Name'
+                                                                        ),
+                                                                        m('td',
+                                                                            m('input', { 'name': 'birdName', 'type':'text' })
+                                                                        )
+                                                                    ]
+                                                                ),
+                                                                m('tr',
+                                                                    [
+                                                                        m('th',
+                                                                            'Breed'
+                                                                        ),
+                                                                        m('td',
+                                                                            m('input', { 'name': 'birdBreed', 'type':'text' })
+                                                                        )
+                                                                    ]
+                                                                ),
+                                                                m('tr',
+                                                                    [
+                                                                        m('th',
+                                                                            'Color'
+                                                                        ),
+                                                                        m('td',
+                                                                            m('input', { 'name': 'birdColor', 'type':'text' })
+                                                                        )
+                                                                    ]
+                                                                ),
+                                                                m('tr',
+                                                                    [
+                                                                        m('th',
+                                                                            'Age'
+                                                                        ),
+                                                                        m('td',
+                                                                            m('input', { 'name': 'birdAge',  'type':'number' })
+                                                                        )
+                                                                    ]
+                                                                ),
+                                                                m('tr',
+                                                                    [
+                                                                        m('th',
+                                                                            m('label', { 'for':'birdGender' },
+                                                                                'Gender'
+                                                                            )
+                                                                        ),
+                                                                        m('td',
+                                                                            [
+                                                                                m('input', { 'type':'radio','name':'birdGender','value':'male' }),
+                                                                                ' Male ',
+                                                                                m('input', { 'type':'radio','name':'birdGender','value':'female' }),
+                                                                                ' Female'
+                                                                            ]
+                                                                        )
+                                                                    ]
+                                                                ),
+                                                                m('tr',
+                                                                    [
+                                                                        m('th',
+                                                                            'Notes'
+                                                                        ),
+                                                                        m('td',
+                                                                            m('textarea', { 'name': 'birdNotes',  'cols':'23','rows':'4' })
+                                                                        )
+                                                                    ]
+                                                                )
+                                                            ]
+                                                        )
+                                                    ),
                                                     m(IconButton, {
                                                         label: 'Add',
                                                         onclick: async function() {
@@ -146,85 +223,7 @@ var NewCustomerDialog = {
                                                             document.querySelector('#edit-bird-form').reset();
                                                         }
                                                     })
-                                                ),
-
-                                            ]
-                                        ),
-                                        m('div', { 'class': 'col-md-auto' },
-                                            m('form', { 'id': 'edit-bird-form' },
-                                                m('table',
-                                                    m('tbody',
-                                                        [
-                                                            m('tr',
-                                                                [
-                                                                    m('th',
-                                                                        'Name'
-                                                                    ),
-                                                                    m('td',
-                                                                        m('input', { 'name': 'birdName', 'type':'text' })
-                                                                    )
-                                                                ]
-                                                            ),
-                                                            m('tr',
-                                                                [
-                                                                    m('th',
-                                                                        'Breed'
-                                                                    ),
-                                                                    m('td',
-                                                                        m('input', { 'name': 'birdBreed', 'type':'text' })
-                                                                    )
-                                                                ]
-                                                            ),
-                                                            m('tr',
-                                                                [
-                                                                    m('th',
-                                                                        'Color'
-                                                                    ),
-                                                                    m('td',
-                                                                        m('input', { 'name': 'birdColor', 'type':'text' })
-                                                                    )
-                                                                ]
-                                                            ),
-                                                            m('tr',
-                                                                [
-                                                                    m('th',
-                                                                        'Age'
-                                                                    ),
-                                                                    m('td',
-                                                                        m('input', { 'name': 'birdAge',  'type':'number' })
-                                                                    )
-                                                                ]
-                                                            ),
-                                                            m('tr',
-                                                                [
-                                                                    m('th',
-                                                                        m('label', { 'for':'birdGender' },
-                                                                            'Gender'
-                                                                        )
-                                                                    ),
-                                                                    m('td',
-                                                                        [
-                                                                            m('input', { 'type':'radio','name':'birdGender','value':'male' }),
-                                                                            ' Male ',
-                                                                            m('input', { 'type':'radio','name':'birdGender','value':'female' }),
-                                                                            ' Female'
-                                                                        ]
-                                                                    )
-                                                                ]
-                                                            ),
-                                                            m('tr',
-                                                                [
-                                                                    m('th',
-                                                                        'Notes'
-                                                                    ),
-                                                                    m('td',
-                                                                        m('textarea', { 'name': 'birdNotes',  'cols':'23','rows':'4' })
-                                                                    )
-                                                                ]
-                                                            )
-                                                        ]
-                                                    )
-                                                )
+                                                ]
                                             )
                                         )
                                     ]
