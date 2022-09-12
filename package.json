@@ -9,7 +9,7 @@
     "start-debug": "DEBUG=TRUE electron .",
     "lint": "eslint \"**/*.js\"",
     "lint-fix": "eslint --fix \"**/*.js\"",
-    "build": "rm -rf build; mkdir build;cd build; electron-packager .. bizeebird"
+    "build": "electron-packager . --out=build --icon=assets/bizeebird.ico --platform=win32 --arch=x64"
   },
   "repository": {
     "type": "git",
