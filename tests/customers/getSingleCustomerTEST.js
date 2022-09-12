@@ -2,7 +2,7 @@ const db = require('./dbConfig.js');
 
 var chai = require('chai'),
     assert = chai.assert;
-const getSingleCustomer = require('../../db-management/Customers/queries/getSingleCustomer.js');
+const getSingleCustomer = require('../../src/db-management/Customers/queries/getSingleCustomer.js');
 
 describe('#getSingleCustomer()', function () {
     it('should return a single customer by ID', async () => {
