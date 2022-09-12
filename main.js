@@ -9,7 +9,7 @@ const createMainWindow = () => {
 };
 
 const createWindow = (loadFile, width, height) => {
-    const mainWindow = new BrowserWindow({
+    const window = new BrowserWindow({
         width: width,
         height: height,
         autoHideMenuBar: true,
@@ -19,11 +19,11 @@ const createWindow = (loadFile, width, height) => {
         }
     });
 
-    mainWindow.loadFile(loadFile);
+    window.loadFile(loadFile);
 
     // Open the DevTools.
-    if (process.env['DEBUG'] !== undefined){
-        mainWindow.webContents.openDevTools();
+    if (process.env['DEBUG'] !== undefined) {
+        window.webContents.openDevTools();
     }
 };
 
