@@ -49,7 +49,7 @@ ipcMain.handle('getCustomerBirds', async function(event, searchString) {
 
 ipcMain.handle('saveCustomer', async function(event, customer) {
     const saveCustomer = require('./db-management/Create/createAllCustomer');
-    var result = await saveCustomer(db, customer);
+    await saveCustomer(db, customer);
 
     triggerEventOnAllWindows('customerSaved');
 });

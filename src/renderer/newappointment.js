@@ -136,7 +136,7 @@ var NewAppointmentDialog = {
                                     const checkboxes = document.querySelectorAll('input[name=\'appointmentBirds\']:checked');
                                     const birds = [];
                                     checkboxes.forEach((checkbox) => {
-                                        values.push(checkbox.value);
+                                        birds.push(checkbox.value);
                                     });
 
                                     await window.contextBridge.database.saveAppointment({

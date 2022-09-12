@@ -2,27 +2,28 @@
 
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-require('./ipc.js');
+require('./src/ipc.js');
 
 const createMainWindow = () => {
     return createWindow('src/renderer/index.html', 800, 600);
-}
+};
 
 const createWindow = (loadFile, width, height) => {
-    const mainWindow = new BrowserWindow({
+    const window = new BrowserWindow({
         width: width,
         height: height,
         autoHideMenuBar: true,
+        icon: 'assets/bizeebird.ico',
         webPreferences: {
             preload: path.join(__dirname, 'src/preload.js')
         }
     });
 
-    mainWindow.loadFile(loadFile);
+    window.loadFile(loadFile);
 
     // Open the DevTools.
-    if (process.env['DEBUG'] !== undefined){
-        mainWindow.webContents.openDevTools();
+    if (process.env['DEBUG'] !== undefined) {
+        window.webContents.openDevTools();
     }
 };
 

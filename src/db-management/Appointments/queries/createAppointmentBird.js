@@ -9,7 +9,7 @@ const createAppointmentBird = (db, appointment, bird) => {
             $CageNeeded: CageNeeded,
             $Bird_BirdId: bird.Bird_BirdId,
             $Appointment_AppointmentId: appointment.Appointment_AppointmentId
-        });
+        };
     });
 };
 
