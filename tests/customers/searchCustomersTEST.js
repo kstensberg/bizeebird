@@ -2,7 +2,7 @@ const db = require('./dbConfig.js');
 
 var chai = require('chai'),
     assert = chai.assert;
-const searchCustomers = require('../../db-management/Customers/queries/searchCustomers');
+const searchCustomers = require('../../src/db-management/Customers/queries/searchCustomers');
 
 describe('#searchCustomers()', function () {
     it('should pass if a single customer was located by email address', async () => {
