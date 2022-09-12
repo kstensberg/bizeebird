@@ -11,7 +11,7 @@ var IconButton = {
             'disabled': vnode.attrs.disabled || false,
             'onclick': vnode.attrs.onclick
         }, [
-            m('img', { 'src':`./img/${imgFilename}.svg` }),
+            m('img', { 'src':`../../assets/${imgFilename}.svg` }),
             vnode.attrs.label
         ]
         );
