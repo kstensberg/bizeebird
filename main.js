@@ -15,7 +15,8 @@ const createWindow = (loadFile, width, height) => {
         autoHideMenuBar: true,
         icon: 'assets/bizeebird.ico',
         webPreferences: {
-            preload: path.join(__dirname, 'src/preload.js')
+            devTools: !app.isPackaged,
+            preload: path.join(__dirname, 'src/preload.js'),
         }
     });
 
