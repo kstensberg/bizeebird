@@ -29,7 +29,7 @@ var Table = {
             if (vnode.attrs.removeButton !== undefined) {
 
                 displayRow.push(m('td',
-                    m('img', { 'src': './img/delete.svg', onclick: async function() {
+                    m('img', { 'src': '../../assets/delete.svg', onclick: async function() {
                         return vnode.attrs.removeButton(idx);
                     } })
                 ));
