@@ -24,7 +24,7 @@ const createAppointmentBirds = (db, appointmentId, appointmentBird, birds) => {
     db.serialize(() => {
         for (const bird of birds) {
             db.run('INSERT INTO AppointmentBirds (GroomingWings, GroomingNails, CageNeeded, ' +
-            'Bird_BirdId, Appointment_AppointmentId, ApptBirdNotes) VALUES ($GroomingWings' +
+            'Bird_BirdId, Appointment_AppointmentId, ApptBirdNotes) VALUES ($GroomingWings, ' +
             '$GroomingNails, $CageNeeded, $Bird_BirdId, ' +
             '$Appointment_AppointmentId, $ApptBirdNotes', {
                 $GroomingWings: appointmentBird.groomingWings,
