@@ -17,7 +17,7 @@ const createWindow = (loadFile, width, height) => {
         webPreferences: {
             devTools: !app.isPackaged,
             preload: path.join(__dirname, 'src/preload.js'),
-        }
+        },
     });
 
     window.loadFile(loadFile);
@@ -26,14 +26,22 @@ const createWindow = (loadFile, width, height) => {
     if (process.env['DEBUG'] !== undefined) {
         window.webContents.openDevTools();
     }
+
+    return window;
 };
 
-ipcMain.handle('openNewAppointment', function() {
-    return createWindow('src/renderer/newappointment.html', 800, 600);
+ipcMain.handle('openAppointmentDialog', function(event, appointmentId) {
+    return createWindow('src/renderer/appointmentdialog.html', 800, 600);
 });
 
-ipcMain.handle('openNewCustomer', function() {
-    return createWindow('src/renderer/newcustomer.html', 800, 600);
+ipcMain.handle('openCustomerDialog', function(event, customerId) {
+    const window = createWindow('src/renderer/customerdialog.html', 800, 600);    
+    
+    if (customerId) {
+        window.once('ready-to-show', () => {
+            window.webContents.send('loadCustomer', customerId);
+        });
+    }
 });
 
 app.whenReady().then(() => {

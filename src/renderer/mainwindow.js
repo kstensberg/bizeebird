@@ -11,13 +11,13 @@ var BizeeBirdBoardingApp = {
                 m('button', {
                     class: 'btn btn-primary',
                     onclick: async function() {
-                        await window.contextBridge.openNewCustomer();
+                        await window.contextBridge.openCustomerDialog();
                     }
                 }, 'New Customer'),
                 m('button', {
                     class: 'btn btn-primary',
                     onclick: async function() {
-                        await window.contextBridge.openNewAppointment();
+                        await window.contextBridge.openAppointmentDialog();
                     }
                 }, 'New Appointment'),
             ]),

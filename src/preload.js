@@ -3,14 +3,15 @@
 const{ contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('contextBridge', {
-    openNewAppointment: () => ipcRenderer.invoke('openNewAppointment'),
-    openNewCustomer: () => ipcRenderer.invoke('openNewCustomer'),
+    openAppointmentDialog: (appointmentId) => ipcRenderer.invoke('openAppointmentDialog', appointmentId),
+    openCustomerDialog: (customerId) => ipcRenderer.invoke('openCustomerDialog', customerId),
     attachEvent: (channel, handler) => {
-        ipcRenderer.on(channel, (event) => {
-            handler();
+        ipcRenderer.on(channel, (event, data) => {
+            handler(event, data);
         });
     },
     database: {
+        getCustomer: (customerId) => ipcRenderer.invoke('getCustomer', customerId),
         getAllCustomers: () => ipcRenderer.invoke('getAllCustomers'),
         searchCustomers: (searchString) => ipcRenderer.invoke('searchCustomers', searchString),
         getAllHistory: () => ipcRenderer.invoke('getAllHistory'),
