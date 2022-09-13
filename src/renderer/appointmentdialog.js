@@ -5,7 +5,7 @@ import { IconButton } from './components/icon-button.js';
 var customerId = null;
 var birds = [];
 
-var NewAppointmentDialog = {
+var AppointmentDialog = {
     view: function() {
         const birdComponents = [];
 
@@ -166,7 +166,7 @@ var NewAppointmentDialog = {
     }
 };
 
-m.mount(document.body, NewAppointmentDialog);
+m.mount(document.body, AppointmentDialog);
 
 window.picker = new easepick.create({
     element: '#datepicker',

@@ -3,8 +3,8 @@
 const{ contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('contextBridge', {
-    openNewAppointment: () => ipcRenderer.invoke('openNewAppointment'),
-    openNewCustomer: () => ipcRenderer.invoke('openNewCustomer'),
+    openAppointmentDialog: () => ipcRenderer.invoke('openAppointmentDialog'),
+    openCustomerDialog: () => ipcRenderer.invoke('openCustomerDialog'),
     attachEvent: (channel, handler) => {
         ipcRenderer.on(channel, (event) => {
             handler();

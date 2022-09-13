@@ -7,7 +7,7 @@ import { IconButton } from './components/icon-button.js';
 const birds = [];
 var phoneNumberCount = 1;
 
-var NewCustomerDialog = {
+var CustomerDialog = {
     view: function() {
 
         const birdsTableData = [];
@@ -267,4 +267,4 @@ var NewCustomerDialog = {
     }
 };
 
-m.mount(document.body, NewCustomerDialog);
+m.mount(document.body, CustomerDialog);
