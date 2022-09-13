@@ -28,12 +28,12 @@ const createWindow = (loadFile, width, height) => {
     }
 };
 
-ipcMain.handle('openNewAppointment', function() {
-    return createWindow('src/renderer/newappointment.html', 800, 600);
+ipcMain.handle('openAppointmentDialog', function() {
+    return createWindow('src/renderer/appointmentdialog.html', 800, 600);
 });
 
-ipcMain.handle('openNewCustomer', function() {
-    return createWindow('src/renderer/newcustomer.html', 800, 600);
+ipcMain.handle('openCustomerDialog', function() {
+    return createWindow('src/renderer/customerdialog.html', 800, 600);
 });
 
 app.whenReady().then(() => {
