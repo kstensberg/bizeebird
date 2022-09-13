@@ -4,12 +4,22 @@ import { LabeledContainer } from './components/labeled-container.js';
 import { Table } from './components/table.js';
 import { IconButton } from './components/icon-button.js';
 
-const birds = [];
+var customer = null;
+var birds = [];
 var phoneNumberCount = 1;
+
+window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
+    customer = await window.contextBridge.database.getCustomer(customerId);
+
+    birds = customer.birds;
+
+    console.log(customerId, customer);
+
+    m.redraw();
+});
 
 var CustomerDialog = {
     view: function() {
-
         const birdsTableData = [];
         const phoneNumberComponents = [];
 
@@ -40,7 +50,7 @@ var CustomerDialog = {
                                                 )
                                             ),
                                             m('td',
-                                                m('input', { 'type':'text', 'name':'name' })
+                                                m('input', { 'type':'text', 'name':'name', 'value': customer?.name})
                                             )
                                         ]
                                     ),
@@ -81,7 +91,7 @@ var CustomerDialog = {
                                                 )
                                             ),
                                             m('td',
-                                                m('input', { 'type':'email', 'name':'email' })
+                                                m('input', { 'type':'email', 'name':'email', 'value': customer?.email })
                                             )
                                         ]
                                     ),
@@ -93,7 +103,7 @@ var CustomerDialog = {
                                                 )
                                             ),
                                             m('td',
-                                                m('input', { 'type':'text', 'name':'boardingRate' })
+                                                m('input', { 'type':'text', 'name':'boardingRate', 'value': customer?.boardingRate })
                                             )
                                         ]
                                     ),
@@ -105,7 +115,7 @@ var CustomerDialog = {
                                                 )
                                             ),
                                             m('td',
-                                                m('textarea', { 'name': 'customerNotes', 'cols':'23','rows':'4' })
+                                                m('textarea', { 'name': 'customerNotes', 'cols':'23','rows':'4' }, customer?.notes)
                                             )
                                         ]
                                     )
@@ -250,14 +260,20 @@ var CustomerDialog = {
                             }
                         }
 
-                        await window.contextBridge.database.saveCustomer({
+                        const data = {
                             name: document.querySelector('input[name="name"]').value,
                             email: document.querySelector('input[name="email"]').value,
                             boardingRate: document.querySelector('input[name="boardingRate"]').value,
                             notes: document.querySelector('textarea[name="customerNotes"]').value,
                             phoneNumbers: phoneNumbers,
                             birds: birds
-                        });
+                        }
+
+                        if (customer != null) {
+                            data.customerId = customerId;                
+                        }
+
+                        await window.contextBridge.database.saveCustomer();
 
                         window.close();
                     }
@@ -268,3 +284,5 @@ var CustomerDialog = {
 };
 
 m.mount(document.body, CustomerDialog);
+
+

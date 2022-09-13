@@ -12,6 +12,28 @@ const { BrowserWindow, ipcMain } = require('electron');
 
 const db = require('./db-management/dbConfig');
 
+ipcMain.handle('getCustomer', async function(event, customerId) {
+    return {
+        customerId: 1234,
+        boardingRate: 10,
+        email: 'test@test.com',
+        name: 'Test Customer Name',
+        notes: 'test customer notes',
+        phoneNumbers: [
+            '555-555-5555',
+            '666-666-6666'
+        ],
+        birds: [{
+            birdId: 123, 
+            name: 'test bird name',
+            breed: 'test brid breed',
+            color: 'test bird color',
+            age: 12,
+            gender: 'female'
+        }]
+    }
+});
+
 ipcMain.handle('getAllCustomers', async function(event) {
     const getAllCustomers = require('./db-management/Get/getAllCustomers');
     return getAllCustomers(db);
@@ -58,19 +80,4 @@ ipcMain.handle('saveCustomer', async function(event, customer) {
 ipcMain.handle('saveAppointment', async function(event, appointment) {
     const saveAppointment = require('./db-management/Create/createAllAppointment');
     return saveAppointment(db, appointment);
-    // console.log(appointment);
-    // return {
-    //     appointmentId: 1234,
-    //     customerId: 5678,
-    //     notes: 'notes',
-    //     startDate: '022-10-05',
-    //     endDate: '022-10-10',
-    //     boardingRate: 12.34,
-    //     status: 'Scheduled',
-    //     birds: [
-    //         12,
-    //         34,
-    //         56
-    //     ]
-    // };
 });
