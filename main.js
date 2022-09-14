@@ -31,7 +31,13 @@ const createWindow = (loadFile, width, height) => {
 };
 
 ipcMain.handle('openAppointmentDialog', function(event, appointmentId) {
-    return createWindow('src/renderer/appointmentdialog.html', 800, 600);
+    const window = createWindow('src/renderer/appointmentdialog.html', 800, 600);
+
+    if (appointmentId) {
+        window.once('ready-to-show', () => {
+            window.webContents.send('loadAppointment', appointmentId);
+        });
+    }
 });
 
 ipcMain.handle('openCustomerDialog', function(event, customerId) {
