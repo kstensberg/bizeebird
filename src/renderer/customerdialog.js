@@ -273,7 +273,7 @@ var CustomerDialog = {
                             data.customerId = customerId;                
                         }
 
-                        await window.contextBridge.database.saveCustomer();
+                        await window.contextBridge.database.saveCustomer(data);
 
                         window.close();
                     }
