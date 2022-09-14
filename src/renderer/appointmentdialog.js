@@ -1,7 +1,7 @@
 'use strict';
 
 import { IconButton } from './components/icon-button.js';
-
+import { AppointmentBird } from './components/appointment-bird.js';
 var customerId = null;
 var birds = [];
 
@@ -10,20 +10,7 @@ var AppointmentDialog = {
         const birdComponents = [];
 
         for (const bird of birds) {
-            birdComponents.push (m('tr',
-                [
-                    m('th',
-                        bird.name
-                    ),
-                    m('td',
-                        m('input', {
-                            'type':'checkbox',
-                            'name':'appointmentBirds',
-                            'value':`${bird.id}`
-                        })
-                    )
-                ]
-            ));
+            birdComponents.push (m(AppointmentBird, { bird: bird }));
         }
 
         return m('div', { 'id':'new-appointment-toplevel' },
@@ -109,11 +96,7 @@ var AppointmentDialog = {
                                     )
                                 ),
                                 m('div', { 'class':'col' },
-                                    m('table',
-                                        m('tbody',
-                                            birdComponents
-                                        )
-                                    )
+                                    birdComponents
                                 )
                             ]
                         )
