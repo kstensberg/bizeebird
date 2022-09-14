@@ -24,14 +24,14 @@ ipcMain.handle('getCustomer', async function(event, customerId) {
             '666-666-6666'
         ],
         birds: [{
-            birdId: 123, 
+            birdId: 123,
             name: 'test bird name',
             breed: 'test brid breed',
             color: 'test bird color',
             age: 12,
             gender: 'female'
         }]
-    }
+    };
 });
 
 ipcMain.handle('getAllCustomers', async function(event) {
@@ -74,10 +74,13 @@ ipcMain.handle('saveCustomer', async function(event, customer) {
     await saveCustomer(db, customer);
 
     triggerEventOnAllWindows('customerSaved');
+
 });
 
 
 ipcMain.handle('saveAppointment', async function(event, appointment) {
     const saveAppointment = require('./db-management/Create/createAllAppointment');
-    return saveAppointment(db, appointment);
+    await saveAppointment(db, appointment);
+
+    triggerEventOnAllWindows('appointmentSaved');
 });
