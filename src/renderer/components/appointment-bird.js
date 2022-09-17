@@ -7,7 +7,7 @@ class AppointmentBird {
     }
     view() {
 
-        const birdNameLabel = this.bird.name;
+        var birdNameLabel = this.bird.name;
 
         if (this.bird.breed) {
             birdNameLabel += ' - ' + this.bird.breed;
