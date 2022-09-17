@@ -20,7 +20,8 @@ const createAppointment = (db, appointment) => {
     });
 };
 
-// const createAppointmentBirds = (db, appointmentId, appointmentBird, birds) => {
+// const createAppointmentBirds = (db, appointment, appointmentBird) => {
+//     const birds = appointment.birds;
 //     db.serialize(() => {
 //         birds.forEach(bird =>
 //             db.run('INSERT INTO AppointmentBirds (GroomingWings, GroomingNails, CageNeeded, ' +
@@ -31,7 +32,7 @@ const createAppointment = (db, appointment) => {
 //                 $GroomingNails: appointmentBird.groomingNails,
 //                 $CageNeeded: appointmentBird.cageNeeded,
 //                 $Bird_BirdId: bird,
-//                 $Appointment_AppointmentId: appointmentId,
+//                 $Appointment_AppointmentId: appointment.appointmentId,
 //                 $ApptBirdNotes: appointmentBird.notes
 //             })
 //         );
@@ -40,7 +41,8 @@ const createAppointment = (db, appointment) => {
 
 const runAllCreateAppointment = async (db, appointment) => {
     const appointmentId = await createAppointment(db, appointment);
-    // await Promise.all([createAppointmentBirds(db, appointmentId, appointment.birds)]);
+    console.log(appointment);
+    // await Promise.all([createAppointmentBirds(db, appointmentId)]);
 };
 
 module.exports = runAllCreateAppointment;
