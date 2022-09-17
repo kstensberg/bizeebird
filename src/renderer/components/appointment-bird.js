@@ -23,7 +23,7 @@ class AppointmentBird {
                         )
                     ]
                 ),
-                m('div', { 'class':'collapsible','id':'collapseExample' },
+                m('div',
                     m('div', { 'class':'card card-body' },
                         [
                             m('div', { 'class':'form-check' },
@@ -48,6 +48,15 @@ class AppointmentBird {
                                     m('label', { 'class':'form-check-label','for':'birdCageNeeded' },
                                         'Cage Needed'
                                     )
+                                ]
+                            ),
+                            m('div',
+                                [
+                                    m('label', {'for':'birdNotes' },
+                                        'Notes'
+                                    ),
+                                    m('br'),
+                                    m('textarea', { 'name':'birdNotes' }),
                                 ]
                             )
                         ]
