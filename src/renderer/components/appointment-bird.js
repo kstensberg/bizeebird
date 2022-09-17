@@ -7,7 +7,7 @@ class AppointmentBird {
     }
     view() {
 
-        const birdNameLabel = this.bird.name;
+        var birdNameLabel = this.bird.name;
 
         if (this.bird.breed) {
             birdNameLabel += ' - ' + this.bird.breed;
@@ -17,7 +17,7 @@ class AppointmentBird {
             [
                 m('div', { 'class':'form-check' },
                     [
-                        m('input', { 'class':'form-check-input','type':'checkbox','value':'','name':'appointmentBirds' }),
+                        m('input', { 'class':'form-check-input','type':'checkbox','value':this.bird.id,'name':'appointmentBirds' }),
                         m('label', { 'class':'form-check-label','for':'appointmentBirds' },
                             birdNameLabel
                         )
@@ -28,7 +28,7 @@ class AppointmentBird {
                         [
                             m('div', { 'class':'form-check' },
                                 [
-                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'wings','name':'birdWings' }),
+                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'wings','name':'appointmentServices' }),
                                     m('label', { 'class':'form-check-label','for':'birdWings' },
                                         'Wings'
                                     )
@@ -36,7 +36,7 @@ class AppointmentBird {
                             ),
                             m('div', { 'class':'form-check' },
                                 [
-                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'nails','name':'birdNails' }),
+                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'nails','name':'appointmentServices' }),
                                     m('label', { 'class':'form-check-label','for':'birdNails' },
                                         'Nails'
                                     )
@@ -44,7 +44,7 @@ class AppointmentBird {
                             ),
                             m('div', { 'class':'form-check' },
                                 [
-                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'cageNeeded','name':'birdCageNeeded' }),
+                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'cageNeeded','name':'appointmentServices' }),
                                     m('label', { 'class':'form-check-label','for':'birdCageNeeded' },
                                         'Cage Needed'
                                     )
@@ -57,7 +57,6 @@ class AppointmentBird {
                                     ),
                                     m('br'),
                                     m('textarea', { 'name':'birdNotes' }),
-                                    
                                 ]
                             )
                         ]
