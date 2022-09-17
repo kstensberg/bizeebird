@@ -23,7 +23,7 @@ class AppointmentBird {
                         )
                     ]
                 ),
-                m('div', { 'class':'collapse','id':'collapseExample' },
+                m('div', { 'class':'collapsible','id':'collapseExample' },
                     m('div', { 'class':'card card-body' },
                         [
                             m('div', { 'class':'form-check' },
