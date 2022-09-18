@@ -57,3 +57,28 @@ fieldset.labeled-container {
 #bird-table-container table {
   height: 180px;
 }
+
+.dialog-toplevel {
+  height: 100%;
+  width: 100%;
+}
+
+.dialog-body {
+  position: absolute;
+  top: 0;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  overflow-x: auto;
+}
+
+.dialog-footer {
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.dialog-footer-button-container {
+  text-align: right;
+}
