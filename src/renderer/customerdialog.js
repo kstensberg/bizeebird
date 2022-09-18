@@ -3,6 +3,7 @@
 import { LabeledContainer } from './components/labeled-container.js';
 import { Table } from './components/table.js';
 import { IconButton } from './components/icon-button.js';
+import { Dialog } from './components/dialog.js';
 
 var customer = null;
 var birds = [];
@@ -35,7 +36,8 @@ var CustomerDialog = {
             birdsTableData.push([bird.name, bird.breed, bird.color, bird.age, bird.gender, bird.notes]);
         }
 
-        return m('div', { 'id':'new-customer-toplevel' },
+        return m(Dialog, { 
+            body: m('div', { 'id':'new-customer-toplevel' },
             [
                 m('form', { 'id': 'edit-customer-form' },
                     [
@@ -242,44 +244,44 @@ var CustomerDialog = {
                         ),
                     })
                 ),
-                m(IconButton, {
-                    label: 'Cancel',
-                    onclick: async function() {
-                        window.close();
-                    }
-                }),
-                m(IconButton, {
-                    label: 'Ok',
-                    onclick: async function() {
-                        const phoneNumbers = [];
-                        for (const phoneInput of document.getElementsByClassName('phoneNumberInput')) {
-                            const phoneNumber = phoneInput.value.trim();
-
-                            if (phoneNumber !== '') {
-                                phoneNumbers.push(phoneNumber);
-                            }
-                        }
-
-                        const data = {
-                            name: document.querySelector('input[name="name"]').value,
-                            email: document.querySelector('input[name="email"]').value,
-                            boardingRate: document.querySelector('input[name="boardingRate"]').value,
-                            notes: document.querySelector('textarea[name="customerNotes"]').value,
-                            phoneNumbers: phoneNumbers,
-                            birds: birds
-                        }
-
-                        if (customer != null) {
-                            data.customerId = customerId;                
-                        }
-
-                        await window.contextBridge.database.saveCustomer(data);
-
-                        window.close();
-                    }
-                })
             ]
-        );
+        ),
+            footerButtons: [{
+                label: 'Cancel',
+                onclick: async function() {
+                    window.close();
+                }
+            }, {
+                label: 'OK',
+                onclick: async function() {
+                    const phoneNumbers = [];
+                    for (const phoneInput of document.getElementsByClassName('phoneNumberInput')) {
+                        const phoneNumber = phoneInput.value.trim();
+
+                        if (phoneNumber !== '') {
+                            phoneNumbers.push(phoneNumber);
+                        }
+                    }
+
+                    const data = {
+                        name: document.querySelector('input[name="name"]').value,
+                        email: document.querySelector('input[name="email"]').value,
+                        boardingRate: document.querySelector('input[name="boardingRate"]').value,
+                        notes: document.querySelector('textarea[name="customerNotes"]').value,
+                        phoneNumbers: phoneNumbers,
+                        birds: birds
+                    }
+
+                    if (customer != null) {
+                        data.customerId = customerId;                
+                    }
+
+                    await window.contextBridge.database.saveCustomer(data);
+
+                    window.close();
+                }
+            }]
+         });
     }
 };
 
