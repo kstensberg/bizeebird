@@ -14,8 +14,6 @@ window.contextBridge.attachEvent('loadCustomer', async function (event, customer
 
     birds = customer.birds;
 
-    console.log(customerId, customer);
-
     m.redraw();
 });
 
@@ -286,5 +284,3 @@ var CustomerDialog = {
 };
 
 m.mount(document.body, CustomerDialog);
-
-

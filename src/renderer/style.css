@@ -50,9 +50,11 @@ fieldset.labeled-container {
   padding: 0px;
 }
 
+/*
 #new-appointment-form input[name="daterange"] {
 	display: none;
 }
+*/
 
 #bird-table-container table {
   height: 180px;

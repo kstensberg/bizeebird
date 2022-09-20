@@ -2,8 +2,12 @@
 
 import { IconButton } from './components/icon-button.js';
 import { AppointmentBird } from './components/appointment-bird.js';
+import { DatePicker } from './components/date-picker.js';
+
 var customerId = null;
 var birds = [];
+var startDate = null;
+var endDate = null;
 
 var AppointmentDialog = {
     view: function() {
@@ -49,7 +53,13 @@ var AppointmentDialog = {
                                                             'Dates'
                                                         ),
                                                         m('td',
-                                                            m('input', { 'name':'daterange','type':'text', 'id': 'datepicker' })
+                                                            m(DatePicker, {
+                                                                hiddenInput: true,
+                                                                onselect: function(start, end) {
+                                                                    startDate = start;
+                                                                    endDate = end;
+                                                                }
+                                                            })
                                                         )
                                                     ]
                                                 ),
@@ -106,16 +116,6 @@ var AppointmentDialog = {
                             m(IconButton, {
                                 label: 'Ok',
                                 onclick: async function() {
-                                    const dateRangeString = document.querySelector('input[name=\'daterange\']').value;
-                                    let startDate = null;
-                                    let endDate = null;
-
-                                    if (dateRangeString !== '') {
-                                        const dateRangeSplit = dateRangeString.split(':');
-                                        startDate = dateRangeSplit[0];
-                                        endDate = dateRangeSplit[1];
-                                    }
-
                                     const checkboxes = document.querySelectorAll('input[name=\'appointmentBirds\']:checked');
                                     document.querySelectorAll('input[name=\'appointmentServices\']:checked');
 
@@ -153,16 +153,6 @@ var AppointmentDialog = {
 
 m.mount(document.body, AppointmentDialog);
 
-window.picker = new easepick.create({
-    element: '#datepicker',
-    css: [
-        './lib/easepick-1.2.0/index.css'
-    ],
-    inline: true,
-    firstDay: 0,
-    RangePlugin: { delimiter: ':' },
-    plugins: [ 'RangePlugin' ]
-});
 
 const customerNameInput = document.querySelector('#customerNameInput');
 new Choices(customerNameInput, {
