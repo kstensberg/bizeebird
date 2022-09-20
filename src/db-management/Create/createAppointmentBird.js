@@ -4,9 +4,9 @@ const createAppointmentBird = (db, appointment, bird) => {
         'Bird_BirdId, Appointment_AppointmentId) VALUES (GroomingWings = $GroomingWings' +
         'GroomingNails = $GroomingNails, CageNeeded = $CageNeeded, Bird_BirdId = $Bird_BirdId, ' +
         'Appointment_AppointmentId = $Appointment_AppointmentId'), {
-            $GroomingWings: GroomingWings,
-            $GroomingNails: GroomingNails,
-            $CageNeeded: CageNeeded,
+            $GroomingWings: bird.GroomingWings,
+            $GroomingNails: bird.GroomingNails,
+            $CageNeeded: bird.CageNeeded,
             $Bird_BirdId: bird.Bird_BirdId,
             $Appointment_AppointmentId: appointment.Appointment_AppointmentId
         };

@@ -40,7 +40,7 @@ const createAppointment = (db, appointment) => {
 // };
 
 const runAllCreateAppointment = async (db, appointment) => {
-    const appointmentId = await createAppointment(db, appointment);
+    await createAppointment(db, appointment);
     console.log(appointment);
     // await Promise.all([createAppointmentBirds(db, appointmentId)]);
 };
