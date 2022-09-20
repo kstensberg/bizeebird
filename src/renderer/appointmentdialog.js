@@ -159,6 +159,7 @@ window.picker = new easepick.create({
         './lib/easepick-1.2.0/index.css'
     ],
     inline: true,
+    firstDay: 0,
     RangePlugin: { delimiter: ':' },
     plugins: [ 'RangePlugin' ]
 });
