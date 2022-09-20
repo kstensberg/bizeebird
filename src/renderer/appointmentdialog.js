@@ -117,7 +117,8 @@ var AppointmentDialog = {
                                     }
 
                                     const checkboxes = document.querySelectorAll('input[name=\'appointmentBirds\']:checked');
-                                    const services = document.querySelectorAll('input[name=\'appointmentServices\']:checked');
+                                    document.querySelectorAll('input[name=\'appointmentServices\']:checked');
+
                                     const birds = [];
                                     checkboxes.forEach((checkbox) => {
                                         birds.push(checkbox.value);

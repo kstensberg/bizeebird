@@ -52,7 +52,7 @@ class AppointmentBird {
                             ),
                             m('div',
                                 [
-                                    m('label', {'for':'birdNotes' },
+                                    m('label', { 'for':'birdNotes' },
                                         'Notes'
                                     ),
                                     m('br'),
