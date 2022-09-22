@@ -10,8 +10,9 @@ var birds = [];
 var startDate = null;
 var endDate = null;
 
-var AppointmentDialog = {
-    view: function() {
+class AppointmentDialog {
+
+    view() {
         const birdComponents = [];
 
         for (const bird of birds) {
@@ -176,6 +177,6 @@ var AppointmentDialog = {
             )
         );
     }
-};
+}
 
 m.mount(document.body, AppointmentDialog);
