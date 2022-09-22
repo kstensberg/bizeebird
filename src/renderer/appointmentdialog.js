@@ -3,6 +3,7 @@
 import { IconButton } from './components/icon-button.js';
 import { AppointmentBird } from './components/appointment-bird.js';
 import { DatePicker } from './components/date-picker.js';
+import { Dropdown } from './components/dropdown.js';
 
 var customerId = null;
 var birds = [];
@@ -33,7 +34,33 @@ var AppointmentDialog = {
                                                             'Customer'
                                                         ),
                                                         m('td',
-                                                            m('select', { 'id': 'customerNameInput', 'name':'customerName' })
+                                                            m(Dropdown, {
+                                                                getData: async function() {
+                                                                    const data = await window.contextBridge.database.getAllCustomers();
+
+                                                                    for (const idx in data) {
+                                                                        data[idx] = {
+                                                                            value: data[idx].CustomerId,
+                                                                            label: data[idx].Name
+                                                                        };
+                                                                    }
+
+                                                                    return data;
+                                                                },
+                                                                onSelect: async function(customerId) {
+                                                                    const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
+                                                                    birds = [];
+
+                                                                    for (const dbBird of dbBirds) {
+                                                                        birds.push({
+                                                                            id: dbBird.BirdId,
+                                                                            name: dbBird.Name
+                                                                        });
+                                                                    }
+
+                                                                    m.redraw();
+                                                                }
+                                                            })
                                                         )
                                                     ]
                                                 ),
@@ -152,36 +179,3 @@ var AppointmentDialog = {
 };
 
 m.mount(document.body, AppointmentDialog);
-
-
-const customerNameInput = document.querySelector('#customerNameInput');
-new Choices(customerNameInput, {
-}).setChoices(async function() {
-    const data = await window.contextBridge.database.getAllCustomers();
-
-    const result = [];
-    for (const row of data) {
-        result.push({ value: row.CustomerId, label: row.Name });
-    }
-
-    return result;
-});
-
-customerNameInput.addEventListener(
-    'change',
-    async function(event) {
-        customerId = event.detail.value;
-        const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
-        birds = [];
-
-        for (const dbBird of dbBirds) {
-            birds.push({
-                id: dbBird.BirdId,
-                name: dbBird.Name
-            });
-        }
-
-        m.redraw();
-    },
-    false,
-);
