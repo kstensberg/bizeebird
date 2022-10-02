@@ -1,181 +1,104 @@
-'use strict';
+'using strict';
 
-import { IconButton } from './components/icon-button.js';
 import { AppointmentBird } from './components/appointment-bird.js';
-import { DatePicker } from './components/date-picker.js';
-import { Dropdown } from './components/dropdown.js';
 
-var customerId = null;
-var birds = [];
-var startDate = null;
-var endDate = null;
+var AppointmentDialogModel = {
+    selectedCustomer: '',
+
+    customerBirds: [],
+
+    setCustomer: async function(customerId) {
+        this.selectedCustomer = customerId;
+
+        const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
+
+        this.customerBirds = dbBirds.map(function(row) {
+            return {
+                selected: false,
+                birdId: row.BirdId,
+                birdName: row.Name,
+                wings: false,
+                nails: false,
+                cageNeeded: false,
+                notes: ''
+            };
+        });
+    },
+
+    updateCustomerBird(bird) {
+        for (const idx in this.customerBirds){
+            if (this.customerBirds[idx].BirdId == bird.birdId) {
+                this.customerBirds[idx] = bird;
+                return;
+            }
+        }
+    }
+};
+
 
 class AppointmentDialog {
+    oninit(vnode) {
+    }
 
-    view() {
-        const birdComponents = [];
+    view(vnode) {
 
-        for (const bird of birds) {
-            birdComponents.push (m(AppointmentBird, { bird: bird }));
-        }
+        const elements = AppointmentDialogModel.customerBirds.map(function(bird) {
+            console.log(bird);
+            return m(AppointmentBird, {
+                bird: bird,
+                onchange: function (birdAppointment) {
+                    AppointmentDialogModel.updateBird(bird.BirdId);
+                }
+            });
 
-        return m('div', { 'id':'new-appointment-toplevel' },
-            m('form', { 'id': 'new-appointment-form' },
-                [
-                    m('div', { 'class':'container' },
-                        m('div', { 'class':'row' },
-                            [
-                                m('div', { 'class':'col' },
-                                    m('table',
-                                        m('tbody',
-                                            [
-                                                m('tr',
-                                                    [
-                                                        m('th',
-                                                            'Customer'
-                                                        ),
-                                                        m('td',
-                                                            m(Dropdown, {
-                                                                getData: async function() {
-                                                                    const data = await window.contextBridge.database.getAllCustomers();
+            return m('.panel-block', {
+                key: bird.id
+            }, [
+                m('label.checkbox', [
+                    m('input', {
+                        type: 'checkbox',
+                        onchange: function() {
+                            if (bird.selected) {
+                                AppointmentDialogModel.unselectBird(bird.BirdId);
+                            } else {
+                                AppointmentDialogModel.selectBird(bird.BirdId);
+                            }
+                        },
+                        checked: bird.selected
+                    }),
+                    m('span', bird.Name)
+                ])
+            ]);
+        });
 
-                                                                    for (const idx in data) {
-                                                                        data[idx] = {
-                                                                            value: data[idx].CustomerId,
-                                                                            label: data[idx].Name
-                                                                        };
-                                                                    }
+        return [
+            m('.container', [
+                m('nav.panel', [
+                    m('p.panel-heading', 'Todos'),
+                    m('.panel-block', [
+                        m('select', {
+                            name: 'customers',
+                            oncreate: ({ dom }) => new Choices(dom).setChoices(async function() {
+                                const data = await window.contextBridge.database.getAllCustomers();
 
-                                                                    return data;
-                                                                },
-                                                                onSelect: async function(customerId) {
-                                                                    const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
-                                                                    birds = [];
-
-                                                                    for (const dbBird of dbBirds) {
-                                                                        birds.push({
-                                                                            id: dbBird.BirdId,
-                                                                            name: dbBird.Name
-                                                                        });
-                                                                    }
-
-                                                                    m.redraw();
-                                                                }
-                                                            })
-                                                        )
-                                                    ]
-                                                ),
-                                                m('tr',
-                                                    [
-                                                        m('th',
-                                                            'Notes'
-                                                        ),
-                                                        m('td',
-                                                            m('textarea', { 'name':'notes','cols':'20','rows':'10' })
-                                                        )
-                                                    ]
-                                                ),
-                                                m('tr',
-                                                    [
-                                                        m('th',
-                                                            'Dates'
-                                                        ),
-                                                        m('td',
-                                                            m(DatePicker, {
-                                                                hiddenInput: true,
-                                                                onselect: function(start, end) {
-                                                                    startDate = start;
-                                                                    endDate = end;
-                                                                }
-                                                            })
-                                                        )
-                                                    ]
-                                                ),
-                                                m('tr',
-                                                    [
-                                                        m('th',
-                                                            'Boarding Rate'
-                                                        ),
-                                                        m('td',
-                                                            m('input', { 'name':'boardingRate','type':'number' })
-                                                        )
-                                                    ]
-                                                ),
-                                                m('tr',
-                                                    [
-                                                        m('th',
-                                                            'Status'
-                                                        ),
-                                                        m('td',
-                                                            m('select', { 'name':'status' },
-                                                                [
-                                                                    m('option', { 'value':'Scheduled' },
-                                                                        'Scheduled'
-                                                                    ),
-                                                                    m('option', { 'value':'CheckedIn' },
-                                                                        'Checked In'
-                                                                    ),
-                                                                    m('option', { 'value':'CheckedOut' },
-                                                                        'Checked Out'
-                                                                    ),
-                                                                    m('option', { 'value':'Cancelled' },
-                                                                        'Cancelled'
-                                                                    ),
-                                                                    m('option', { 'value':'NoShow' },
-                                                                        'No Show'
-                                                                    )
-                                                                ]
-                                                            )
-                                                        )
-                                                    ]
-                                                )
-                                            ]
-                                        )
-                                    )
-                                ),
-                                m('div', { 'class':'col' },
-                                    birdComponents
-                                )
-                            ]
-                        )
-                    ),
-                    m('div', { 'class':'dialog-buttons' },
-                        [
-                            m(IconButton, {
-                                label: 'Ok',
-                                onclick: async function() {
-                                    const checkboxes = document.querySelectorAll('input[name=\'appointmentBirds\']:checked');
-                                    document.querySelectorAll('input[name=\'appointmentServices\']:checked');
-
-                                    const birds = [];
-                                    checkboxes.forEach((checkbox) => {
-                                        birds.push(checkbox.value);
-                                    });
-
-                                    await window.contextBridge.database.saveAppointment({
-                                        customerId: customerId,
-                                        notes: document.querySelector('textarea[name=\'notes\']').value,
-                                        startDate: startDate,
-                                        endDate: endDate,
-                                        boardingRate: document.querySelector('input[name=\'boardingRate\']').value,
-                                        status: document.querySelector('select[name=\'status\']').value,
-                                        birds: birds
-                                    });
-
-                                    window.close();
-                                }
+                                return data.map(function(row) {
+                                    return {
+                                        value: row.CustomerId,
+                                        label: row.Name
+                                    };
+                                });
                             }),
-                            m(IconButton, {
-                                label: 'Cancel',
-                                onclick: async function() {
-                                    window.close();
-                                }
-                            })
-                        ]
-                    )
-                ]
-            )
-        );
+                            onchange: async function(event) {
+                                event.redraw = false;
+                                await AppointmentDialogModel.setCustomer(event.detail.value);
+                                m.redraw();
+                            }
+                        })
+                    ]),
+                    elements
+                ])
+            ])
+        ];
     }
 }
 
