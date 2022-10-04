@@ -64,11 +64,13 @@ class AppointmentBird {
                             ),
                             m('div',
                                 [
-                                    m('label', { 'for':'birdNotes' },
+                                    m('label',
                                         'Notes'
                                     ),
                                     m('br'),
-                                    m('textarea', { 'name':'birdNotes' }),
+                                    m('textarea', { 'name':'birdNotes', oninput: () => {
+                                        alert('here');
+                                    }}),
                                 ]
                             )
                         ]
