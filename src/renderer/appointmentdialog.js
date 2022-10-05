@@ -44,6 +44,11 @@ var AppointmentDialogModel = {
         for (const idx in this.customerBirds) {
             if (this.customerBirds[idx].birdId == birdId) {
                 this.customerBirds[idx][prop] = !this.customerBirds[idx][prop];
+
+                if(this.customerBirds[idx][prop] == true) {
+                    this.customerBirds[idx].selected = true;
+                }
+
                 return;
             }
         }
@@ -56,111 +61,126 @@ class AppointmentDialog {
     }
 
     view(vnode) {
-        return m('div', [
-            m('select', {
-                oncreate: ({ dom }) => {
-                    return new Choices(dom, {}).setChoices(async () => {
-                        return (await window.contextBridge.database.getAllCustomers()).map((row) => {
-                            return {
-                                value: row.CustomerId,
-                                label: row.Name
-                            };
-                        });
-                    });
-                },
-                onchange: async (event) => {
-                    event.redraw = false;
-                    await AppointmentDialogModel.setCustomer(event.detail.value);
-
-
-                    m.redraw();
-
-
-                }
-            }),
-            m('div', AppointmentDialogModel.customerBirds.map((bird) =>
-                m('div',
-                    m('label', { 'class':'form-check-label' },
-                        [
-                            m('input', {
-                                'type':'checkbox',
-                                'class':'form-check-input',
-                                'value': bird.birdId,
-                                checked: bird.selected,
-                                onchange: function(event) {
-                                    AppointmentDialogModel.toggleBirdSelected(event.target.value);
-                                }
-                            }),
-                            bird.name
-                        ]
-                    ),
-                    m('div',
-                        m('div', { 'class':'card card-body' },
-                            [
-                                m('label', { 'class':'form-check-label' },
+        
+        return m('div', { 'class':'dialog-toplevel' },
+            [
+                m('div', { 'class':'dialog-body' },
+                m('div', [
+                    m('select', {
+                        oncreate: ({ dom }) => {
+                            return new Choices(dom, {}).setChoices(async () => {
+                                return (await window.contextBridge.database.getAllCustomers()).map((row) => {
+                                    return {
+                                        value: row.CustomerId,
+                                        label: row.Name
+                                    };
+                                });
+                            });
+                        },
+                        onchange: async (event) => {
+                            event.redraw = false;
+                            await AppointmentDialogModel.setCustomer(event.detail.value);        
+                            m.redraw();
+                        }
+                    }),
+                    m('div', AppointmentDialogModel.customerBirds.map((bird) =>
+                        m('div',
+                            m('label', { 'class':'form-check-label' },
+                                [
+                                    m('input', {
+                                        'type':'checkbox',
+                                        'class':'form-check-input',
+                                        'value': bird.birdId,
+                                        checked: bird.selected,
+                                        onchange: function(event) {
+                                            AppointmentDialogModel.toggleBirdSelected(bird.birdId);
+                                        }
+                                    }),
+                                    bird.name
+                                ]
+                            ),
+                            m('div',
+                                m('div', { 'class':'card card-body' },
                                     [
-                                        m('input', {
-                                            'type':'checkbox',
-                                            'class':'form-check-input',
-                                            'value': bird.birdId,
-                                            checked: bird.wings,
-                                            onchange: function(event) {
-                                                AppointmentDialogModel.toggleBirdWings(event.target.value);
-                                            }
-                                        }),
-                                        'Wings'
-                                    ]
-                                ),
-                                m('label', { 'class':'form-check-label' },
-                                    [
-                                        m('input', {
-                                            'type':'checkbox',
-                                            'class':'form-check-input',
-                                            'value': bird.birdId,
-                                            checked: bird.nails,
-                                            onchange: function(event) {
-                                                AppointmentDialogModel.toggleBirdNails(event.target.value);
-                                            }
-                                        }),
-                                        'Nails'
-                                    ]
-                                ),
-                                m('label', { 'class':'form-check-label' },
-                                    [
-                                        m('input', {
-                                            'type':'checkbox',
-                                            'class':'form-check-input',
-                                            'value': bird.birdId,
-                                            checked: bird.cageNeeded,
-                                            onchange: function(event) {
-                                                AppointmentDialogModel.toggleBirdCageNeeded(event.target.value);
-                                            }
-                                        }),
-                                        'Cage Needed'
-                                    ]
-                                ),
-                                m('div',
-                                    [
-                                        m('label', { 'for':'birdNotes' },
-                                            'Notes'
+                                        m('label', { 'class':'form-check-label' },
+                                            [
+                                                m('input', {
+                                                    'type':'checkbox',
+                                                    'class':'form-check-input',
+                                                    checked: bird.wings,
+                                                    onchange: function(event) {
+                                                        AppointmentDialogModel.toggleBirdWings(bird.birdId);
+                                                    }
+                                                }),
+                                                'Wings'
+                                            ]
                                         ),
-                                        m('br'),
-                                        m('textarea', {
-                                            'class':'birdNotes',
-                                            'value':bird.notes,
-                                            onkeyup: (event) => {
-                                                AppointmentDialogModel.setBirdNotes(bird.birdId, event.target.value);
-                                                console.log(AppointmentDialogModel);
-                                            }
-                                        }),
+                                        m('label', { 'class':'form-check-label' },
+                                            [
+                                                m('input', {
+                                                    'type':'checkbox',
+                                                    'class':'form-check-input',
+                                                    checked: bird.nails,
+                                                    onchange: function(event) {
+                                                        AppointmentDialogModel.toggleBirdNails(bird.birdId);
+                                                    }
+                                                }),
+                                                'Nails'
+                                            ]
+                                        ),
+                                        m('label', { 'class':'form-check-label' },
+                                            [
+                                                m('input', {
+                                                    'type':'checkbox',
+                                                    'class':'form-check-input',
+                                                    checked: bird.cageNeeded,
+                                                    onchange: function(event) {
+                                                        AppointmentDialogModel.toggleBirdCageNeeded(bird.birdId);
+                                                    }
+                                                }),
+                                                'Cage Needed'
+                                            ]
+                                        ),
+                                        m('div',
+                                            [
+                                                m('label', { 'for':'birdNotes' },
+                                                    'Notes'
+                                                ),
+                                                m('br'),
+                                                m('textarea', {
+                                                    'class':'birdNotes',
+                                                    'value':bird.notes,
+                                                    onkeyup: (event) => {
+                                                        AppointmentDialogModel.setBirdNotes(bird.birdId, event.target.value);
+                                                    }
+                                                }),
+                                            ]
+                                        )
                                     ]
                                 )
-                            ]
-                        )
+                            )
+                        ))
+                    ),
+                ])
+                ),
+                m('div', { 'class':'dialog-footer' },
+                    m('div', { 'class': 'dialog-footer-button-container' },
+                    [m('button', {
+                        'class': 'btn btn-primary',
+                        onclick: () => {
+                            window.close();
+                        }
+                    }, 'Cancel'),
+                    m('button', {
+                        'class': 'btn btn-primary',
+                        onclick: () => {
+                            window.close();
+                        }
+                    }, 'OK')]
                     )
-                ))
-            ),
-        ]);
+                ),
+            ]
+        );
     }
 }
 
