@@ -3,11 +3,13 @@
 class AppointmentBird {
     constructor(vnode) {
         this.bird = vnode.attrs.bird;
-        console.log(this.bird);
+        this.onchange = vnode.attrs.onchange;
     }
     view() {
 
-        var birdNameLabel = this.bird.name;
+        const appointmentBird = this;
+
+        var birdNameLabel = this.bird.birdName;
 
         if (this.bird.breed) {
             birdNameLabel += ' - ' + this.bird.breed;
@@ -17,10 +19,20 @@ class AppointmentBird {
             [
                 m('div', { 'class':'form-check' },
                     [
-                        m('input', { 'class':'form-check-input','type':'checkbox','value':this.bird.id,'name':'appointmentBirds' }),
-                        m('label', { 'class':'form-check-label','for':'appointmentBirds' },
-                            birdNameLabel
-                        )
+                        m('input', { 
+                            'class':'form-check-input',
+                            'type':'checkbox',
+                            'name':'appointmentBirds', 
+                            'checked': this.bird.selected,
+                            onchange: function() {
+                                console.log(appointmentBird.bird);
+                                //alert('here');
+                            }
+                        }),
+                        m('label', { 
+                            'class':'form-check-label',
+                            'for':'appointmentBirds' 
+                        }, birdNameLabel)
                     ]
                 ),
                 m('div',
@@ -52,11 +64,13 @@ class AppointmentBird {
                             ),
                             m('div',
                                 [
-                                    m('label', { 'for':'birdNotes' },
+                                    m('label',
                                         'Notes'
                                     ),
                                     m('br'),
-                                    m('textarea', { 'name':'birdNotes' }),
+                                    m('textarea', { 'name':'birdNotes', oninput: () => {
+                                        alert('here');
+                                    }}),
                                 ]
                             )
                         ]
