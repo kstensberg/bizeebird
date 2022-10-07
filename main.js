@@ -8,11 +8,13 @@ const createMainWindow = () => {
     return createWindow('src/renderer/index.html', 800, 600);
 };
 
-const createWindow = (loadFile, width, height) => {
+const createWindow = (loadFile, width, height, minWidth = 0, minHeight = 0) => {
     const window = new BrowserWindow({
         width: width,
         height: height,
         autoHideMenuBar: true,
+        minHeight: minHeight,
+        minWidth: minWidth,
         icon: 'assets/bizeebird.ico',
         webPreferences: {
             devTools: !app.isPackaged,
@@ -31,7 +33,7 @@ const createWindow = (loadFile, width, height) => {
 };
 
 ipcMain.handle('openAppointmentDialog', function(event, appointmentId) {
-    const window = createWindow('src/renderer/appointmentdialog.html', 800, 600);
+    const window = createWindow('src/renderer/appointmentdialog.html', 830, 700, 830, 100);
 
     if (appointmentId) {
         window.once('ready-to-show', () => {
