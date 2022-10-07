@@ -9,7 +9,7 @@ import { HistorySearch } from './history-search.js';
 
 var Tabs = {
     view: function(vnode) {
-        return m('div',
+        return m('div', {id: 'tabs-toplevel'},
             [
                 m('ul', { 'class':'nav nav-tabs','id':'mainTabs','role':'tablist' },
                     [

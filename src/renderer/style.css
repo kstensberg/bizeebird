@@ -2,6 +2,7 @@ body,
 html {
   padding: 0;
   margin: 0;
+  height: 100%;
 }
 
 .throbber-container {
@@ -109,4 +110,29 @@ fieldset.labeled-container {
 	padding: 10px;
 	width: 350px;
 	min-height: 100px;
+}
+
+#main-window-toplevel {
+  width: 100%;
+  height: 100%;
+}
+
+#main-window-button-bar {
+  height: 50px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+#main-window-body-toplevel {
+  position: absolute;
+  top:50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-x: auto;
+}
+
+#tabs-toplevel {
+  height: 100%;
 }
