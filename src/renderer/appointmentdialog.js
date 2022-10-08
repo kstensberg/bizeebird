@@ -9,7 +9,7 @@ var AppointmentDialogModel = {
     startDate: null,
     endDate: null,
     boardingRate: null,
-    status: null,
+    status: 'Scheduled',
 
     setCustomer: async function(customerId) {
         this.selectedCustomer = customerId;
@@ -74,99 +74,97 @@ class AppointmentDialog {
                     [
                         m('div', { 'id':'appointment-dialog-left-column-container' },
                             m('div', { 'id':'appointment-dialog-left-column' },
-                                ('table', { 'class':'form-table' },
-                                m('tbody',
-                                    [
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    'Customer'
-                                                ),
-                                                m('td',
-                                                    m('select', {
-                                                        oncreate: ({ dom }) => {
-                                                            return new Choices(dom, {}).setChoices(async () => {
-                                                                return (await window.contextBridge.database.getAllCustomers()).map((row) => {
-                                                                    return {
-                                                                        value: row.CustomerId,
-                                                                        label: row.Name
-                                                                    };
+                                m('table', { 'class':'form-table' },
+                                    m('tbody',
+                                        [
+                                            m('tr',
+                                                [
+                                                    m('th',
+                                                        'Customer'
+                                                    ),
+                                                    m('td',
+                                                        m('select', {
+                                                            oncreate: ({ dom }) => {
+                                                                return new Choices(dom, {}).setChoices(async () => {
+                                                                    return (await window.contextBridge.database.getAllCustomers()).map((row) => {
+                                                                        return {
+                                                                            value: row.CustomerId,
+                                                                            label: row.Name
+                                                                        };
+                                                                    });
                                                                 });
-                                                            });
-                                                        },
-                                                        onchange: async (event) => {
-                                                            event.redraw = false;
-                                                            await AppointmentDialogModel.setCustomer(event.detail.value);
-                                                            m.redraw();
-                                                        }
-                                                    })
-                                                )
-                                            ]
-                                        ),
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    'Notes'
-                                                ),
-                                                m('td',
-                                                    m('textarea', { 
-                                                        'name':'notes',
-                                                        'cols':'20',
-                                                        'rows':'10',
-                                                        'value': AppointmentDialogModel.notes,
-                                                        onkeyup: (event) => {
-                                                            AppointmentDialogModel.notes = event.target.value;
-                                                        }
-                                                    })
-                                                )
-                                            ]
-                                        ),
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    'Dates'
-                                                ),
-                                                m('td',
-                                                    m(DatePicker, {
-                                                        hiddenInput: true,
-                                                        onselect: function(start, end) {
-                                                            AppointmentDialogModel.startDate = start;
-                                                            AppointmentDialogModel.endDate = end;
-                                                        }
-                                                    })
-                                                )
-                                            ]
-                                        ),
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    'Boarding Rate'
-                                                ),
-                                                m('td',
-                                                    m('input', { 
-                                                        'name':'boardingRate',
-                                                        'type':'number',
-                                                        'value': AppointmentDialogModel.boardingRate,
-                                                        'onchange': function(event) {
-                                                            AppointmentDialogModel.boardingRate = Number(event.target.value);
-                                                        }
-                                                    })
-                                                )
-                                            ]
-                                        ),
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    'Status'
-                                                ),
-                                                m('td',
-                                                    m('select', { 
-                                                        'name':'status',
-                                                        'value': AppointmentDialogModel.status,
-                                                        'onchange': function(event) {
-                                                            AppointmentDialogModel.status = event.target.value;
-                                                        }
-                                                    }, [
+                                                            },
+                                                            onchange: async (event) => {
+                                                                event.redraw = false;
+                                                                await AppointmentDialogModel.setCustomer(event.detail.value);
+                                                                m.redraw();
+                                                            }
+                                                        })
+                                                    )
+                                                ]
+                                            ),
+                                            m('tr',
+                                                [
+                                                    m('th',
+                                                        'Notes'
+                                                    ),
+                                                    m('td',
+                                                        m('textarea', {
+                                                            'class': 'form-control',
+                                                            'value': AppointmentDialogModel.notes,
+                                                            oninput: (event) => {
+                                                                AppointmentDialogModel.notes = event.target.value;
+                                                            }
+                                                        })
+                                                    )
+                                                ]
+                                            ),
+                                            m('tr',
+                                                [
+                                                    m('th',
+                                                        'Dates'
+                                                    ),
+                                                    m('td',
+                                                        m(DatePicker, {
+                                                            hiddenInput: true,
+                                                            onselect: function(start, end) {
+                                                                AppointmentDialogModel.startDate = start;
+                                                                AppointmentDialogModel.endDate = end;
+                                                            }
+                                                        })
+                                                    )
+                                                ]
+                                            ),
+                                            m('tr',
+                                                [
+                                                    m('th',
+                                                        'Boarding Rate'
+                                                    ),
+                                                    m('td',
+                                                        m('input', {
+                                                            'class': 'form-control',
+                                                            'type':'number',
+                                                            'value': AppointmentDialogModel.boardingRate,
+                                                            'onchange': function(event) {
+                                                                AppointmentDialogModel.boardingRate = Number(event.target.value);
+                                                            }
+                                                        })
+                                                    )
+                                                ]
+                                            ),
+                                            m('tr',
+                                                [
+                                                    m('th',
+                                                        'Status'
+                                                    ),
+                                                    m('td',
+                                                        m('select', {
+                                                            'class': 'form-select',
+                                                            'value': AppointmentDialogModel.status,
+                                                            'onchange': function(event) {
+                                                                AppointmentDialogModel.status = event.target.value;
+                                                            }
+                                                        }, [
                                                             m('option', { 'value':'Scheduled' },
                                                                 'Scheduled'
                                                             ),
@@ -183,12 +181,12 @@ class AppointmentDialog {
                                                                 'No Show'
                                                             )
                                                         ]
+                                                        )
                                                     )
-                                                )
-                                            ]
-                                        )
-                                    ]
-                                )
+                                                ]
+                                            )
+                                        ]
+                                    )
                                 )
                             )
                         ),
@@ -258,7 +256,7 @@ class AppointmentDialog {
                                                         ),
                                                         m('br'),
                                                         m('textarea', {
-                                                            'class':'birdNotes',
+                                                            'class': 'form-control',
                                                             'value':bird.notes,
                                                             onkeyup: (event) => {
                                                                 AppointmentDialogModel.setBirdNotes(bird.birdId, event.target.value);
@@ -287,14 +285,14 @@ class AppointmentDialog {
                                 'class': 'btn btn-primary',
                                 onclick: async () => {
                                     const newAppointment = {
-                                        customer: AppointmentDialogModel.selectedCustomer,
+                                        customerId: AppointmentDialogModel.selectedCustomer,
                                         birds: [],
                                         notes: AppointmentDialogModel.notes,
                                         startDate: AppointmentDialogModel.startDate,
                                         endDate: AppointmentDialogModel.endDate,
                                         boardingRate: AppointmentDialogModel.boardingRate,
                                         status: AppointmentDialogModel.status,
-                                    }
+                                    };
 
                                     for (const customerBird of AppointmentDialogModel.customerBirds) {
                                         if (customerBird.selected) {
@@ -304,7 +302,7 @@ class AppointmentDialog {
                                                 nails: customerBird.nails,
                                                 notes: customerBird.notes,
                                                 wings: customerBird.wings
-                                            })
+                                            });
                                         }
                                     }
 

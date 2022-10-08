@@ -94,6 +94,17 @@ fieldset.labeled-container {
   width: 100%;
 }
 
+.form-table th {
+  font-weight: normal;
+  text-align: right;
+  white-space: nowrap;
+  padding-right: 20px;
+}
+
+.form-table textarea {
+  height: 160px;
+}
+
 #appointment-dialog-left-column {
 	width: 100%;
 	float: left;
