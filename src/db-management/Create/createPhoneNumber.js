@@ -1,9 +1,9 @@
-const createPhoneNumber = (db, Number) => {
+const createPhoneNumber = (db, number) => {
     db.serialize(() => {
-        db.run('INSERT INTO CustomerPhoneNumbers (PhoneNumber, Customer_CustomerId) VALUES (PhoneNumber = $PhoneNumber, ' +
-        'Customer_CustomerId = $CustomerId)', {
-            $PhoneNumber: Number.PhoneNumber,
-            $Customer_CustomerId: Number.CustomerId
+        db.run('INSERT INTO CustomerPhoneNumbers (PhoneNumber, Customer_CustomerId) VALUES (PhoneNumber = $phoneNumber, ' +
+        'Customer_CustomerId = $customerId)', {
+            $phoneNumber: number.phoneNumber,
+            $customerId: number.customerId
         });
     });
 };

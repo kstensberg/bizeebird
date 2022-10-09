@@ -4,11 +4,11 @@ const createCustomer = (db, customer) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             db.run('INSERT INTO Customers (Name, Email, BoardingRate, Notes) ' +
-            'VALUES ($Name, $Email, $BoardingRate, $Notes)', {
-                $Name: customer.name,
-                $Email: customer.email,
-                $BoardingRate: customer.boardingRate,
-                $Notes: customer.notes
+            'VALUES ($name, $email, $boardingRate, $notes)', {
+                $name: customer.name,
+                $email: customer.email,
+                $boardingRate: customer.boardingRate,
+                $notes: customer.notes
             }, function(err) {
                 if (err) {
                     reject(err);
@@ -22,10 +22,10 @@ const createCustomer = (db, customer) => {
 const createPhoneNumber = (db, customerId, numbers) => {
     db.serialize(() => {
         numbers.forEach(number =>
-            db.run('INSERT INTO CustomerPhoneNumbers (PhoneNumber, Customer_CustomerId) VALUES ($PhoneNumber, ' +
-            '$Customer_CustomerId)', {
-                $PhoneNumber: number,
-                $Customer_CustomerId: customerId
+            db.run('INSERT INTO CustomerPhoneNumbers (PhoneNumber, Customer_CustomerId) VALUES ($phoneNumber, ' +
+            '$customerId)', {
+                $phoneNumber: number,
+                $customerId: customerId
             })
         );
     });
@@ -35,15 +35,15 @@ const createBird = (db, customerId, birds) => {
     db.serialize(() => {
         for (const bird of birds) {
             db.run('INSERT INTO Birds (Deleted, Name, Breed, Color, Age, Gender, Notes, ' +
-            'Customer_CustomerId) VALUES (0, $Name, $Breed, $Color, $Age, ' +
-            '$Gender, $Notes, $Customer_CustomerId)', {
-                $Name: bird.name,
-                $Breed: bird.breed,
-                $Color: bird.color,
-                $Age: bird.age,
-                $Gender: bird.gender,
-                $Notes: bird.notes,
-                $Customer_CustomerId: customerId
+            'Customer_CustomerId) VALUES (0, $name, $breed, $color, $age, ' +
+            '$gender, $notes, $customerId)', {
+                $name: bird.name,
+                $breed: bird.breed,
+                $color: bird.color,
+                $age: bird.age,
+                $gender: bird.gender,
+                $notes: bird.notes,
+                $customerId: customerId
             });
         }
     });

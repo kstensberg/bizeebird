@@ -4,12 +4,12 @@ const createAppointment = (db, appointment) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             db.run('INSERT INTO Appointments (StartTime, EndTime, Status, Notes, Customer_CustomerId) ' +
-            'VALUES ($StartTime, $EndTime, $Status, $Notes, $Customer_CustomerId)', {
-                $StartTime: '2022-09-22',
-                $EndTime: '2022-09-25',
-                $Status: appointment.status,
-                $Notes: appointment.notes,
-                $Customer_CustomerId: appointment.customerId
+            'VALUES ($startTime, $endTime, $status, $notes, $customerId)', {
+                $startTime: appointment.startDate,
+                $endTime: appointment.endDate,
+                $status: appointment.status,
+                $notes: appointment.notes,
+                $customerId: appointment.customerId
             }, function(err) {
                 if (err) {
                     reject(err);
@@ -40,6 +40,7 @@ const createAppointment = (db, appointment) => {
 // };
 
 const runAllCreateAppointment = async (db, appointment) => {
+    console.log(appointment);
     await createAppointment(db, appointment);
     console.log(appointment);
     // await Promise.all([createAppointmentBirds(db, appointmentId)]);
