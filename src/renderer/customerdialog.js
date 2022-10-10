@@ -3,128 +3,149 @@
 import { LabeledContainer } from './components/labeled-container.js';
 import { Table } from './components/table.js';
 import { IconButton } from './components/icon-button.js';
-import { Dialog } from './components/dialog.js';
-
-var customer = null;
-var birds = [];
-var phoneNumberCount = 1;
 
 window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
     customer = await window.contextBridge.database.getCustomer(customerId);
 
-    birds = customer.birds;
+    CustomerDialogModel = {
+        customerId: customer.customerId,
+        name: customer.name,
+        phoneNumbers: customer.phoneNumber,
+        email: customer.email,
+        boardingRate: customer.boardingId,
+        notes: customer.notes,
+        currentBirdInput: {
+            name: '',
+            breed: '',
+            color: '',
+            age: null,
+            gender: null,
+            notes: '',
+        },
+        birds: customer.birds
+    }
 
     m.redraw();
 });
 
-var CustomerDialog = {
-    view: function() {
-        const birdsTableData = [];
-        const phoneNumberComponents = [];
+var CustomerDialogModel = {
+    customerId: null,
+    name: null,
+    phoneNumbers: [null],
+    email: null,
+    boardingRate: null,
+    notes: null,
+    currentBirdInput: {
+        name: null,
+        breed: null,
+        color: null,
+        age: null,
+        gender: null,
+        notes: null,
+    },
+    birds: []
+};
 
-        for (let idx = 0; idx < phoneNumberCount; idx++) {
-            phoneNumberComponents.push(
-                m('div', [
-                    m('input', { 'type':'tel', 'name':'phoneNumber', 'class': 'phoneNumberInput' }),
-                ])
-            );
-        }
+class CustomerDialog {
+    oninit(vnode) {
+    }
 
-        for (const bird of birds) {
-            birdsTableData.push([bird.name, bird.breed, bird.color, bird.age, bird.gender, bird.notes]);
-        }
-
-        return m(Dialog, {
-            body: m('div', { 'id':'new-customer-toplevel' },
-                [
-                    m('form', { 'id': 'edit-customer-form' },
-                        [
-                            m('table',
-                                m('tbody',
+    view(vnode) {
+        return m('div', { 'class':'dialog-toplevel' },
+            [
+                m('div', { 'class':'dialog-body' },
+                    m('div', { 'id':'new-customer-toplevel' }, [
+                        m('table', { 'class':'form-table' },
+                            m('tbody', [
+                                m('tr', [
+                                    m('th', 'Name'),
+                                    m('td',
+                                        m('input', {
+                                            'class': 'form-control',
+                                            'type':'text',
+                                            'value': CustomerDialogModel.name,
+                                            'onchange': function(event) {
+                                                CustomerDialogModel.name = event.target.value;
+                                            }
+                                        })
+                                    )
+                                ]),
+                                m('tr', [
+                                    m('th', 'Phone Number'),
+                                    m('td',
                                     [
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    m('label', { 'for':'name' },
-                                                        'Name:'
-                                                    )
-                                                ),
-                                                m('td',
-                                                    m('input', { 'type':'text', 'name':'name', 'value': customer?.name })
-                                                )
-                                            ]
-                                        ),
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    m('label', { 'for':'phoneNumber' },
-                                                        'Phone Number:'
-                                                    )
-                                                ),
-                                                m('td',
-                                                    [
-                                                        m('div', phoneNumberComponents),
-                                                        m('div', [
-                                                            m(IconButton, {
-                                                                label: 'Add',
-                                                                onclick: async function() {
-                                                                    phoneNumberCount++;
-                                                                }
-                                                            }),
-                                                            m(IconButton, {
-                                                                label: 'Remove',
-                                                                disabled: phoneNumberCount <= 1,
-                                                                onclick: async function() {
-                                                                    phoneNumberCount--;
-                                                                }
-                                                            })
-                                                        ]),
-                                                    ]
-                                                )
-                                            ]
-                                        ),
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    m('label', { 'for':'email' },
-                                                        'E-Mail:'
-                                                    )
-                                                ),
-                                                m('td',
-                                                    m('input', { 'type':'email', 'name':'email', 'value': customer?.email })
-                                                )
-                                            ]
-                                        ),
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    m('label', { 'for':'boardingRate' },
-                                                        'Boarding Rate:'
-                                                    )
-                                                ),
-                                                m('td',
-                                                    m('input', { 'type':'text', 'name':'boardingRate', 'value': customer?.boardingRate })
-                                                )
-                                            ]
-                                        ),
-                                        m('tr',
-                                            [
-                                                m('th',
-                                                    m('label', { 'for':'notes' },
-                                                        'Notes:'
-                                                    )
-                                                ),
-                                                m('td',
-                                                    m('textarea', { 'name': 'customerNotes', 'cols':'23','rows':'4' }, customer?.notes)
-                                                )
-                                            ]
-                                        )
+                                        m('div', CustomerDialogModel.phoneNumbers.map((phoneNumber, idx) => {
+                                            return m('div', [
+                                                m('input', { 
+                                                    'type':'tel', 
+                                                    'class': 'form-control',
+                                                    'value': phoneNumber,
+                                                    'onchange': function(event) {
+                                                        CustomerDialogModel.phoneNumbers[idx] = event.target.value;
+                                                    }
+                                                }),
+                                            ]);
+                                        })),
+                                        m('div', [
+                                            m(IconButton, {
+                                                label: 'Add',
+                                                onclick: async function() {
+                                                    CustomerDialogModel.phoneNumbers.push('');
+                                                }
+                                            }),
+                                            m(IconButton, {
+                                                label: 'Remove',
+                                                disabled: CustomerDialogModel.phoneNumbers.length <= 1,
+                                                onclick: async function() {
+                                                    CustomerDialogModel.phoneNumbers.pop();
+                                                }
+                                            })
+                                        ]),
                                     ]
-                                )
+                                    )
+                                ]),
+                                m('tr', [
+                                    m('th', 'E-Mail'),
+                                    m('td',
+                                        m('input', {
+                                            'class': 'form-control',
+                                            'type':'email',
+                                            'value': CustomerDialogModel.email,
+                                            'onchange': function(event) {
+                                                CustomerDialogModel.email = event.target.value;
+                                            }
+                                        })
+                                    )
+                                ]),
+                                m('tr', [
+                                    m('th', 'Boarding Rate'),
+                                    m('td',
+                                        m('input', {
+                                            'class': 'form-control',
+                                            'type': 'number',
+                                            'value': CustomerDialogModel.boardingRate,
+                                            'onchange': function(event) {
+                                                CustomerDialogModel.boardingRate = Number(event.target.value);
+                                            }
+                                        })
+                                    )
+                                ]),
+                                m('tr', [
+                                    m('th', 'Notes'),
+                                    m('td',
+                                        m('textarea', {
+                                            'class': 'form-control',
+                                            'value': CustomerDialogModel.notes,
+                                            onkeyup: (event) => {
+                                                CustomerDialogModel.notes = event.target.value;
+                                            }
+                                        })
+                                    )
+                                ])
+                            ]
                             )
-                        ]
-                    ),
-                    m('div',
+                        ),
+
                         m(LabeledContainer, {
                             label: 'Birds',
                             child: m('div', { 'class':'container' },
@@ -135,9 +156,11 @@ var CustomerDialog = {
                                                 [
                                                     m(Table, {
                                                         headers: ['Name', 'Breed', 'Color', 'Age', 'Gender', 'Notes'],
-                                                        data: birdsTableData,
+                                                        data: CustomerDialogModel.birds.map((bird) => {
+                                                            return [bird.name, bird.breed, bird.color, bird.age, bird.gender, bird.notes];
+                                                        }),
                                                         removeButton: async function(index) {
-                                                            birds.splice(index, 1);
+                                                            CustomerDialogModel.birds.splice(index, 1);
                                                         }
                                                     })
                                                 ]
@@ -145,36 +168,48 @@ var CustomerDialog = {
                                             m('div', { 'class': 'col-md-auto' },
                                                 m('form', { 'id': 'edit-bird-form' },
                                                     [
-                                                        m('table',
+                                                        m('table', { 'class':'form-table' } ,
                                                             m('tbody',
                                                                 [
                                                                     m('tr',
                                                                         [
-                                                                            m('th',
-                                                                                'Name'
-                                                                            ),
+                                                                            m('th', 'Name'),
                                                                             m('td',
-                                                                                m('input', { 'name': 'birdName', 'type':'text' })
+                                                                                m('input', {
+                                                                                    'class': 'form-control',
+                                                                                    'value': CustomerDialogModel.currentBirdInput.name,
+                                                                                    onkeyup: (event) => {
+                                                                                        CustomerDialogModel.currentBirdInput.name = event.target.value;
+                                                                                    }
+                                                                                })
                                                                             )
                                                                         ]
                                                                     ),
                                                                     m('tr',
                                                                         [
-                                                                            m('th',
-                                                                                'Breed'
-                                                                            ),
+                                                                            m('th', 'Breed'),
                                                                             m('td',
-                                                                                m('input', { 'name': 'birdBreed', 'type':'text' })
+                                                                                m('input', {
+                                                                                    'class': 'form-control',
+                                                                                    'value': CustomerDialogModel.currentBirdInput.breed,
+                                                                                    onkeyup: (event) => {
+                                                                                        CustomerDialogModel.currentBirdInput.breed = event.target.value;
+                                                                                    }
+                                                                                })
                                                                             )
                                                                         ]
                                                                     ),
                                                                     m('tr',
                                                                         [
-                                                                            m('th',
-                                                                                'Color'
-                                                                            ),
+                                                                            m('th', 'Color'),
                                                                             m('td',
-                                                                                m('input', { 'name': 'birdColor', 'type':'text' })
+                                                                                m('input', {
+                                                                                    'class': 'form-control',
+                                                                                    'value': CustomerDialogModel.currentBirdInput.color,
+                                                                                    onkeyup: (event) => {
+                                                                                        CustomerDialogModel.currentBirdInput.color = event.target.value;
+                                                                                    }
+                                                                                })
                                                                             )
                                                                         ]
                                                                     ),
@@ -184,34 +219,57 @@ var CustomerDialog = {
                                                                                 'Age'
                                                                             ),
                                                                             m('td',
-                                                                                m('input', { 'name': 'birdAge',  'type':'number' })
+                                                                                m('input', {
+                                                                                    'class': 'form-control',
+                                                                                    'type': 'number',
+                                                                                    'value': CustomerDialogModel.currentBirdInput.age,
+                                                                                    onchange: (event) => {
+                                                                                        CustomerDialogModel.currentBirdInput.age = Number(event.target.value);
+                                                                                    }
+                                                                                })
                                                                             )
                                                                         ]
                                                                     ),
                                                                     m('tr',
                                                                         [
-                                                                            m('th',
-                                                                                m('label', { 'for':'birdGender' },
-                                                                                    'Gender'
-                                                                                )
-                                                                            ),
+                                                                            m('th', 'Gender'),
                                                                             m('td',
                                                                                 [
-                                                                                    m('input', { 'type':'radio','name':'birdGender','value':'male' }),
+                                                                                    m('input', {
+                                                                                        'type':'radio',
+                                                                                        'class':'form-radio-input',
+                                                                                        'value': 'male',
+                                                                                        checked: CustomerDialogModel.currentBirdInput.gender == 'male',
+                                                                                        onchange: function(event) {
+                                                                                            CustomerDialogModel.currentBirdInput.gender = 'male';
+                                                                                        }
+                                                                                    }),
                                                                                     ' Male ',
-                                                                                    m('input', { 'type':'radio','name':'birdGender','value':'female' }),
-                                                                                    ' Female'
+                                                                                    m('input', {
+                                                                                        'type':'radio',
+                                                                                        'class':'form-radio-input',
+                                                                                        'value': 'female',
+                                                                                        checked: CustomerDialogModel.currentBirdInput.gender == 'female',
+                                                                                        onchange: function(event) {
+                                                                                            CustomerDialogModel.currentBirdInput.gender = 'female';
+                                                                                        }
+                                                                                    }),
+                                                                                    ' Female '
                                                                                 ]
                                                                             )
                                                                         ]
                                                                     ),
                                                                     m('tr',
                                                                         [
-                                                                            m('th',
-                                                                                'Notes'
-                                                                            ),
+                                                                            m('th', 'Notes'),
                                                                             m('td',
-                                                                                m('textarea', { 'name': 'birdNotes',  'cols':'23','rows':'4' })
+                                                                                m('textarea', {
+                                                                                    'class': 'form-control',
+                                                                                    'value': CustomerDialogModel.currentBirdInput.notes,
+                                                                                    onkeyup: (event) => {
+                                                                                        CustomerDialogModel.currentBirdInput.notes = event.target.value;
+                                                                                    }
+                                                                                })
                                                                             )
                                                                         ]
                                                                     )
@@ -221,16 +279,16 @@ var CustomerDialog = {
                                                         m(IconButton, {
                                                             label: 'Add',
                                                             onclick: async function() {
-                                                                birds.push({
-                                                                    name: document.querySelector('input[name="birdName"]').value,
-                                                                    breed: document.querySelector('input[name="birdBreed"]').value,
-                                                                    color: document.querySelector('input[name="birdColor"]').value,
-                                                                    age: document.querySelector('input[name="birdAge"]').value,
-                                                                    gender: document.querySelector('input[name="birdGender"]:checked').value,
-                                                                    notes: document.querySelector('textarea[name="birdNotes"]').value
-                                                                });
+                                                                CustomerDialogModel.birds.push(CustomerDialogModel.currentBirdInput);
 
-                                                                document.querySelector('#edit-bird-form').reset();
+                                                                CustomerDialogModel.currentBirdInput = {
+                                                                    name: null,
+                                                                    breed: null,
+                                                                    color: null,
+                                                                    age: null,
+                                                                    gender: null,
+                                                                    notes: null,
+                                                                };
                                                             }
                                                         })
                                                     ]
@@ -241,46 +299,44 @@ var CustomerDialog = {
                                 ]
                             ),
                         })
-                    ),
-                ]
-            ),
-            footerButtons: [{
-                label: 'Cancel',
-                onclick: async function() {
-                    window.close();
-                }
-            }, {
-                label: 'OK',
-                onclick: async function() {
-                    const phoneNumbers = [];
-                    for (const phoneInput of document.getElementsByClassName('phoneNumberInput')) {
-                        const phoneNumber = phoneInput.value.trim();
+                    ])
+                ),
+                m('div', { 'class':'dialog-footer' },
+                    m('div', { 'class':'dialog-footer-button-container' },
+                        [
+                            m('button', {
+                                'class': 'btn btn-primary',
+                                onclick: () => {
+                                    window.close();
+                                }
+                            }, 'Cancel'),
+                            m('button', {
+                                'class': 'btn btn-primary',
+                                onclick: async () => {
+                                    const data = {
+                                        name: CustomerDialogModel.name,
+                                        phoneNumbers: CustomerDialogModel.phoneNumbers,
+                                        email: CustomerDialogModel.email,
+                                        boardingRate: CustomerDialogModel.boardingRate,
+                                        notes: CustomerDialogModel.notes,
+                                        birds: CustomerDialogModel.birds
+                                    };
 
-                        if (phoneNumber !== '') {
-                            phoneNumbers.push(phoneNumber);
-                        }
-                    }
+                                    if (CustomerDialogModel.customerId != null && CustomerDialogModel.customerId != undefined) {
+                                        data.customerId == CustomerDialogModel.customerId;
+                                    }
 
-                    const data = {
-                        name: document.querySelector('input[name="name"]').value,
-                        email: document.querySelector('input[name="email"]').value,
-                        boardingRate: document.querySelector('input[name="boardingRate"]').value,
-                        notes: document.querySelector('textarea[name="customerNotes"]').value,
-                        phoneNumbers: phoneNumbers,
-                        birds: birds
-                    };
+                                    await window.contextBridge.database.saveCustomer(data);
 
-                    if (customer != null) {
-                        data.customerId = customer.customerId;
-                    }
-
-                    await window.contextBridge.database.saveCustomer(data);
-
-                    window.close();
-                }
-            }]
-        });
+                                    window.close();
+                                }
+                            }, 'OK')
+                        ]
+                    )
+                )
+            ]
+        );
     }
-};
+}
 
 m.mount(document.body, CustomerDialog);
