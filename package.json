@@ -22,13 +22,13 @@
   },
   "homepage": "https://github.com/kstensberg/bizeebird#readme",
   "dependencies": {
-    "sqlite3": "^5.0.11"
+    "sqlite3": "^5.1.2"
   },
   "devDependencies": {
     "chai": "^4.3.6",
-    "electron": "^20.0.2",
-    "electron-packager": "^15.5.1",
-    "eslint": "^8.22.0",
+    "electron": "^21.1.0",
+    "electron-packager": "^16.0.0",
+    "eslint": "^8.25.0",
     "mocha": "^10.0.0"
   }
 }
