@@ -98,7 +98,7 @@ fieldset.labeled-container {
   font-weight: normal;
   text-align: right;
   white-space: nowrap;
-  padding-right: 20px;
+  padding-right: 10px;
 }
 
 .form-table textarea {
