@@ -14,7 +14,19 @@ var CustomerSearch = {
         }
 
         for (const row of data) {
-            this.dataRows.push([row.Name, row.PhoneNumber, row.Email, '$' + row.BoardingRate, row.Notes]);
+            this.dataRows.push([
+                m('button', {
+                    'type': 'button',
+                    'class': 'btn btn-link',
+                    'onclick': async () => {
+                        await window.contextBridge.openCustomerDialog(row.CustomerId);
+                    }
+                }, row.Name), 
+                row.PhoneNumber, 
+                row.Email, 
+                '$' + row.BoardingRate, 
+                row.Notes
+            ]);
         }
 
         m.redraw();

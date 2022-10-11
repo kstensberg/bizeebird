@@ -14,7 +14,19 @@ var HistorySearch = {
         }
 
         for (const row of data) {
-            this.dataRows.push([row.CustomerName, row.BoardingRate, row.BirdName, row.Breed, row.Dates]);
+            this.dataRows.push([
+                m('button', {
+                    'type': 'button',
+                    'class': 'btn btn-link',
+                    'onclick': async () => {
+                        await window.contextBridge.openCustomerDialog(row.CustomerId);
+                    }
+                }, row.CustomerName),
+                row.BoardingRate,
+                row.BirdName,
+                row.Breed,
+                row.Dates
+            ]);
         }
 
         m.redraw();
