@@ -14,6 +14,12 @@ var CustomerSearch = {
         }
 
         for (const row of data) {
+            let boardingString = '';
+
+            if (typeof row.BoardingRate == 'number' && row.BoardingRate != null) {
+                boardingString = '$' + row.BoardingRate.toFixed(2);
+            }
+
             this.dataRows.push([
                 m('button', {
                     'type': 'button',
@@ -24,7 +30,7 @@ var CustomerSearch = {
                 }, row.Name), 
                 row.PhoneNumber, 
                 row.Email, 
-                '$' + row.BoardingRate, 
+                boardingString, 
                 row.Notes
             ]);
         }
