@@ -13,8 +13,10 @@ var AppointmentDialogModel = {
 
     setCustomer: async function(customerId) {
         this.selectedCustomer = customerId;
-
+        const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
+
+        this.boardingRate = customer.boardingRate;
         this.customerBirds = dbBirds.map((bird) => {
             return {
                 birdId: bird.BirdId,
