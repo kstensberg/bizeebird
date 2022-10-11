@@ -43,7 +43,7 @@ ipcMain.handle('openAppointmentDialog', function(event, appointmentId) {
 });
 
 ipcMain.handle('openCustomerDialog', function(event, customerId) {
-    const window = createWindow('src/renderer/customerdialog.html', 1200, 830, 1000, 830);
+    const window = createWindow('src/renderer/customerdialog.html', 1200, 850, 1000, 850);
 
     if (customerId) {
         window.once('ready-to-show', () => {

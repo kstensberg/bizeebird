@@ -9,13 +9,13 @@ var BizeeBirdBoardingApp = {
         return m('div', {id: 'main-window-toplevel'}, [
             m('div', {id: 'main-window-button-bar'}, [
                 m('button', {
-                    class: 'btn btn-primary',
+                    class: 'btn btn-primary padded-btn',
                     onclick: async function() {
                         await window.contextBridge.openCustomerDialog();
                     }
                 }, 'New Customer'),
                 m('button', {
-                    class: 'btn btn-primary',
+                    class: 'btn btn-primary padded-btn',
                     onclick: async function() {
                         await window.contextBridge.openAppointmentDialog();
                     }

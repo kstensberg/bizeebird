@@ -6,7 +6,7 @@ var IconButton = {
         const imgFilename = vnode.attrs.label.toLowerCase();
 
         return m('button', {
-            'class':'btn btn-primary',
+            'class':'btn btn-primary padded-btn',
             'type':'button',
             'disabled': vnode.attrs.disabled || false,
             'onclick': vnode.attrs.onclick

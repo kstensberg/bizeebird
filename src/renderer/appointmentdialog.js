@@ -276,13 +276,13 @@ class AppointmentDialog {
                     m('div', { 'class':'dialog-footer-button-container' },
                         [
                             m('button', {
-                                'class': 'btn btn-primary',
+                                'class': 'btn btn-primary padded-btn',
                                 onclick: () => {
                                     window.close();
                                 }
                             }, 'Cancel'),
                             m('button', {
-                                'class': 'btn btn-primary',
+                                'class': 'btn btn-primary padded-btn',
                                 onclick: async () => {
                                     const newAppointment = {
                                         customerId: AppointmentDialogModel.selectedCustomer,
