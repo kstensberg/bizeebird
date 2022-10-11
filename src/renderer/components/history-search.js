@@ -14,6 +14,12 @@ var HistorySearch = {
         }
 
         for (const row of data) {
+            let boardingString = '';
+
+            if (typeof row.BoardingRate == 'number' && row.BoardingRate != null) {
+                boardingString = '$' + row.BoardingRate.toFixed(2);
+            }
+
             this.dataRows.push([
                 m('button', {
                     'type': 'button',
@@ -22,7 +28,7 @@ var HistorySearch = {
                         await window.contextBridge.openCustomerDialog(row.CustomerId);
                     }
                 }, row.CustomerName),
-                row.BoardingRate,
+                boardingString,
                 row.BirdName,
                 row.Breed,
                 row.Dates
