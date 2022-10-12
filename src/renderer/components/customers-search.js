@@ -14,7 +14,25 @@ var CustomerSearch = {
         }
 
         for (const row of data) {
-            this.dataRows.push([row.Name, row.PhoneNumber, row.Email, '$' + row.BoardingRate, row.Notes]);
+            let boardingString = '';
+
+            if (typeof row.BoardingRate == 'number' && row.BoardingRate != null) {
+                boardingString = '$' + row.BoardingRate.toFixed(2);
+            }
+
+            this.dataRows.push([
+                m('button', {
+                    'type': 'button',
+                    'class': 'btn btn-link',
+                    'onclick': async () => {
+                        await window.contextBridge.openCustomerDialog(row.CustomerId);
+                    }
+                }, row.Name), 
+                row.PhoneNumber, 
+                row.Email, 
+                boardingString, 
+                row.Notes
+            ]);
         }
 
         m.redraw();

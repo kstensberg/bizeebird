@@ -14,7 +14,25 @@ var HistorySearch = {
         }
 
         for (const row of data) {
-            this.dataRows.push([row.CustomerName, row.BoardingRate, row.BirdName, row.Breed, row.Dates]);
+            let boardingString = '';
+
+            if (typeof row.BoardingRate == 'number' && row.BoardingRate != null) {
+                boardingString = '$' + row.BoardingRate.toFixed(2);
+            }
+
+            this.dataRows.push([
+                m('button', {
+                    'type': 'button',
+                    'class': 'btn btn-link',
+                    'onclick': async () => {
+                        await window.contextBridge.openCustomerDialog(row.CustomerId);
+                    }
+                }, row.CustomerName),
+                boardingString,
+                row.BirdName,
+                row.Breed,
+                row.Dates
+            ]);
         }
 
         m.redraw();

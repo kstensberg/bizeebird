@@ -4,30 +4,6 @@ import { LabeledContainer } from './components/labeled-container.js';
 import { Table } from './components/table.js';
 import { IconButton } from './components/icon-button.js';
 
-window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
-    customer = await window.contextBridge.database.getCustomer(customerId);
-
-    CustomerDialogModel = {
-        customerId: customer.customerId,
-        name: customer.name,
-        phoneNumbers: customer.phoneNumber,
-        email: customer.email,
-        boardingRate: customer.boardingId,
-        notes: customer.notes,
-        currentBirdInput: {
-            name: '',
-            breed: '',
-            color: '',
-            age: null,
-            gender: null,
-            notes: '',
-        },
-        birds: customer.birds
-    }
-
-    m.redraw();
-});
-
 var CustomerDialogModel = {
     customerId: null,
     name: null,
@@ -305,13 +281,13 @@ class CustomerDialog {
                     m('div', { 'class':'dialog-footer-button-container' },
                         [
                             m('button', {
-                                'class': 'btn btn-primary',
+                                'class': 'btn btn-primary padded-btn',
                                 onclick: () => {
                                     window.close();
                                 }
                             }, 'Cancel'),
                             m('button', {
-                                'class': 'btn btn-primary',
+                                'class': 'btn btn-primary padded-btn',
                                 onclick: async () => {
                                     const data = {
                                         name: CustomerDialogModel.name,
@@ -340,3 +316,18 @@ class CustomerDialog {
 }
 
 m.mount(document.body, CustomerDialog);
+
+window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
+    const customer = await window.contextBridge.database.getCustomer(customerId);
+
+    CustomerDialogModel.customerId = customer.customerId;
+    CustomerDialogModel.name = customer.name;
+    CustomerDialogModel.phoneNumbers = customer.phoneNumbers;
+    CustomerDialogModel.email = customer.email;
+    CustomerDialogModel.boardingRate = customer.boardingRate;
+    CustomerDialogModel.notes = customer.notes;
+
+    CustomerDialogModel.birds = customer.birds;
+
+   m.redraw();
+});

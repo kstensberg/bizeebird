@@ -13,8 +13,10 @@ var AppointmentDialogModel = {
 
     setCustomer: async function(customerId) {
         this.selectedCustomer = customerId;
-
+        const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
+
+        this.boardingRate = customer.boardingRate;
         this.customerBirds = dbBirds.map((bird) => {
             return {
                 birdId: bird.BirdId,
@@ -276,13 +278,13 @@ class AppointmentDialog {
                     m('div', { 'class':'dialog-footer-button-container' },
                         [
                             m('button', {
-                                'class': 'btn btn-primary',
+                                'class': 'btn btn-primary padded-btn',
                                 onclick: () => {
                                     window.close();
                                 }
                             }, 'Cancel'),
                             m('button', {
-                                'class': 'btn btn-primary',
+                                'class': 'btn btn-primary padded-btn',
                                 onclick: async () => {
                                     const newAppointment = {
                                         customerId: AppointmentDialogModel.selectedCustomer,

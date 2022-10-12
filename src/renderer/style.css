@@ -147,3 +147,11 @@ fieldset.labeled-container {
 #tabs-toplevel {
   height: 100%;
 }
+
+.padded-btn {
+  margin: 5px;
+}
+
+.btn img {
+  margin-right: 10px;
+}
