@@ -8,7 +8,22 @@ var UpcomingPickupsTable = {
         const response = await window.contextBridge.database.getUpcomingPickups();
 
         for (const row of response) {
-            this.dataRows.push([row.Date, row.Name, row.BirdName, row.BirdBreed, row.Wings, row.Nails, row.Rate, row.Notes]);
+            this.dataRows.push([
+                row.Date, 
+                m('button', {
+                    'type': 'button',
+                    'class': 'btn btn-link',
+                    'onclick': async () => {
+                        await window.contextBridge.openCustomerDialog(row.CustomerId);
+                    }
+                }, row.Name), 
+                row.BirdName, 
+                row.BirdBreed, 
+                row.Wings, 
+                row.Nails, 
+                row.Rate, 
+                row.Notes
+            ]);
         }
 
         m.redraw();
