@@ -16,8 +16,8 @@ var CustomerSearch = {
         for (const row of data) {
             let boardingString = '';
 
-            if (typeof row.BoardingRate == 'number' && row.BoardingRate != null) {
-                boardingString = '$' + row.BoardingRate.toFixed(2);
+            if (typeof row.rate == 'number' && row.rate != null) {
+                boardingString = '$' + row.rate.toFixed(2);
             }
 
             this.dataRows.push([
@@ -25,13 +25,13 @@ var CustomerSearch = {
                     'type': 'button',
                     'class': 'btn btn-link',
                     'onclick': async () => {
-                        await window.contextBridge.openCustomerDialog(row.CustomerId);
+                        await window.contextBridge.openCustomerDialog(row.customerId);
                     }
-                }, row.Name), 
-                row.PhoneNumber, 
-                row.Email, 
+                }, row.name), 
+                row.phoneNumber, 
+                row.email, 
                 boardingString, 
-                row.Notes
+                row.notes
             ]);
         }
 

@@ -8,7 +8,7 @@ var AppointmentDialogModel = {
     notes: '',
     startDate: null,
     endDate: null,
-    boardingRate: null,
+    rate: null,
     status: 'Scheduled',
 
     setCustomer: async function(customerId) {
@@ -16,15 +16,15 @@ var AppointmentDialogModel = {
         const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
 
-        this.boardingRate = customer.boardingRate;
+        this.rate = customer.rate;
         this.customerBirds = dbBirds.map((bird) => {
             return {
-                birdId: bird.BirdId,
-                name: bird.Name,
+                birdId: bird.birdId,
+                name: bird.name,
                 selected: false,
                 wings: false,
                 nails: false,
-                cageNeeded: false,
+                cage: false,
                 notes: ''
             };
         });
@@ -39,7 +39,7 @@ var AppointmentDialogModel = {
         this.toggleBirdProp(birdId, 'nails');
     },
     toggleBirdCageNeeded: function (birdId) {
-        this.toggleBirdProp(birdId, 'cageNeeded');
+        this.toggleBirdProp(birdId, 'cage');
     },
     setBirdNotes: function (birdId, notes) {
         for (const idx in this.customerBirds) {
@@ -90,8 +90,8 @@ class AppointmentDialog {
                                                                 return new Choices(dom, {}).setChoices(async () => {
                                                                     return (await window.contextBridge.database.getAllCustomers()).map((row) => {
                                                                         return {
-                                                                            value: row.CustomerId,
-                                                                            label: row.Name
+                                                                            value: row.customerId,
+                                                                            label: row.name
                                                                         };
                                                                     });
                                                                 });
@@ -146,9 +146,9 @@ class AppointmentDialog {
                                                         m('input', {
                                                             'class': 'form-control',
                                                             'type':'number',
-                                                            'value': AppointmentDialogModel.boardingRate,
+                                                            'value': AppointmentDialogModel.rate,
                                                             'onchange': function(event) {
-                                                                AppointmentDialogModel.boardingRate = Number(event.target.value);
+                                                                AppointmentDialogModel.rate = Number(event.target.value);
                                                             }
                                                         })
                                                     )
@@ -243,7 +243,7 @@ class AppointmentDialog {
                                                         m('input', {
                                                             'type':'checkbox',
                                                             'class':'form-check-input',
-                                                            checked: bird.cageNeeded,
+                                                            checked: bird.cage,
                                                             onchange: function(event) {
                                                                 AppointmentDialogModel.toggleBirdCageNeeded(bird.birdId);
                                                             }
@@ -292,7 +292,7 @@ class AppointmentDialog {
                                         notes: AppointmentDialogModel.notes,
                                         startDate: AppointmentDialogModel.startDate,
                                         endDate: AppointmentDialogModel.endDate,
-                                        boardingRate: AppointmentDialogModel.boardingRate,
+                                        rate: AppointmentDialogModel.rate,
                                         status: AppointmentDialogModel.status,
                                     };
 
@@ -300,7 +300,7 @@ class AppointmentDialog {
                                         if (customerBird.selected) {
                                             newAppointment.birds.push({
                                                 birdId: customerBird.birdId,
-                                                cageNeeded: customerBird.cageNeeded,
+                                                cage: customerBird.cage,
                                                 nails: customerBird.nails,
                                                 notes: customerBird.notes,
                                                 wings: customerBird.wings

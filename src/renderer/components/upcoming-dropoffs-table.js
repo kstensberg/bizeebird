@@ -16,12 +16,12 @@ var UpcomingDropoffsTable = {
                     'type': 'button',
                     'class': 'btn btn-link',
                     'onclick': async () => {
-                        await window.contextBridge.openCustomerDialog(row.CustomerId);
+                        await window.contextBridge.openCustomerDialog(row.customerId);
                     }
-                }, row.Name), 
-                row.BirdName, 
-                row.BirdBreed, 
-                row.CageNeeded
+                }, row.customerName), 
+                row.birdName, 
+                row.breed, 
+                row.cage
             ]);
         }
 

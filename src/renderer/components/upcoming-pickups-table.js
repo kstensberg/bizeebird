@@ -14,15 +14,15 @@ var UpcomingPickupsTable = {
                     'type': 'button',
                     'class': 'btn btn-link',
                     'onclick': async () => {
-                        await window.contextBridge.openCustomerDialog(row.CustomerId);
+                        await window.contextBridge.openCustomerDialog(row.customerId);
                     }
-                }, row.Name), 
-                row.BirdName, 
-                row.BirdBreed, 
-                row.Wings, 
-                row.Nails, 
-                row.Rate, 
-                row.Notes
+                }, row.customerName), 
+                row.birdName, 
+                row.breed, 
+                row.wings, 
+                row.nails, 
+                row.rate, 
+                row.notes
             ]);
         }
 

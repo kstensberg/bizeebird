@@ -9,7 +9,7 @@ var CustomerDialogModel = {
     name: null,
     phoneNumbers: [null],
     email: null,
-    boardingRate: null,
+    rate: null,
     notes: null,
     currentBirdInput: {
         name: null,
@@ -99,9 +99,9 @@ class CustomerDialog {
                                         m('input', {
                                             'class': 'form-control',
                                             'type': 'number',
-                                            'value': CustomerDialogModel.boardingRate,
+                                            'value': CustomerDialogModel.rate,
                                             'onchange': function(event) {
-                                                CustomerDialogModel.boardingRate = Number(event.target.value);
+                                                CustomerDialogModel.rate = Number(event.target.value);
                                             }
                                         })
                                     )
@@ -293,7 +293,7 @@ class CustomerDialog {
                                         name: CustomerDialogModel.name,
                                         phoneNumbers: CustomerDialogModel.phoneNumbers,
                                         email: CustomerDialogModel.email,
-                                        boardingRate: CustomerDialogModel.boardingRate,
+                                        rate: CustomerDialogModel.rate,
                                         notes: CustomerDialogModel.notes,
                                         birds: CustomerDialogModel.birds
                                     };
@@ -324,7 +324,7 @@ window.contextBridge.attachEvent('loadCustomer', async function (event, customer
     CustomerDialogModel.name = customer.name;
     CustomerDialogModel.phoneNumbers = customer.phoneNumbers;
     CustomerDialogModel.email = customer.email;
-    CustomerDialogModel.boardingRate = customer.boardingRate;
+    CustomerDialogModel.rate = customer.rate;
     CustomerDialogModel.notes = customer.notes;
 
     CustomerDialogModel.birds = customer.birds;
