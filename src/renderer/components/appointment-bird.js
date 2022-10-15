@@ -56,7 +56,7 @@ class AppointmentBird {
                             ),
                             m('div', { 'class':'form-check' },
                                 [
-                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'cageNeeded','name':'appointmentServices' }),
+                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'cage','name':'appointmentServices' }),
                                     m('label', { 'class':'form-check-label','for':'birdCageNeeded' },
                                         'Cage Needed'
                                     )

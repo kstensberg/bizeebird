@@ -1,8 +1,9 @@
-const getCustomerBirds = (db, customerID) => {
+const getCustomerBirds = (db, customerId) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            db.all('SELECT BirdId, Deleted, Name, Breed, Color, Age, Gender, ' +
-            'Notes FROM Birds WHERE Customer_CustomerId = ?', customerID, (err, row) => {
+            db.all('SELECT BirdId AS birdId, Deleted AS deleted, Name AS name, Breed AS breed, ' +
+            'Color AS color, Age AS age, Gender AS gender, ' +
+            'Notes AS notes FROM Birds WHERE Customer_CustomerId = ?', customerId, (err, row) => {
                 if (err) {
                     reject(err);
                 }

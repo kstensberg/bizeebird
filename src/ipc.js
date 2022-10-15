@@ -15,7 +15,7 @@ const db = require('./db-management/dbConfig');
 ipcMain.handle('getCustomer', async function(event, customerId) {
     return {
         customerId: customerId,
-        boardingRate: 10,
+        rate: 10,
         email: 'test@test.com',
         name: 'Test Customer Name',
         notes: 'test customer notes',

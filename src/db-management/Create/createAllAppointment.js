@@ -3,13 +3,14 @@
 const createAppointment = (db, appointment) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            db.run('INSERT INTO Appointments (StartTime, EndTime, Status, Notes, Customer_CustomerId) ' +
-            'VALUES ($StartTime, $EndTime, $Status, $Notes, $Customer_CustomerId)', {
-                $StartTime: '2022-09-22',
-                $EndTime: '2022-09-25',
-                $Status: appointment.status,
-                $Notes: appointment.notes,
-                $Customer_CustomerId: appointment.customerId
+            db.run('INSERT INTO Appointments (StartTime, EndTime, Status, ' +
+            'Notes, Customer_CustomerId) ' +
+            'VALUES ($startDate, $endDate, $status, $notes, $customerId)', {
+                $startDate: appointment.startDate,
+                $endDate: appointment.endDate,
+                $status: appointment.status,
+                $notes: appointment.notes,
+                $customerId: appointment.customerId
             }, function(err) {
                 if (err) {
                     reject(err);
@@ -28,9 +29,9 @@ const createAppointment = (db, appointment) => {
 //             'Bird_BirdId, Appointment_AppointmentId, ApptBirdNotes) VALUES ($GroomingWings, ' +
 //             '$GroomingNails, $CageNeeded, $Bird_BirdId, ' +
 //             '$Appointment_AppointmentId, $ApptBirdNotes', {
-//                 $GroomingWings: appointmentBird.groomingWings,
-//                 $GroomingNails: appointmentBird.groomingNails,
-//                 $CageNeeded: appointmentBird.cageNeeded,
+//                 $GroomingWings: appointmentBird.wings,
+//                 $GroomingNails: appointmentBird.nails,
+//                 $CageNeeded: appointmentBird.cage,
 //                 $Bird_BirdId: bird,
 //                 $Appointment_AppointmentId: appointment.appointmentId,
 //                 $ApptBirdNotes: appointmentBird.notes

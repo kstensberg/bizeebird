@@ -1,10 +1,10 @@
 'use strict';
 
-const getSingleCustomer = (db, customerID) => {
+const getSingleCustomer = (db, customerId) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            db.get('SELECT CustomerId, Name, Email, BoardingRate, Notes FROM Customers ' +
-            'WHERE CustomerId = ?', customerID, (err, row) => {
+            db.get('SELECT CustomerId AS customerId, Name AS name, Email AS email, BoardingRate AS rate, Notes AS notes FROM Customers ' +
+            'WHERE CustomerId = ?', customerId, (err, row) => {
                 if (err) {
                     reject(err);
                 }

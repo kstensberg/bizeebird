@@ -3,9 +3,10 @@
 const getUpcomingPickups = (db) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            var query = 'SELECT Customers.CustomerId, Customers.Name, Customers.BoardingRate AS Rate, Birds.Name AS BirdName,' +
-            'Birds.Breed, AppointmentBirds.GroomingWings AS Wings, AppointmentBirds.GroomingNails AS Nails, ' +
-            'Appointments.Notes AS Notes, Appointments.EndTime AS Date FROM Customers ' +
+            var query = 'SELECT Customers.CustomerId AS customerId, Customers.Name AS customerName, Customers.BoardingRate AS rate, ' +
+            'Birds.Name AS birdName, Birds.Breed AS breed, AppointmentBirds.GroomingWings AS wings, ' +
+            'AppointmentBirds.GroomingNails AS nails, ' +
+            'Appointments.Notes AS notes, Appointments.EndTime AS endDate FROM Customers ' +
             'LEFT JOIN Birds ON Birds.Customer_CustomerId = Customers.CustomerId ' +
             'LEFT JOIN Appointments ON Appointments.Customer_CustomerId = Customers.CustomerId ' +
             'LEFT JOIN AppointmentBirds ON AppointmentBirds.Appointment_AppointmentId = Appointments.AppointmentId ' +
