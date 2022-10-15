@@ -13,25 +13,8 @@ const { BrowserWindow, ipcMain } = require('electron');
 const db = require('./db-management/dbConfig');
 
 ipcMain.handle('getCustomer', async function(event, customerId) {
-    return {
-        customerId: customerId,
-        rate: 10,
-        email: 'test@test.com',
-        name: 'Test Customer Name',
-        notes: 'test customer notes',
-        phoneNumbers: [
-            '555-555-5555',
-            '666-666-6666'
-        ],
-        birds: [{
-            birdId: 123,
-            name: 'test bird name',
-            breed: 'test brid breed',
-            color: 'test bird color',
-            age: 12,
-            gender: 'female'
-        }]
-    };
+    const getCustomer = require('./db-management/Get/getSingleCustomer');
+    return getCustomer(db, customerId);
 });
 
 ipcMain.handle('getAllCustomers', async function(event) {
