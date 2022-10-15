@@ -11,7 +11,7 @@ var UpcomingDropoffsTable = {
 
         for (const row of response) {
             this.dataRows.push([
-                row.Date, 
+                row.date, 
                 m('button', {
                     'type': 'button',
                     'class': 'btn btn-link',

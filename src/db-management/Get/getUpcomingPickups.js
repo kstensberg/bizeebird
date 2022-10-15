@@ -6,11 +6,11 @@ const getUpcomingPickups = (db) => {
             var query = 'SELECT Customers.CustomerId AS customerId, Customers.Name AS customerName, Customers.BoardingRate AS rate, ' +
             'Birds.Name AS birdName, Birds.Breed AS breed, AppointmentBirds.GroomingWings AS wings, ' +
             'AppointmentBirds.GroomingNails AS nails, ' +
-            'Appointments.Notes AS notes, Appointments.EndTime AS endDate FROM Customers ' +
+            'Appointments.Notes AS notes, Appointments.EndTime AS date FROM Customers ' +
             'LEFT JOIN Birds ON Birds.Customer_CustomerId = Customers.CustomerId ' +
             'LEFT JOIN Appointments ON Appointments.Customer_CustomerId = Customers.CustomerId ' +
             'LEFT JOIN AppointmentBirds ON AppointmentBirds.Appointment_AppointmentId = Appointments.AppointmentId ' +
-            'WHERE Appointments.EndTime >= date("now") AND Appointments.Status = 1 ' +
+            'WHERE Appointments.EndTime >= date("now") AND Appointments.Status = "CheckedIn" ' +
             'GROUP BY Appointments.AppointmentId ORDER BY Appointments.EndTime ASC';
             db.all(query, (err, rows) => {
                 if (err) {
