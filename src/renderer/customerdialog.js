@@ -319,6 +319,7 @@ m.mount(document.body, CustomerDialog);
 
 window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
     const customer = await window.contextBridge.database.getCustomer(customerId);
+    console.log(customer);
 
     CustomerDialogModel.customerId = customer.customerId;
     CustomerDialogModel.name = customer.name;
