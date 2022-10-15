@@ -21,29 +21,28 @@ const createAppointment = (db, appointment) => {
     });
 };
 
-// const createAppointmentBirds = (db, appointment, appointmentBird) => {
-//     const birds = appointment.birds;
-//     db.serialize(() => {
-//         birds.forEach(bird =>
-//             db.run('INSERT INTO AppointmentBirds (GroomingWings, GroomingNails, CageNeeded, ' +
-//             'Bird_BirdId, Appointment_AppointmentId, ApptBirdNotes) VALUES ($GroomingWings, ' +
-//             '$GroomingNails, $CageNeeded, $Bird_BirdId, ' +
-//             '$Appointment_AppointmentId, $ApptBirdNotes', {
-//                 $GroomingWings: appointmentBird.wings,
-//                 $GroomingNails: appointmentBird.nails,
-//                 $CageNeeded: appointmentBird.cage,
-//                 $Bird_BirdId: bird,
-//                 $Appointment_AppointmentId: appointment.appointmentId,
-//                 $ApptBirdNotes: appointmentBird.notes
-//             })
-//         );
-//     });
-// };
+const createAppointmentBirds = (db, appointment, appointmentId) => {
+    const birds = appointment.birds;
+    db.serialize(() => {
+        birds.forEach(bird =>
+            db.run('INSERT INTO AppointmentBirds (GroomingWings, GroomingNails, CageNeeded, ' +
+            'Bird_BirdId, Appointment_AppointmentId, ApptBirdNotes) VALUES ($GroomingWings, ' +
+            '$GroomingNails, $CageNeeded, $Bird_BirdId, ' +
+            '$Appointment_AppointmentId, $ApptBirdNotes)', {
+                $GroomingWings: bird.wings,
+                $GroomingNails: bird.nails,
+                $CageNeeded: bird.cage,
+                $Bird_BirdId: bird.birdId,
+                $Appointment_AppointmentId: appointmentId,
+                $ApptBirdNotes: bird.notes
+            })
+        );
+    });
+};
 
 const runAllCreateAppointment = async (db, appointment) => {
-    await createAppointment(db, appointment);
-    console.log(appointment);
-    // await Promise.all([createAppointmentBirds(db, appointmentId)]);
+    const appointmentId = await createAppointment(db, appointment);
+    await Promise.all([createAppointmentBirds(db, appointment, appointmentId)]);
 };
 
 module.exports = runAllCreateAppointment;
