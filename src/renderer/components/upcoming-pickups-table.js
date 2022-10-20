@@ -9,19 +9,19 @@ var UpcomingPickupsTable = {
 
         for (const row of response) {
             this.dataRows.push([
-                row.Date, 
+                row.Date,
                 m('button', {
                     'type': 'button',
                     'class': 'btn btn-link',
                     'onclick': async () => {
                         await window.contextBridge.openCustomerDialog(row.customerId);
                     }
-                }, row.customerName), 
-                row.birdName, 
-                row.breed, 
-                row.wings, 
-                row.nails, 
-                row.rate, 
+                }, row.customerName),
+                row.birdName,
+                row.breed,
+                row.wings,
+                row.nails,
+                row.rate,
                 row.notes
             ]);
         }

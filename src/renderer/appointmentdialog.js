@@ -70,13 +70,13 @@ class AppointmentDialog {
     }
 
     view(vnode) {
-        return m('div', { 'class':'dialog-toplevel' },
+        return m('div', { 'class': 'dialog-toplevel' },
             [
-                m('div', { 'class':'dialog-body' },
+                m('div', { 'class': 'dialog-body' },
                     [
-                        m('div', { 'id':'appointment-dialog-left-column-container' },
-                            m('div', { 'id':'appointment-dialog-left-column' },
-                                m('table', { 'class':'form-table' },
+                        m('div', { 'id': 'appointment-dialog-left-column-container' },
+                            m('div', { 'id': 'appointment-dialog-left-column' },
+                                m('table', { 'class': 'form-table' },
                                     m('tbody',
                                         [
                                             m('tr',
@@ -145,7 +145,7 @@ class AppointmentDialog {
                                                     m('td',
                                                         m('input', {
                                                             'class': 'form-control',
-                                                            'type':'number',
+                                                            'type': 'number',
                                                             'value': AppointmentDialogModel.rate,
                                                             'onchange': function(event) {
                                                                 AppointmentDialogModel.rate = Number(event.target.value);
@@ -167,19 +167,19 @@ class AppointmentDialog {
                                                                 AppointmentDialogModel.status = event.target.value;
                                                             }
                                                         }, [
-                                                            m('option', { 'value':'Scheduled' },
+                                                            m('option', { 'value': 'Scheduled' },
                                                                 'Scheduled'
                                                             ),
-                                                            m('option', { 'value':'CheckedIn' },
+                                                            m('option', { 'value': 'CheckedIn' },
                                                                 'Checked In'
                                                             ),
-                                                            m('option', { 'value':'CheckedOut' },
+                                                            m('option', { 'value': 'CheckedOut' },
                                                                 'Checked Out'
                                                             ),
-                                                            m('option', { 'value':'Cancelled' },
+                                                            m('option', { 'value': 'Cancelled' },
                                                                 'Cancelled'
                                                             ),
-                                                            m('option', { 'value':'NoShow' },
+                                                            m('option', { 'value': 'NoShow' },
                                                                 'No Show'
                                                             )
                                                         ]
@@ -192,14 +192,14 @@ class AppointmentDialog {
                                 )
                             )
                         ),
-                        m('div', { 'id':'appointment-dialog-right-column' },
+                        m('div', { 'id': 'appointment-dialog-right-column' },
                             m('div', AppointmentDialogModel.customerBirds.map((bird) =>
                                 m('div',
-                                    m('label', { 'class':'form-check-label' },
+                                    m('label', { 'class': 'form-check-label' },
                                         [
                                             m('input', {
-                                                'type':'checkbox',
-                                                'class':'form-check-input',
+                                                'type': 'checkbox',
+                                                'class': 'form-check-input',
                                                 'value': bird.birdId,
                                                 checked: bird.selected,
                                                 onchange: function(event) {
@@ -210,13 +210,13 @@ class AppointmentDialog {
                                         ]
                                     ),
                                     m('div',
-                                        m('div', { 'class':'card card-body' },
+                                        m('div', { 'class': 'card card-body' },
                                             [
-                                                m('label', { 'class':'form-check-label' },
+                                                m('label', { 'class': 'form-check-label' },
                                                     [
                                                         m('input', {
-                                                            'type':'checkbox',
-                                                            'class':'form-check-input',
+                                                            'type': 'checkbox',
+                                                            'class': 'form-check-input',
                                                             checked: bird.wings,
                                                             onchange: function(event) {
                                                                 AppointmentDialogModel.toggleBirdWings(bird.birdId);
@@ -225,11 +225,11 @@ class AppointmentDialog {
                                                         'Wings'
                                                     ]
                                                 ),
-                                                m('label', { 'class':'form-check-label' },
+                                                m('label', { 'class': 'form-check-label' },
                                                     [
                                                         m('input', {
-                                                            'type':'checkbox',
-                                                            'class':'form-check-input',
+                                                            'type': 'checkbox',
+                                                            'class': 'form-check-input',
                                                             checked: bird.nails,
                                                             onchange: function(event) {
                                                                 AppointmentDialogModel.toggleBirdNails(bird.birdId);
@@ -238,11 +238,11 @@ class AppointmentDialog {
                                                         'Nails'
                                                     ]
                                                 ),
-                                                m('label', { 'class':'form-check-label' },
+                                                m('label', { 'class': 'form-check-label' },
                                                     [
                                                         m('input', {
-                                                            'type':'checkbox',
-                                                            'class':'form-check-input',
+                                                            'type': 'checkbox',
+                                                            'class': 'form-check-input',
                                                             checked: bird.cage,
                                                             onchange: function(event) {
                                                                 AppointmentDialogModel.toggleBirdCageNeeded(bird.birdId);
@@ -253,13 +253,13 @@ class AppointmentDialog {
                                                 ),
                                                 m('div',
                                                     [
-                                                        m('label', { 'for':'birdNotes' },
+                                                        m('label', { 'for': 'birdNotes' },
                                                             'Notes'
                                                         ),
                                                         m('br'),
                                                         m('textarea', {
                                                             'class': 'form-control',
-                                                            'value':bird.notes,
+                                                            'value': bird.notes,
                                                             onkeyup: (event) => {
                                                                 AppointmentDialogModel.setBirdNotes(bird.birdId, event.target.value);
                                                             }
@@ -274,8 +274,8 @@ class AppointmentDialog {
                         )
                     ]
                 ),
-                m('div', { 'class':'dialog-footer' },
-                    m('div', { 'class':'dialog-footer-button-container' },
+                m('div', { 'class': 'dialog-footer' },
+                    m('div', { 'class': 'dialog-footer-button-container' },
                         [
                             m('button', {
                                 'class': 'btn btn-primary padded-btn',

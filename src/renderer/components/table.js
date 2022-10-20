@@ -6,7 +6,7 @@ var Table = {
         var displayHeaders = [];
 
         for (const header of vnode.attrs.headers) {
-            displayHeaders.push(m('th', { 'scope':'col' },
+            displayHeaders.push(m('th', { 'scope': 'col' },
                 header
             ));
         }
@@ -38,7 +38,7 @@ var Table = {
             displayRows.push(m('tr', displayRow));
         }
 
-        return m('table', { 'class':'table' },
+        return m('table', { 'class': 'table' },
             [
                 m('thead',
                     m('tr',

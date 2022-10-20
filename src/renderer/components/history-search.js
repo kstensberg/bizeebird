@@ -43,16 +43,16 @@ var HistorySearch = {
     view: function(vnode) {
         const component = this;
         return m('div', [
-            m('div', { 'class':'form-floating mb-3' }, [
+            m('div', { 'class': 'form-floating mb-3' }, [
                 m('input', {
-                    'class':'form-control',
-                    'type':'text',
-                    'placeholder':'',
+                    'class': 'form-control',
+                    'type': 'text',
+                    'placeholder': '',
                     onkeyup: function(e) {
                         component.updateTable(e.target.value);
                     }
                 }),
-                m('label', { 'for':'floatingInput' },
+                m('label', { 'for': 'floatingInput' },
                     'History Search'
                 )]),
             m(Table, {

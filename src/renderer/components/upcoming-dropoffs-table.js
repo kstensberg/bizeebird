@@ -11,16 +11,16 @@ var UpcomingDropoffsTable = {
 
         for (const row of response) {
             this.dataRows.push([
-                row.Date, 
+                row.Date,
                 m('button', {
                     'type': 'button',
                     'class': 'btn btn-link',
                     'onclick': async () => {
                         await window.contextBridge.openCustomerDialog(row.customerId);
                     }
-                }, row.customerName), 
-                row.birdName, 
-                row.breed, 
+                }, row.customerName),
+                row.birdName,
+                row.breed,
                 row.cage
             ]);
         }
