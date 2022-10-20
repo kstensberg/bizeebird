@@ -60,6 +60,12 @@
       {
         "allowSingleLine": false
       }
+    ],
+    "key-spacing": [
+      "error", {
+        "afterColon": true,
+        "beforeColon": false 
+      }
     ]
   }
 }
