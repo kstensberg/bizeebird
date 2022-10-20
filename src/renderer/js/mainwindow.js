@@ -6,8 +6,8 @@ import { Tabs } from './components/tabs.js';
 
 var BizeeBirdBoardingApp = {
     view: function() {
-        return m('div', {id: 'main-window-toplevel'}, [
-            m('div', {id: 'main-window-button-bar'}, [
+        return m('div', { id: 'main-window-toplevel' }, [
+            m('div', { id: 'main-window-button-bar' }, [
                 m('button', {
                     class: 'btn btn-primary padded-btn',
                     onclick: async function() {
@@ -21,7 +21,7 @@ var BizeeBirdBoardingApp = {
                     }
                 }, 'New Appointment'),
             ]),
-            m('div', {id: 'main-window-body-toplevel'}, [
+            m('div', { id: 'main-window-body-toplevel' }, [
                 m(Tabs)
             ])
         ]);

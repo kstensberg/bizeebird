@@ -27,7 +27,7 @@ const getCustomerBirds = (db, customerId) => {
             });
         });
     });
-}
+};
 
 const getCustomerPhoneNumbers = (db, customerId) => {
     return new Promise((resolve, reject) => {
@@ -41,7 +41,7 @@ const getCustomerPhoneNumbers = (db, customerId) => {
             });
         });
     });
-}
+};
 
 const getCustomer = async (db, customerId) => {
     console.log(customerId);

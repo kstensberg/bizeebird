@@ -29,8 +29,8 @@ class DatePicker {
     view() {
 
         const config = {
-            'name':'daterange',
-            'type':'text'
+            'name': 'daterange',
+            'type': 'text'
         };
 
         if (this.hiddenInput == true) {

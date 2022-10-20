@@ -2,15 +2,15 @@
 
 import { Table } from './table.js';
 
-var CustomerSearch = {
+var HistorySearch = {
     dataRows: [],
     updateTable: async function(searchString) {
         this.dataRows = [];
         let data = [];
         if (searchString.length == 0) {
-            data = await window.contextBridge.database.getAllCustomers();
+            data = await window.contextBridge.database.getAllHistory();
         } else {
-            data = await window.contextBridge.database.searchCustomers(searchString);
+            data = await window.contextBridge.database.searchHistory(searchString);
         }
 
         for (const row of data) {
@@ -27,11 +27,11 @@ var CustomerSearch = {
                     'onclick': async () => {
                         await window.contextBridge.openCustomerDialog(row.customerId);
                     }
-                }, row.name), 
-                row.phoneNumber, 
-                row.email, 
-                boardingString, 
-                row.notes
+                }, row.customerName),
+                boardingString,
+                row.birdName,
+                row.breed,
+                row.dates
             ]);
         }
 
@@ -43,26 +43,24 @@ var CustomerSearch = {
     view: function(vnode) {
         const component = this;
         return m('div', [
-            m('div', { 'class':'form-floating mb-3' }, [
+            m('div', { 'class': 'form-floating mb-3' }, [
                 m('input', {
-                    'class':'form-control',
-                    'type':'text',
-                    'placeholder':'name@example.com',
+                    'class': 'form-control',
+                    'type': 'text',
+                    'placeholder': '',
                     onkeyup: function(e) {
                         component.updateTable(e.target.value);
                     }
                 }),
-                m('label', { 'for':'floatingInput' },
-                    'Customer Search'
+                m('label', { 'for': 'floatingInput' },
+                    'History Search'
                 )]),
             m(Table, {
-                headers: ['Customer Name', 'Phone Number', 'Email', 'Boarding Rate', 'Notes'],
+                headers: ['Customer Name', 'Boarding Rate', 'Bird Name', 'Breed', 'Dates'],
                 data: this.dataRows
             }),
         ]);
-
-
     }
 };
 
-export { CustomerSearch };
+export { HistorySearch };

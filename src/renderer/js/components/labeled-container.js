@@ -2,7 +2,7 @@
 
 var LabeledContainer = {
     view: function(vnode) {
-        return m('fieldset', { 'class':'labeled-container' },
+        return m('fieldset', { 'class': 'labeled-container' },
             [
                 m('legend',
                     vnode.attrs.label

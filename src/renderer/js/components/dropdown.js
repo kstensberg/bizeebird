@@ -22,9 +22,9 @@ class Dropdown {
 
     view() {
         const component = this;
-        return m('select', {onchange: function(event) {
+        return m('select', { onchange: function(event) {
             return component.onSelect(event.detail.value);
-        }});
+        } });
     }
 }
 

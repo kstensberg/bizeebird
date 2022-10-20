@@ -15,62 +15,60 @@ class AppointmentBird {
             birdNameLabel += ' - ' + this.bird.breed;
         }
 
-        return m('div', { 'class':'appointment-bird-container' },
+        return m('div', { 'class': 'appointment-bird-container' },
             [
-                m('div', { 'class':'form-check' },
+                m('div', { 'class': 'form-check' },
                     [
-                        m('input', { 
-                            'class':'form-check-input',
-                            'type':'checkbox',
-                            'name':'appointmentBirds', 
+                        m('input', {
+                            'class': 'form-check-input',
+                            'type': 'checkbox',
+                            'name': 'appointmentBirds',
                             'checked': this.bird.selected,
                             onchange: function() {
                                 console.log(appointmentBird.bird);
                                 //alert('here');
                             }
                         }),
-                        m('label', { 
-                            'class':'form-check-label',
-                            'for':'appointmentBirds' 
+                        m('label', {
+                            'class': 'form-check-label',
+                            'for': 'appointmentBirds'
                         }, birdNameLabel)
                     ]
                 ),
                 m('div',
-                    m('div', { 'class':'card card-body' },
+                    m('div', { 'class': 'card card-body' },
                         [
-                            m('div', { 'class':'form-check' },
+                            m('div', { 'class': 'form-check' },
                                 [
-                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'wings','name':'appointmentServices' }),
-                                    m('label', { 'class':'form-check-label','for':'birdWings' },
+                                    m('input', { 'class': 'form-check-input','type': 'checkbox','value': 'wings','name': 'appointmentServices' }),
+                                    m('label', { 'class': 'form-check-label','for': 'birdWings' },
                                         'Wings'
                                     )
                                 ]
                             ),
-                            m('div', { 'class':'form-check' },
+                            m('div', { 'class': 'form-check' },
                                 [
-                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'nails','name':'appointmentServices' }),
-                                    m('label', { 'class':'form-check-label','for':'birdNails' },
+                                    m('input', { 'class': 'form-check-input','type': 'checkbox','value': 'nails','name': 'appointmentServices' }),
+                                    m('label', { 'class': 'form-check-label','for': 'birdNails' },
                                         'Nails'
                                     )
                                 ]
                             ),
-                            m('div', { 'class':'form-check' },
+                            m('div', { 'class': 'form-check' },
                                 [
-                                    m('input', { 'class':'form-check-input','type':'checkbox','value':'cage','name':'appointmentServices' }),
-                                    m('label', { 'class':'form-check-label','for':'birdCageNeeded' },
+                                    m('input', { 'class': 'form-check-input','type': 'checkbox','value': 'cage','name': 'appointmentServices' }),
+                                    m('label', { 'class': 'form-check-label','for': 'birdCageNeeded' },
                                         'Cage Needed'
                                     )
                                 ]
                             ),
                             m('div',
                                 [
-                                    m('label',
-                                        'Notes'
-                                    ),
+                                    m('label', 'Notes'),
                                     m('br'),
-                                    m('textarea', { 'name':'birdNotes', oninput: () => {
+                                    m('textarea', { 'name': 'birdNotes', oninput: () => {
                                         alert('here');
-                                    }}),
+                                    } }),
                                 ]
                             )
                         ]
