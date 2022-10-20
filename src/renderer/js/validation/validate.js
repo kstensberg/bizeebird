@@ -5,7 +5,7 @@ import email from './email.js';
 import phoneNumber from './phone-number.js';
 
 export default {
-  customerName,
-  email,
-  phoneNumber
-}
+    customerName,
+    email,
+    phoneNumber
+};

@@ -3,9 +3,11 @@
 class ValidatedInput {
     constructor(vnode) {
         this.value = vnode.attrs.value ?? '';
-        this.type = vnode.attrs.type ?? 'text'; 
+        this.type = vnode.attrs.type ?? 'text';
 
-        this.validator = vnode.attrs.validator ?? function(){ return true; };
+        this.validator = vnode.attrs.validator ?? function(){
+            return true;
+        };
         this.onchange = vnode.attrs.onchange ?? function(){};
 
         this.validatorStatus = true;
@@ -25,7 +27,7 @@ class ValidatedInput {
                     const onchangeParams = {
                         value: validatedInput.value,
                         valid: validatedInput.validatorStatus
-                    }
+                    };
 
                     validatedInput.onchange(event, onchangeParams);
                 }
