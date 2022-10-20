@@ -81,9 +81,7 @@ class AppointmentDialog {
                                         [
                                             m('tr',
                                                 [
-                                                    m('th',
-                                                        'Customer'
-                                                    ),
+                                                    m('th', 'Customer'),
                                                     m('td',
                                                         m('select', {
                                                             oncreate: ({ dom }) => {
@@ -107,9 +105,7 @@ class AppointmentDialog {
                                             ),
                                             m('tr',
                                                 [
-                                                    m('th',
-                                                        'Notes'
-                                                    ),
+                                                    m('th', 'Notes'),
                                                     m('td',
                                                         m('textarea', {
                                                             'class': 'form-control',
@@ -123,9 +119,7 @@ class AppointmentDialog {
                                             ),
                                             m('tr',
                                                 [
-                                                    m('th',
-                                                        'Dates'
-                                                    ),
+                                                    m('th', 'Dates'),
                                                     m('td',
                                                         m(DatePicker, {
                                                             hiddenInput: true,
@@ -139,9 +133,7 @@ class AppointmentDialog {
                                             ),
                                             m('tr',
                                                 [
-                                                    m('th',
-                                                        'Boarding Rate'
-                                                    ),
+                                                    m('th', 'Boarding Rate'),
                                                     m('td',
                                                         m('input', {
                                                             'class': 'form-control',
@@ -156,9 +148,7 @@ class AppointmentDialog {
                                             ),
                                             m('tr',
                                                 [
-                                                    m('th',
-                                                        'Status'
-                                                    ),
+                                                    m('th', 'Status'),
                                                     m('td',
                                                         m('select', {
                                                             'class': 'form-select',

@@ -25,8 +25,6 @@ class AppointmentBird {
                             'name': 'appointmentBirds',
                             'checked': this.bird.selected,
                             onchange: function() {
-                                console.log(appointmentBird.bird);
-                                //alert('here');
                             }
                         }),
                         m('label', {

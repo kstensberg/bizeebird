@@ -7,8 +7,6 @@ var UpcomingDropoffsTable = {
     oninit: async function(vnode) {
         const response = await window.contextBridge.database.getUpcomingDropoffs();
 
-        console.log(response);
-
         for (const row of response) {
             this.dataRows.push([
                 row.Date,
@@ -28,9 +26,6 @@ var UpcomingDropoffsTable = {
         m.redraw();
     },
     view: function(vnode) {
-
-        console.log(this.dataRows);
-
         return m(Table, {
             headers: ['Date', 'Customers', 'Bird Name', 'Bird Breed', 'Cage Needed'],
             data: this.dataRows
