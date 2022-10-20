@@ -3,12 +3,19 @@
 import { LabeledContainer } from './components/labeled-container.js';
 import { Table } from './components/table.js';
 import { IconButton } from './components/icon-button.js';
+import { ValidatedInput } from './components/validated-input.js';
+import Validate from './validation/validate.js';
+
 
 var CustomerDialogModel = {
     customerId: null,
-    name: null,
+    name: {
+        value: null
+    },
     phoneNumbers: [null],
-    email: null,
+    email: {
+        value: null
+    },
     rate: null,
     notes: null,
     currentBirdInput: {
@@ -19,7 +26,7 @@ var CustomerDialogModel = {
         gender: null,
         notes: null,
     },
-    birds: []
+    birds: [],
 };
 
 class CustomerDialog {
@@ -36,12 +43,12 @@ class CustomerDialog {
                                 m('tr', [
                                     m('th', 'Name'),
                                     m('td',
-                                        m('input', {
-                                            'class': 'form-control',
+                                        m(ValidatedInput, {
+                                            'value': CustomerDialogModel.name.value,
                                             'type': 'text',
-                                            'value': CustomerDialogModel.name,
-                                            'onchange': function(event) {
-                                                CustomerDialogModel.name = event.target.value;
+                                            'validator': Validate.customerName,
+                                            'onchange': function(event, params) {
+                                                CustomerDialogModel.name = params;
                                             }
                                         })
                                     )
@@ -51,16 +58,14 @@ class CustomerDialog {
                                     m('td',
                                         [
                                             m('div', CustomerDialogModel.phoneNumbers.map((phoneNumber, idx) => {
-                                                return m('div', [
-                                                    m('input', {
-                                                        'type': 'tel',
-                                                        'class': 'form-control',
-                                                        'value': phoneNumber,
-                                                        'onchange': function(event) {
-                                                            CustomerDialogModel.phoneNumbers[idx] = event.target.value;
-                                                        }
-                                                    }),
-                                                ]);
+                                                return m(ValidatedInput, {
+                                                    'value': phoneNumber,
+                                                    'type': 'tel',
+                                                    'validator': Validate.phoneNumber,
+                                                    'onchange': function(event) {
+                                                        CustomerDialogModel.phoneNumbers[idx] = event.target.value;
+                                                    }
+                                                });
                                             })),
                                             m('div', [
                                                 m(IconButton, {
@@ -83,12 +88,12 @@ class CustomerDialog {
                                 m('tr', [
                                     m('th', 'E-Mail'),
                                     m('td',
-                                        m('input', {
-                                            'class': 'form-control',
+                                        m(ValidatedInput, {
+                                            'value': CustomerDialogModel.email.value,
                                             'type': 'email',
-                                            'value': CustomerDialogModel.email,
-                                            'onchange': function(event) {
-                                                CustomerDialogModel.email = event.target.value;
+                                            'validator': Validate.email,
+                                            'onchange': function(event, params) {
+                                                CustomerDialogModel.email = params;
                                             }
                                         })
                                     )
@@ -289,10 +294,17 @@ class CustomerDialog {
                             m('button', {
                                 'class': 'btn btn-primary padded-btn',
                                 onclick: async () => {
+                                    if (CustomerDialogModel.name.valid !== true ||
+                                        CustomerDialogModel.email.valid !== true) {
+                                        return;
+                                    }
+
                                     const data = {
-                                        name: CustomerDialogModel.name,
-                                        phoneNumbers: CustomerDialogModel.phoneNumbers,
-                                        email: CustomerDialogModel.email,
+                                        name: CustomerDialogModel.name.value,
+                                        phoneNumbers: CustomerDialogModel.phoneNumbers.map((phone) => {
+                                            return phone.value;
+                                        }),
+                                        email: CustomerDialogModel.email.value,
                                         rate: CustomerDialogModel.rate,
                                         notes: CustomerDialogModel.notes,
                                         birds: CustomerDialogModel.birds
@@ -319,12 +331,15 @@ m.mount(document.body, CustomerDialog);
 
 window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
     const customer = await window.contextBridge.database.getCustomer(customerId);
-    console.log(customer);
 
     CustomerDialogModel.customerId = customer.customerId;
-    CustomerDialogModel.name = customer.name;
-    CustomerDialogModel.phoneNumbers = customer.phoneNumbers;
-    CustomerDialogModel.email = customer.email;
+    CustomerDialogModel.name = {value: customer.name};
+    
+    CustomerDialogModel.phoneNumbers = customer.phoneNumbers.map((phone) => {
+        return { value: phone };
+    });
+
+    CustomerDialogModel.email = {value: customer.email};
     CustomerDialogModel.rate = customer.rate;
     CustomerDialogModel.notes = customer.notes;
 

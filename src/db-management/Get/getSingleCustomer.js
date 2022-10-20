@@ -44,7 +44,6 @@ const getCustomerPhoneNumbers = (db, customerId) => {
 };
 
 const getCustomer = async (db, customerId) => {
-    console.log(customerId);
     const result = await Promise.all([getSingleCustomer(db, customerId), getCustomerPhoneNumbers(db, customerId), getCustomerBirds(db, customerId)]);
 
     const numbers = result[1];
