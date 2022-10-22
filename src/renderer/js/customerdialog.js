@@ -333,13 +333,13 @@ window.contextBridge.attachEvent('loadCustomer', async function (event, customer
     const customer = await window.contextBridge.database.getCustomer(customerId);
 
     CustomerDialogModel.customerId = customer.customerId;
-    CustomerDialogModel.name = {value: customer.name};
-    
+    CustomerDialogModel.name = { value: customer.name };
+
     CustomerDialogModel.phoneNumbers = customer.phoneNumbers.map((phone) => {
         return { value: phone };
     });
 
-    CustomerDialogModel.email = {value: customer.email};
+    CustomerDialogModel.email = { value: customer.email };
     CustomerDialogModel.rate = customer.rate;
     CustomerDialogModel.notes = customer.notes;
 

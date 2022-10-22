@@ -8,7 +8,8 @@
       "Split": true,
       "contextBridge": true,
       "easepick": true,
-      "Choices": true
+      "Choices": true,
+      "validator": true
     },
     "ignorePatterns": [
       "lib/**/*.js"
