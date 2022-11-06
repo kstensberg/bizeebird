@@ -52,11 +52,19 @@ const convertStatus = (appointment) => {
     } else {
         appointment.status = 4;
     }
-    console.log(appointment);
+};
+
+const convertTimeStamp = (appointment) => {
+    const startDate = new Date(appointment.startDate);
+    const endDate = new Date(appointment.endDate);
+    appointment.startDate = startDate.toISOString();
+    appointment.endDate = endDate.toISOString();
 };
 
 const runAllCreateAppointment = async (db, appointment) => {
     convertStatus(appointment);
+    convertTimeStamp(appointment);
+    console.log(appointment);
     const appointmentId = await createAppointment(db, appointment);
     await Promise.all([createAppointmentBirds(db, appointment, appointmentId)]);
 };
