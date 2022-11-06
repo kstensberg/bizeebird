@@ -40,7 +40,23 @@ const createAppointmentBirds = (db, appointment, appointmentId) => {
     });
 };
 
+const convertStatus = (appointment) => {
+    if (appointment.status == 'Scheduled') {
+        appointment.status = 0;
+    } else if (appointment.status == 'Checked In') {
+        appointment.status = 1;
+    } else if (appointment.status == 'Checked Out') {
+        appointment.status = 2;
+    } else if (appointment.status == 'Cancelled') {
+        appointment.status = 3;
+    } else {
+        appointment.status = 4;
+    }
+    console.log(appointment);
+};
+
 const runAllCreateAppointment = async (db, appointment) => {
+    convertStatus(appointment);
     const appointmentId = await createAppointment(db, appointment);
     await Promise.all([createAppointmentBirds(db, appointment, appointmentId)]);
 };
