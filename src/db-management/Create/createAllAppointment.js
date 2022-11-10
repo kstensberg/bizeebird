@@ -40,21 +40,21 @@ const createAppointmentBirds = (db, appointment, appointmentId) => {
     });
 };
 
-const convertStatus = (appointment) => {
+const stringStatusToNumeric = (appointment) => {
     if (appointment.status == 'Scheduled') {
-        appointment.status = 0;
+        return 0;
     } else if (appointment.status == 'Checked In') {
-        appointment.status = 1;
+        return 1;
     } else if (appointment.status == 'Checked Out') {
-        appointment.status = 2;
+        return 2;
     } else if (appointment.status == 'Cancelled') {
-        appointment.status = 3;
+        return 3;
     } else {
-        appointment.status = 4;
+        return 4;
     }
 };
 
-const convertTimeStamp = (appointment) => {
+const apptTimeStampToISOString = (appointment) => {
     const startDate = new Date(appointment.startDate);
     const endDate = new Date(appointment.endDate);
     appointment.startDate = startDate.toISOString();
@@ -62,11 +62,11 @@ const convertTimeStamp = (appointment) => {
 };
 
 const runAllCreateAppointment = async (db, appointment) => {
-    convertStatus(appointment);
-    convertTimeStamp(appointment);
-    console.log(appointment);
-    const appointmentId = await createAppointment(db, appointment);
-    await Promise.all([createAppointmentBirds(db, appointment, appointmentId)]);
+    const dbAppt = appointment;
+    stringStatusToNumeric(dbAppt);
+    apptTimeStampToISOString(dbAppt);
+    const appointmentId = await createAppointment(db, dbAppt);
+    await Promise.all([createAppointmentBirds(db, dbAppt, appointmentId)]);
 };
 
 module.exports = runAllCreateAppointment;
