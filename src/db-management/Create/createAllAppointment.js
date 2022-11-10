@@ -40,9 +40,31 @@ const createAppointmentBirds = (db, appointment, appointmentId) => {
     });
 };
 
+const stringStatusToNumeric = (status) => {
+    if (status == 'Scheduled') {
+        return 0;
+    } else if (status == 'Checked In') {
+        return 1;
+    } else if (status == 'Checked Out') {
+        return 2;
+    } else if (status == 'Cancelled') {
+        return 3;
+    } else {
+        return 4;
+    }
+};
+
+const apptTimeStampToISOString = (date) => {
+    return new Date(date).toISOString();
+};
+
 const runAllCreateAppointment = async (db, appointment) => {
-    const appointmentId = await createAppointment(db, appointment);
-    await Promise.all([createAppointmentBirds(db, appointment, appointmentId)]);
+    const dbAppt = appointment;
+    dbAppt.status = stringStatusToNumeric(dbAppt.status);
+    dbAppt.startDate = apptTimeStampToISOString(dbAppt.startDate);
+    dbAppt.endDate = apptTimeStampToISOString(dbAppt.endDate);
+    const appointmentId = await createAppointment(db, dbAppt);
+    await Promise.all([createAppointmentBirds(db, dbAppt, appointmentId)]);
 };
 
 module.exports = runAllCreateAppointment;
