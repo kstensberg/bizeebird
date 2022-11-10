@@ -40,31 +40,29 @@ const createAppointmentBirds = (db, appointment, appointmentId) => {
     });
 };
 
-const stringStatusToNumeric = (appointment) => {
-    if (appointment.status == 'Scheduled') {
+const stringStatusToNumeric = (status) => {
+    if (status == 'Scheduled') {
         return 0;
-    } else if (appointment.status == 'Checked In') {
+    } else if (status == 'Checked In') {
         return 1;
-    } else if (appointment.status == 'Checked Out') {
+    } else if (status == 'Checked Out') {
         return 2;
-    } else if (appointment.status == 'Cancelled') {
+    } else if (status == 'Cancelled') {
         return 3;
     } else {
         return 4;
     }
 };
 
-const apptTimeStampToISOString = (appointment) => {
-    const startDate = new Date(appointment.startDate);
-    const endDate = new Date(appointment.endDate);
-    appointment.startDate = startDate.toISOString();
-    appointment.endDate = endDate.toISOString();
+const apptTimeStampToISOString = (date) => {
+    return new Date(date).toISOString();
 };
 
 const runAllCreateAppointment = async (db, appointment) => {
     const dbAppt = appointment;
-    stringStatusToNumeric(dbAppt);
-    apptTimeStampToISOString(dbAppt);
+    dbAppt.status = stringStatusToNumeric(dbAppt.status);
+    dbAppt.startDate = apptTimeStampToISOString(dbAppt.startDate);
+    dbAppt.endDate = apptTimeStampToISOString(dbAppt.endDate);
     const appointmentId = await createAppointment(db, dbAppt);
     await Promise.all([createAppointmentBirds(db, dbAppt, appointmentId)]);
 };
