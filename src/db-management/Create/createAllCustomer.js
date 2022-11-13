@@ -50,8 +50,12 @@ const createBird = (db, customerId, birds) => {
 };
 
 const runAllCreate = async (db, customer) => {
-    const customerId = await createCustomer(db, customer);
-    await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
+    if ('customerId' in customer) {
+        console.log('this is an update');
+    } else {
+        const customerId = await createCustomer(db, customer);
+        await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
+    }
 };
 
 module.exports = runAllCreate;
