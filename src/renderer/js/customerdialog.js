@@ -3,19 +3,14 @@
 import { LabeledContainer } from './components/labeled-container.js';
 import { Table } from './components/table.js';
 import { IconButton } from './components/icon-button.js';
-import { ValidatedInput } from './components/validated-input.js';
-import Validate from './validation/validate.js';
 
-
-var CustomerDialogModel = {
+const CustomerDialogModel = {
     customerId: null,
-    name: {
-        value: null
-    },
+    name: null,
+    nameErrors: [],
     phoneNumbers: [null],
-    email: {
-        value: null
-    },
+    email: null,
+    emailErrors: [],
     rate: null,
     notes: null,
     currentBirdInput: {
@@ -26,8 +21,33 @@ var CustomerDialogModel = {
         gender: null,
         notes: null,
     },
-    birds: [],
+    birds: []
 };
+
+const formConstraints = {
+    name: {
+        presence: true,
+        length: {minimum: 1}
+    },
+    email: {
+        presence: true, 
+        email: true
+    },
+    rate: {
+        presence: true,
+        numericality: {greaterThanOrEqualTo: 0}
+    }
+};
+
+const validateSingle = (value, constraints) => {
+    const result = validate.single(value, constraints);
+
+    if (result == undefined) {
+        //return [];
+    }
+
+    return result;
+}
 
 class CustomerDialog {
     oninit(vnode) {
@@ -43,14 +63,21 @@ class CustomerDialog {
                                 m('tr', [
                                     m('th', 'Name'),
                                     m('td',
-                                        m(ValidatedInput, {
-                                            'value': CustomerDialogModel.name.value,
+                                        m('input', {
+                                            'class': 'form-control',
                                             'type': 'text',
-                                            'validator': Validate.customerName,
-                                            'onchange': function(event, params) {
-                                                CustomerDialogModel.name = params;
+                                            'value': CustomerDialogModel.name,
+                                            'onchange': function(event) {
+                                                CustomerDialogModel.name = event.target.value;
+                                                CustomerDialogModel.nameErrors = validateSingle(CustomerDialogModel.name, formConstraints.name);
                                             }
-                                        })
+                                        }),
+                                        m('div', 
+                                            CustomerDialogModel.nameErrors?.map((error) => {
+                                                return m('div', error);
+                                            })
+                                        )
+                                        
                                     )
                                 ]),
                                 m('tr', [
@@ -58,14 +85,16 @@ class CustomerDialog {
                                     m('td',
                                         [
                                             m('div', CustomerDialogModel.phoneNumbers.map((phoneNumber, idx) => {
-                                                return m(ValidatedInput, {
-                                                    'value': phoneNumber,
-                                                    'type': 'tel',
-                                                    'validator': Validate.phoneNumber,
-                                                    'onchange': function(event) {
-                                                        CustomerDialogModel.phoneNumbers[idx] = event.target.value;
-                                                    }
-                                                });
+                                                return m('div', [
+                                                    m('input', {
+                                                        'type': 'tel',
+                                                        'class': 'form-control',
+                                                        'value': phoneNumber,
+                                                        'onchange': function(event) {
+                                                            CustomerDialogModel.phoneNumbers[idx] = event.target.value;
+                                                        }
+                                                    }),
+                                                ]);
                                             })),
                                             m('div', [
                                                 m(IconButton, {
@@ -88,14 +117,20 @@ class CustomerDialog {
                                 m('tr', [
                                     m('th', 'E-Mail'),
                                     m('td',
-                                        m(ValidatedInput, {
-                                            'value': CustomerDialogModel.email.value,
+                                        m('input', {
+                                            'class': 'form-control',
                                             'type': 'email',
-                                            'validator': Validate.email,
-                                            'onchange': function(event, params) {
-                                                CustomerDialogModel.email = params;
+                                            'value': CustomerDialogModel.email,
+                                            'onchange': function(event) {
+                                                CustomerDialogModel.email = event.target.value;
+                                                CustomerDialogModel.emailErrors = validateSingle(CustomerDialogModel.email, formConstraints.email);
                                             }
-                                        })
+                                        }),
+                                        m('div', 
+                                            CustomerDialogModel.emailErrors?.map((error) => {
+                                                return m('div', error);
+                                            })
+                                        )
                                     )
                                 ]),
                                 m('tr', [
@@ -294,17 +329,22 @@ class CustomerDialog {
                             m('button', {
                                 'class': 'btn btn-primary padded-btn',
                                 onclick: async () => {
-                                    if (CustomerDialogModel.name.valid !== true ||
-                                        CustomerDialogModel.email.valid !== true) {
+
+                                    const formErrors = validate(CustomerDialogModel, formConstraints)
+
+                                    console.log(formErrors)
+
+                                    if (formErrors) {
+                                        CustomerDialogModel.nameErrors = formErrors.name;
+                                        CustomerDialogModel.emailErrors = formErrors.email;
+                                        CustomerDialogModel.rateErrors = formErrors.rate;
                                         return;
                                     }
 
                                     const data = {
-                                        name: CustomerDialogModel.name.value,
-                                        phoneNumbers: CustomerDialogModel.phoneNumbers.map((phone) => {
-                                            return phone.value;
-                                        }),
-                                        email: CustomerDialogModel.email.value,
+                                        name: CustomerDialogModel.name,
+                                        phoneNumbers: CustomerDialogModel.phoneNumbers,
+                                        email: CustomerDialogModel.email,
                                         rate: CustomerDialogModel.rate,
                                         notes: CustomerDialogModel.notes,
                                         birds: CustomerDialogModel.birds
@@ -331,15 +371,11 @@ m.mount(document.body, CustomerDialog);
 
 window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
     const customer = await window.contextBridge.database.getCustomer(customerId);
-    console.log(customer);
+
     CustomerDialogModel.customerId = customer.customerId;
-    CustomerDialogModel.name = { value: customer.name };
-
-    CustomerDialogModel.phoneNumbers = customer.phoneNumbers.map((phone) => {
-        return { value: phone };
-    });
-
-    CustomerDialogModel.email = { value: customer.email };
+    CustomerDialogModel.name = customer.name;
+    CustomerDialogModel.phoneNumbers = customer.phoneNumbers;
+    CustomerDialogModel.email = customer.email;
     CustomerDialogModel.rate = customer.rate;
     CustomerDialogModel.notes = customer.notes;
 
