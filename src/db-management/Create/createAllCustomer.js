@@ -49,9 +49,28 @@ const createBird = (db, customerId, birds) => {
     });
 };
 
+const updateCustomer = (db, customer) => {
+    return new Promise((resolve, reject) => {
+        db.serialize(() => {
+            db.run('UPDATE Customers SET Name = $name, Email = $email, BoardingRate = $rate, ' +
+            'Notes = $notes WHERE CustomerId = $customerId', {
+                $name: customer.name,
+                $email: customer.email,
+                $rate: customer.rate,
+                $notes: customer.notes,
+                $customerId: customer.customerId
+            });
+        });
+    });
+};
+
 const runAllCreate = async (db, customer) => {
-    const customerId = await createCustomer(db, customer);
-    await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
+    if ('customerId' in customer) {
+        updateCustomer(db, customer);
+    } else {
+        const customerId = await createCustomer(db, customer);
+        await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
+    }
 };
 
 module.exports = runAllCreate;

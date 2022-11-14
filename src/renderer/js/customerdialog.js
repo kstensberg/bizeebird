@@ -311,7 +311,7 @@ class CustomerDialog {
                                     };
 
                                     if (CustomerDialogModel.customerId != null && CustomerDialogModel.customerId != undefined) {
-                                        data.customerId == CustomerDialogModel.customerId;
+                                        data.customerId = CustomerDialogModel.customerId;
                                     }
 
                                     await window.contextBridge.database.saveCustomer(data);
@@ -331,7 +331,7 @@ m.mount(document.body, CustomerDialog);
 
 window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
     const customer = await window.contextBridge.database.getCustomer(customerId);
-
+    console.log(customer);
     CustomerDialogModel.customerId = customer.customerId;
     CustomerDialogModel.name = { value: customer.name };
 
