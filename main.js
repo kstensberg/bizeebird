@@ -5,7 +5,13 @@ const path = require('path');
 require('./src/ipc.js');
 
 const createMainWindow = () => {
-    return createWindow('src/renderer/index.html', 800, 600);
+    const mainWindow = createWindow('src/renderer/index.html', 800, 600);
+
+    mainWindow.on('close', function(event) {
+        process.exit(0);
+    });
+
+    return mainWindow;
 };
 
 const createWindow = (loadFile, width, height, minWidth = 0, minHeight = 0) => {
