@@ -32,7 +32,7 @@ var Tabs = {
                 ),
                 m('div', { 'class': 'tab-content','id': 'mainTabsContent' },
                     [
-                        m('div', { 'class': 'tab-pane fade show active','id': 'appointments','role': 'tabpanel','aria-labelledby': 'appointments-tab' },
+                        m('div', { 'class': 'tab-pane fade show active tab-body','id': 'appointments','role': 'tabpanel','aria-labelledby': 'appointments-tab' },
                             m(SplitPane, {
                                 leftComponent: m(LabeledContainer, {
                                     label: 'Upcoming Drop Offs',
@@ -44,10 +44,10 @@ var Tabs = {
                                 })
                             })
                         ),
-                        m('div', { 'class': 'tab-pane fade','id': 'customers','role': 'tabpanel','aria-labelledby': 'customers-tab' },
+                        m('div', { 'class': 'tab-pane fade tab-body','id': 'customers','role': 'tabpanel','aria-labelledby': 'customers-tab' },
                             m(CustomerSearch)
                         ),
-                        m('div', { 'class': 'tab-pane fade','id': 'history','role': 'tabpanel','aria-labelledby': 'history-tab' },
+                        m('div', { 'class': 'tab-pane fade tab-body','id': 'history','role': 'tabpanel','aria-labelledby': 'history-tab' },
                             m(HistorySearch)
                         )
                     ]

@@ -136,7 +136,15 @@ fieldset.labeled-container {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.tab-body {
   overflow-x: auto;
+  position: absolute;
+  top:50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 #tabs-toplevel {
