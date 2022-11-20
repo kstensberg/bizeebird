@@ -1,4 +1,3 @@
-
 'use strict';
 
 import { Tabs } from './components/tabs.js';
@@ -31,6 +30,6 @@ var BizeeBirdBoardingApp = {
 m.mount(document.body, BizeeBirdBoardingApp);
 
 
-window.contextBridge.attachEvent('customerSaved', function (){
+window.contextBridge.attachEvent('customerSaved', function () {
     m.redraw();
 });

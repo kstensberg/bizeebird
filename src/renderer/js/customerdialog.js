@@ -343,7 +343,7 @@ class CustomerDialog {
 
                                     const data = {
                                         name: CustomerDialogModel.name,
-                                        phoneNumbers: CustomerDialogModel.phoneNumbers,
+                                        phoneNumbers: CustomerDialogModel.phoneNumbers.filter(item => item != undefined && item != null && item.length > 0),
                                         email: CustomerDialogModel.email,
                                         rate: CustomerDialogModel.rate,
                                         notes: CustomerDialogModel.notes,
