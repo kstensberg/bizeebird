@@ -64,12 +64,21 @@ const updateCustomer = (db, customer) => {
     });
 };
 
+const formatPhoneNumber = (numbers) => {
+    const formattedNumbers = [];
+    numbers.forEach(number => {
+        formattedNumbers.push(number.replace(/\D/g,''));
+    });
+    return formattedNumbers;
+};
+
 const runAllCreate = async (db, customer) => {
+    const formattedNumbers = formatPhoneNumber(customer.phoneNumbers);
     if ('customerId' in customer) {
         updateCustomer(db, customer);
     } else {
         const customerId = await createCustomer(db, customer);
-        await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
+        await Promise.all([createPhoneNumber(db, customerId, formattedNumbers), createBird(db, customerId, customer.birds)]);
     }
 };
 
