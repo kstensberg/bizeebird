@@ -31,7 +31,7 @@ const formConstraints = {
     },
     email: {
         presence: true, 
-        email: true
+        optionalEmail: true
     },
     rate: {
         presence: true,
