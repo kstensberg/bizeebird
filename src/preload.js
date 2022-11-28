@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('contextBridge', {
         getCustomer: (customerId) => ipcRenderer.invoke('getCustomer', customerId),
         getAllCustomers: () => ipcRenderer.invoke('getAllCustomers'),
         searchCustomers: (searchString) => ipcRenderer.invoke('searchCustomers', searchString),
+        searchCustomersByName: (searchString) => ipcRenderer.invoke('searchCustomersByName', searchString),
         getAllHistory: () => ipcRenderer.invoke('getAllHistory'),
         searchHistory: (searchString) => ipcRenderer.invoke('searchHistory', searchString),
         getUpcomingDropoffs: () => ipcRenderer.invoke('getUpcomingDropoffs'),

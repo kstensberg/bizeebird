@@ -27,6 +27,18 @@ ipcMain.handle('searchCustomers', async function(event, searchString) {
     return searchCustomers(db, searchString);
 });
 
+ipcMain.handle('searchCustomersByName', async function(event, searchString) {
+    //TODO
+
+    if (searchString == 'test123') {
+        return [{
+            customerId: 123
+        }];
+    }
+
+    return [];
+});
+
 ipcMain.handle('getAllHistory', async function(event) {
     const getAllAppointments = require('./db-management/Get/getAllAppointments');
     return getAllAppointments(db);

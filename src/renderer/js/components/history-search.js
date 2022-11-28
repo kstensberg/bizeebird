@@ -20,8 +20,8 @@ var HistorySearch = {
                 boardingString = '$' + row.rate.toFixed(2);
             }
 
-            const startDate = new Date(row.startDate).toLocaleDateString("en-US");
-            const endDate = new Date(row.endDate).toLocaleDateString("en-US");
+            const startDate = new Date(row.startDate).toLocaleDateString('en-US');
+            const endDate = new Date(row.endDate).toLocaleDateString('en-US');
 
             this.dataRows.push([
                 m('button', {
