@@ -27,15 +27,15 @@ const CustomerDialogModel = {
 const formConstraints = {
     name: {
         presence: true,
-        length: {minimum: 1}
+        length: { minimum: 1 }
     },
     email: {
-        presence: true, 
+        presence: true,
         optionalEmail: true
     },
     rate: {
         presence: true,
-        numericality: {greaterThanOrEqualTo: 0}
+        numericality: { greaterThanOrEqualTo: 0 }
     }
 };
 
@@ -47,10 +47,13 @@ const validateSingle = (value, constraints) => {
     }
 
     return result;
-}
+};
+
+var alreadyExistsModal = null;
 
 class CustomerDialog {
-    oninit(vnode) {
+    oncreate(vnode) {
+        alreadyExistsModal = new bootstrap.Modal(document.getElementById('already-exists-modal'));
     }
 
     view(vnode) {
@@ -72,12 +75,12 @@ class CustomerDialog {
                                                 CustomerDialogModel.nameErrors = validateSingle(CustomerDialogModel.name, formConstraints.name);
                                             }
                                         }),
-                                        m('div', 
+                                        m('div',
                                             CustomerDialogModel.nameErrors?.map((error) => {
                                                 return m('div', error);
                                             })
                                         )
-                                        
+
                                     )
                                 ]),
                                 m('tr', [
@@ -121,12 +124,12 @@ class CustomerDialog {
                                             'class': 'form-control',
                                             'type': 'email',
                                             'value': CustomerDialogModel.email,
-                                            'onchange': function(event) {
+                                            'onchange': async function(event) {
                                                 CustomerDialogModel.email = event.target.value;
                                                 CustomerDialogModel.emailErrors = validateSingle(CustomerDialogModel.email, formConstraints.email);
                                             }
                                         }),
-                                        m('div', 
+                                        m('div',
                                             CustomerDialogModel.emailErrors?.map((error) => {
                                                 return m('div', error);
                                             })
@@ -330,9 +333,7 @@ class CustomerDialog {
                                 'class': 'btn btn-primary padded-btn',
                                 onclick: async () => {
 
-                                    const formErrors = validate(CustomerDialogModel, formConstraints)
-
-                                    console.log(formErrors)
+                                    const formErrors = validate(CustomerDialogModel, formConstraints);
 
                                     if (formErrors) {
                                         CustomerDialogModel.nameErrors = formErrors.name;
@@ -354,12 +355,50 @@ class CustomerDialog {
                                         data.customerId = CustomerDialogModel.customerId;
                                     }
 
+                                    const customerSearch = await window.contextBridge.database.searchCustomersByName(CustomerDialogModel.name);
+
+                                    if (customerSearch.length > 0) {
+                                        alreadyExistsModal.show();
+                                        return;
+                                    }
+
                                     await window.contextBridge.database.saveCustomer(data);
 
                                     window.close();
                                 }
                             }, 'OK')
                         ]
+                    )
+                ),
+                m('div', { 'id': 'already-exists-modal', 'class': 'modal','tabindex': '-1' },
+                    m('div', { 'class': 'modal-dialog' },
+                        m('div', { 'class': 'modal-content' },
+                            [
+                                m('div', { 'class': 'modal-header' },
+                                    [
+                                        m('h5', { 'class': 'modal-title' },
+                                            'Customer already exists'
+                                        ),
+                                        m('button', { 'class': 'btn-close','type': 'button','data-bs-dismiss': 'modal','aria-label': 'Close' })
+                                    ]
+                                ),
+                                m('div', { 'class': 'modal-body' },
+                                    m('p',
+                                        `the customer, ${CustomerDialogModel.name}, already exists. still save?`
+                                    )
+                                ),
+                                m('div', { 'class': 'modal-footer' },
+                                    [
+                                        m('button', { 'class': 'btn btn-secondary','type': 'button','data-bs-dismiss': 'modal' },
+                                            'Close'
+                                        ),
+                                        m('button', { 'class': 'btn btn-primary','type': 'button' },
+                                            'Save changes'
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
                     )
                 )
             ]
