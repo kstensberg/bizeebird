@@ -58,7 +58,25 @@ const apptTimeStampToISOString = (date) => {
     return new Date(date).toISOString();
 };
 
+const updateAppointment = (db, appointment) => {
+    return new Promise((resolve, reject) => {
+        db.serialize(() => {
+            db.run('UPDATE Appointments SET StartTime = $startDate, EndTime = $endDate, Status = $status, ' +
+            'Notes = $notes WHERE AppointmentId = $appointmentId', {
+                $startDate: appointment.startDate,
+                $endDate: appointment.endDate,
+                $status: appointment.status,
+                $notes: appointment.notes,
+                $appointmentId: appointment.appointmentId
+            });
+        });
+    });
+};
+
 const runAllCreateAppointment = async (db, appointment) => {
+    if ('appointmentId' in appointment) {
+        return updateAppointment(db, appointment);
+    }
     const dbAppt = appointment;
     dbAppt.status = stringStatusToNumeric(dbAppt.status);
     dbAppt.startDate = apptTimeStampToISOString(dbAppt.startDate);

@@ -86,7 +86,7 @@ const checkIfDuplicateCustomer = (db, customer) => {
 
 const runAllCreate = async (db, customer) => {
     if ('customerId' in customer) {
-        updateCustomer(db, customer);
+        return updateCustomer(db, customer);
     }
     const customerId = await createCustomer(db, customer);
     await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
