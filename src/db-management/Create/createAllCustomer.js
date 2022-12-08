@@ -64,13 +64,32 @@ const updateCustomer = (db, customer) => {
     });
 };
 
+const checkIfDuplicateCustomer = (db, customer) => {
+    return new Promise((resolve, reject) => {
+        db.serialize(() => {
+            db.all('SELECT DISTINCT Customer_CustomerId FROM CustomerPhoneNumbers ' +
+                'WHERE PhoneNumber IN (?)', customer.phoneNumbers, (err, row) => {
+                if (row) {
+                    resolve(row);
+                }
+                reject(err);
+            });
+            db.all('SELECT DISTINCT CustomerId FROM Customers WHERE Email = ?', customer.email, (err, row) => {
+                if (row) {
+                    resolve(row);
+                }
+                reject(err);
+            });
+        });
+    });
+};
+
 const runAllCreate = async (db, customer) => {
     if ('customerId' in customer) {
         updateCustomer(db, customer);
-    } else {
-        const customerId = await createCustomer(db, customer);
-        await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
     }
+    const customerId = await createCustomer(db, customer);
+    await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
 };
 
 module.exports = runAllCreate;
