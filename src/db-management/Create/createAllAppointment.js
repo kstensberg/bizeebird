@@ -83,6 +83,7 @@ const runAllCreateAppointment = async (db, appointment) => {
     dbAppt.endDate = apptTimeStampToISOString(dbAppt.endDate);
     const appointmentId = await createAppointment(db, dbAppt);
     await Promise.all([createAppointmentBirds(db, dbAppt, appointmentId)]);
+
 };
 
 module.exports = runAllCreateAppointment;
