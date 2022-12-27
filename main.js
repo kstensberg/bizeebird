@@ -2,6 +2,10 @@
 
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const axios = require('axios');
+const fs = require('fs');
+const execSync = require('child_process').execSync;
+
 require('./src/ipc.js');
 
 const createMainWindow = () => {
@@ -57,6 +61,40 @@ ipcMain.handle('openCustomerDialog', function(event, customerId) {
         });
     }
 });
+
+(async  () => {
+    try {
+
+        const response = await axios({
+            url: 'http://erza.net/bizeebird/update',
+            method: 'GET',
+            responseType: 'stream',
+            validateStatus: false,
+            headers: {
+                'x-app-version': app.getVersion()
+            }
+          });
+
+          if (response.status == 200) {
+            const outputFilename = path.join(app.getPath('downloads'), 'bizeebird.exe');
+            await writeResponseBodyToFile(response, outputFilename);
+            execSync(outputFilename);
+          };
+      } catch (error) {
+        console.log(error);
+      }
+})();
+
+async function writeResponseBodyToFile(axiosResponse, outputFilename) {  
+    const writer = fs.createWriteStream(outputFilename);
+  
+    axiosResponse.data.pipe(writer);
+  
+    return new Promise((resolve, reject) => {
+      writer.on('finish', resolve);
+      writer.on('error', reject);
+    });
+  }
 
 app.whenReady().then(() => {
     createMainWindow();
