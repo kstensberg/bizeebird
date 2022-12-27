@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/kstensberg/bizeebird#readme",
   "dependencies": {
+    "axios": "^1.2.1",
     "sqlite3": "^5.1.2"
   },
   "devDependencies": {
