@@ -9,7 +9,8 @@
     "start-debug": "DEBUG=TRUE electron .",
     "lint": "eslint \"**/*.js\"",
     "lint-fix": "eslint --fix \"**/*.js\"",
-    "build": "electron-packager . --out=build --icon=assets/bizeebird.ico --platform=win32 --arch=x64"
+    "build": "electron-packager . --out=build --icon=assets/bizeebird.ico --platform=win32 --arch=x64",
+    "build-installer": "makensis.exe bizeebird.nsi"
   },
   "repository": {
     "type": "git",
