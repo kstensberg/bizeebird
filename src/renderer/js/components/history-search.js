@@ -23,6 +23,11 @@ var HistorySearch = {
             const startDate = new Date(row.startDate).toLocaleDateString('en-US');
             const endDate = new Date(row.endDate).toLocaleDateString('en-US');
 
+            let customerName = row.customerName;
+            if (customerName.trim() == '') {
+                customerName = '(unset)';
+            }
+
             this.dataRows.push([
                 m('button', {
                     'type': 'button',
