@@ -74,21 +74,25 @@ const updateAppointment = (db, appointment) => {
 };
 
 const upsertAppointmentBirds = async (db, appointment) => {
+    const dbApptBirds = await getAppointmentBirds(db, appointment);
+    const array = [];
+    const uiBirds = [];
+    for (const dbApptBird of dbApptBirds) {
+        array.push(dbApptBird.Bird_BirdId);
+    }
     for (const bird of appointment.birds) {
+        uiBirds.push(bird.birdId);
+        const diff = array.filter(x => !uiBirds.includes(x));
         if (await isBirdInDbAppointment(db, bird, appointment) !== true) {
             insertBird(db, bird, appointment);
-            console.log('inserted');
         }
-        if (await isBirdInDbAppointment(db, bird, appointment) == true) {
+        if (await isBirdInDbAppointment(db, bird, appointment) == true && diff.length == 0) {
             updateBird(db, bird, appointment);
-            console.log('updated');
         }
-        const dbAppointmentBirds = await getAppointmentBirds(db, appointment);
-        for (const dbApptBird of dbAppointmentBirds) {
-            // console.log(dbApptBird);
-            if (await isBirdInDbAppointment(db, bird, appointment) == true && dbApptBird.Bird_BirdId !== bird.birdId) {
-                deleteBird(db, bird);
-                console.log('deleted');
+        if (await isBirdInDbAppointment(db, bird, appointment) == true && diff.length >= 1) {
+            for (let i = 0; i <= diff.length; i++) {
+                deleteBird(db, diff[i]);
+                console.log(diff[i]);
             }
         }
     }
@@ -141,9 +145,9 @@ const insertBird = async (db, bird, appointment) => {
     });
 };
 
-const deleteBird = async (db, bird) => {
+const deleteBird = async (db, birdId) => {
     await db.run('DELETE FROM AppointmentBirds WHERE Bird_BirdId = $birdId', {
-        $birdId: bird.birdId
+        $birdId: birdId
     });
 };
 
