@@ -7,8 +7,7 @@ const searchCustomers = (db, searchString) => {
             var query = 'SELECT Customers.CustomerId as customerId, Customers.Name AS name, CustomerPhoneNumbers.PhoneNumber AS phoneNumber, ' +
             'Customers.Email AS email, Customers.BoardingRate AS rate, Customers.Notes AS notes FROM Customers ' +
             'LEFT JOIN CustomerPhoneNumbers ON CustomerPhoneNumbers.Customer_CustomerId = Customers.CustomerId ' +
-            'WHERE Customers.Email LIKE ? OR Customers.Name LIKE ? OR CustomerPhoneNumbers.PhoneNumber LIKE ? ' +
-            'GROUP BY Customers.Name';
+            'WHERE Customers.Email LIKE ? OR Customers.Name LIKE ? OR CustomerPhoneNumbers.PhoneNumber LIKE ?';
             db.all(query, searchString, searchString, searchString, (err, row) => {
                 if (err) {
                     reject(err);
