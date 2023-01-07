@@ -9,7 +9,7 @@ var UpcomingDropoffsTable = {
 
         for (const row of response) {
             this.dataRows.push([
-                row.Date,
+                new Date(row.Date).toLocaleDateString("en-US"),
                 m('button', {
                     'type': 'button',
                     'class': 'btn btn-link',
@@ -19,7 +19,9 @@ var UpcomingDropoffsTable = {
                 }, row.customerName),
                 row.birdName,
                 row.breed,
-                row.cage
+                row.cage == 1 ? 
+                    m('input', {'type':'checkbox','checked':'checked','disabled':'disabled'}) : 
+                    m('input', {'type':'checkbox','disabled':'disabled'})
             ]);
         }
 
