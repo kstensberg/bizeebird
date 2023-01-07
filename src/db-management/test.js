@@ -6,25 +6,24 @@ const appointmentPreSave = {
     birds: [
         {
             birdId: 665,
-            cage: true,
+            cage: false,
             nails: true,
-            wings: false,
+            wings: true,
             notes: 'new notes'
         },
         {
-            birdId: 611,
-            cage: true,
-            nails: true,
+            birdId: 421,
+            cage: false,
+            nails: false,
             wings: false,
             notes: 'new notes'
-        }
+        },
     ],
     notes: null,
     startDate: '2023-01-12',
     endDate: '2023-01-24',
     rate: 20,
-    status: 'Scheduled',
-    appointmentId: 1564
+    status: 'Checked In'
 };
 
 const appointmentBirds = {

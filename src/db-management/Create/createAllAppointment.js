@@ -40,24 +40,6 @@ const createAppointmentBirds = (db, appointment, appointmentId) => {
     });
 };
 
-const stringStatusToNumeric = (status) => {
-    if (status == 'Scheduled') {
-        return 0;
-    } else if (status == 'Checked In') {
-        return 1;
-    } else if (status == 'Checked Out') {
-        return 2;
-    } else if (status == 'Cancelled') {
-        return 3;
-    } else {
-        return 4;
-    }
-};
-
-const apptTimeStampToISOString = (date) => {
-    return new Date(date).toISOString();
-};
-
 const updateAppointment = (db, appointment) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
@@ -75,14 +57,16 @@ const updateAppointment = (db, appointment) => {
 
 const upsertAppointmentBirds = async (db, appointment) => {
     const dbApptBirds = await getAppointmentBirds(db, appointment);
-    const array = [];
-    const uiBirds = [];
+    const dbBirdIds = [];
+    const uiBirdIds = [];
     for (const dbApptBird of dbApptBirds) {
-        array.push(dbApptBird.Bird_BirdId);
+        dbBirdIds.push(dbApptBird.Bird_BirdId);
     }
     for (const bird of appointment.birds) {
-        uiBirds.push(bird.birdId);
-        const diff = array.filter(x => !uiBirds.includes(x));
+        uiBirdIds.push(bird.birdId);
+    }
+    const diff = dbBirdIds.filter(x => !uiBirdIds.includes(x));
+    for (const bird of appointment.birds) {
         if (await isBirdInDbAppointment(db, bird, appointment) !== true) {
             insertBird(db, bird, appointment);
         }
@@ -92,7 +76,6 @@ const upsertAppointmentBirds = async (db, appointment) => {
         if (await isBirdInDbAppointment(db, bird, appointment) == true && diff.length >= 1) {
             for (let i = 0; i <= diff.length; i++) {
                 deleteBird(db, diff[i]);
-                console.log(diff[i]);
             }
         }
     }
@@ -151,17 +134,40 @@ const deleteBird = async (db, birdId) => {
     });
 };
 
-const runAllCreateAppointment = async (db, appointment) => {
-    if ('appointmentId' in appointment) {
-        await Promise.all([updateAppointment(db, appointment), upsertAppointmentBirds(db, appointment)]);
+const stringStatusToNumeric = (status) => {
+    if (status == 'Scheduled') {
+        return 0;
+    } else if (status == 'Checked In') {
+        return 1;
+    } else if (status == 'Checked Out') {
+        return 2;
+    } else if (status == 'Cancelled') {
+        return 3;
     } else {
-        const dbAppt = appointment;
-        dbAppt.status = stringStatusToNumeric(dbAppt.status);
-        dbAppt.startDate = apptTimeStampToISOString(dbAppt.startDate);
-        dbAppt.endDate = apptTimeStampToISOString(dbAppt.endDate);
-        const appointmentId = await createAppointment(db, dbAppt);
-        await Promise.all([createAppointmentBirds(db, dbAppt, appointmentId)]);
+        return 4;
     }
 };
 
-module.exports = runAllCreateAppointment;
+const apptTimeStampToISOString = (date) => {
+    return new Date(date).toISOString();
+};
+
+const formatAppointment = (appointment) => {
+    const formattedAppointment = appointment;
+    formattedAppointment.status = stringStatusToNumeric(formattedAppointment.status);
+    formattedAppointment.startDate = apptTimeStampToISOString(formattedAppointment.startDate);
+    formattedAppointment.endDate = apptTimeStampToISOString(formattedAppointment.endDate);
+    return formattedAppointment;
+};
+
+const crudAppointment = async (db, appointment) => {
+    const newAppointment = await formatAppointment(appointment);
+    if ('appointmentId' in newAppointment) {
+        await Promise.all([updateAppointment(db, newAppointment), upsertAppointmentBirds(db, newAppointment)]);
+    } else {
+        const appointmentId = await createAppointment(db, newAppointment);
+        await Promise.all([createAppointmentBirds(db, newAppointment, appointmentId)]);
+    }
+};
+
+module.exports = crudAppointment;
