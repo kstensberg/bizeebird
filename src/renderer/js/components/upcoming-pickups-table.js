@@ -14,7 +14,7 @@ var UpcomingPickupsTable = {
                     'type': 'button',
                     'class': 'btn btn-link',
                     'onclick': async () => {
-                        await window.contextBridge.openCustomerDialog(row.customerId);
+                        await window.contextBridge.openAppointmentDialog(row.appointmentId);
                     }
                 }, row.customerName),
                 row.birdName,
@@ -37,8 +37,6 @@ var UpcomingPickupsTable = {
             headers: ['Date', 'Customers', 'Bird Name', 'Bird Breed', 'Wings', 'Nails', 'Rate', 'Notes'],
             data: this.dataRows
         });
-
-
     }
 };
 

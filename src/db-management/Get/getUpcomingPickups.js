@@ -3,7 +3,7 @@
 const getUpcomingPickups = (db) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            var query = 'SELECT Customers.CustomerId AS customerId, Customers.Name AS customerName, Customers.BoardingRate AS rate, ' +
+            var query = 'SELECT Appointments.AppointmentId as appointmentId, Customers.CustomerId AS customerId, Customers.Name AS customerName, Customers.BoardingRate AS rate, ' +
             'Birds.Name AS birdName, Birds.Breed AS breed, AppointmentBirds.GroomingWings AS wings, ' +
             'AppointmentBirds.GroomingNails AS nails, ' +
             'Appointments.Notes AS notes, Appointments.EndTime AS Date FROM Customers ' +
