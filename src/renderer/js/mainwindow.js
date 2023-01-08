@@ -29,6 +29,9 @@ var BizeeBirdBoardingApp = {
 
 m.mount(document.body, BizeeBirdBoardingApp);
 
+window.contextBridge.attachEvent('appointmentSaved', function () {
+    m.redraw();
+});
 
 window.contextBridge.attachEvent('customerSaved', function () {
     m.redraw();
