@@ -3,9 +3,10 @@
 import { DatePicker } from './components/date-picker.js';
 
 var AppointmentDialogModel = {
+    appointmentId: null,
     selectedCustomer: null,
     customerBirds: [],
-    notes: '',
+    notes: null,
     startDate: null,
     endDate: null,
     rate: null,
@@ -286,6 +287,10 @@ class AppointmentDialog {
                                         status: AppointmentDialogModel.status,
                                     };
 
+                                    if (AppointmentDialogModel.appointmentId !== null) {
+                                        newAppointment.appointmentId = AppointmentDialogModel.appointmentId;
+                                    }
+
                                     for (const customerBird of AppointmentDialogModel.customerBirds) {
                                         if (customerBird.selected) {
                                             newAppointment.birds.push({
@@ -312,3 +317,19 @@ class AppointmentDialog {
 }
 
 m.mount(document.body, AppointmentDialog);
+
+window.contextBridge.attachEvent('loadAppointment', async function (event, appointmentId) {
+    const appointment = await window.contextBridge.database.getAppointment(appointmentId);
+
+    AppointmentDialogModel.appointmentId = appointmentId;
+    AppointmentDialogModel.selectedCustomer = appointment.customerId;
+    AppointmentDialogModel.notes = appointment.notes;
+    AppointmentDialogModel.startDate = appointment.startDate;
+    AppointmentDialogModel.endDate = appointment.endDate;
+    AppointmentDialogModel.rate = appointment.boardingRate;
+    AppointmentDialogModel.status = appointment.staus;
+    
+    AppointmentDialogModel.customerBirds = [];
+
+    m.redraw();
+});
