@@ -72,6 +72,21 @@ ipcMain.handle('saveCustomer', async function(event, customer) {
 
 });
 
+ipcMain.handle('getAppointment', async function(event, appointmentId) {
+    //TODO
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 2);
+
+    return {
+        customerId: 123,
+        notes: 'hard coded notes',
+        startDate: new Date(),
+        endDate: endDate,
+        boardingRate: 12.34,
+        status: 'Scheduled'
+    }
+});
+
 
 ipcMain.handle('saveAppointment', async function(event, appointment) {
     const saveAppointment = require('./db-management/Create/createAllAppointment');
