@@ -163,16 +163,13 @@ const upsertCustomerPhoneNumbers = async (db, customer) => {
     const diff = dbPhoneNumbers.filter(x => !uiPhoneNumbers.includes(x));
     for (const phoneNumber of customer.phoneNumbers) {
         if (!dbPhoneNumbers.includes(phoneNumber)) {
-            console.log('insert');
             insertPhoneNumber(db, phoneNumber, customer);
         }
         if (dbPhoneNumbers.includes(phoneNumber)) {
-            console.log('update');
             updatePhoneNumber(db, phoneNumber, customer);
         }
         if (dbPhoneNumbers.includes(phoneNumber) && diff.length >= 1) {
             for (let i = 0; i <= diff.length; i++) {
-                console.log('delete');
                 deletePhoneNumber(db, diff[i], customer.customerId);
             }
         }
@@ -210,21 +207,40 @@ const deletePhoneNumber = async (db, phoneNumber, customerId) => {
     }
 };
 
-const checkIfDuplicateCustomer = (db, customer) => {
+const checkIfDupeEmail = (db, email) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            db.all('SELECT DISTINCT Customer_CustomerId FROM CustomerPhoneNumbers ' +
-                'WHERE PhoneNumber IN (?)', customer.phoneNumbers, (err, row) => {
-                if (row) {
-                    resolve(row);
+            db.all('SELECT DISTINCT CustomerId FROM Customers WHERE Email = ?', email, (err, rows) => {
+                if (err) {
+                    reject(err);
                 }
-                reject(err);
+                resolve(rows);
             });
-            db.all('SELECT DISTINCT CustomerId FROM Customers WHERE Email = ?', customer.email, (err, row) => {
-                if (row) {
-                    resolve(row);
+        });
+    });
+};
+
+const checkIfDupePhoneNumber = (db, phoneNumbers) => {
+    return new Promise((resolve, reject) => {
+        db.serialize(() => {
+            db.all('SELECT DISTINCT Customer_CustomerId FROM CustomerPhoneNumbers WHERE PhoneNumber IN (?)', phoneNumbers, (err, rows) => {
+                if (err) {
+                    reject(err);
                 }
-                reject(err);
+                resolve(rows);
+            });
+        });
+    });
+};
+
+const checkIfDupeName = (db, name) => {
+    return new Promise((resolve, reject) => {
+        db.serialize(() => {
+            db.all('SELECT DISTINCT CustomerId FROM Customers WHERE Name = ?', name, (err, rows) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(rows);
             });
         });
     });
@@ -234,9 +250,13 @@ const crudCustomer = async (db, customer) => {
     if ('customerId' in customer) {
         await Promise.all([updateCustomer(db, customer), upsertCustomerBirds(db, customer), upsertCustomerPhoneNumbers(db, customer)]);
     } else {
-        // dupe check to go here?
-        const customerId = await createCustomer(db, customer);
-        await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
+        const dupe = await Promise.all([checkIfDupeEmail(db, customer.email), checkIfDupeName(db, customer.name), checkIfDupePhoneNumber(db, customer.phoneNumbers)]);
+        if (dupe.length > 3) {
+            console.log('duplicate of: ' + dupe);
+        } else {
+            const customerId = await createCustomer(db, customer);
+            await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
+        }
     }
 };
 
