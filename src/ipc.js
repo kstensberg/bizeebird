@@ -76,15 +76,8 @@ ipcMain.handle('getAppointment', async function(event, appointmentId) {
     //TODO
     const endDate = new Date();
     endDate.setDate(endDate.getDate() + 2);
-
-    return {
-        customerId: 123,
-        notes: 'hard coded notes',
-        startDate: new Date(),
-        endDate: endDate,
-        boardingRate: 12.34,
-        status: 'Scheduled'
-    }
+    const getAppointment = require('./db-management/Get/getSingleAppointment');
+    return getAppointment(db, appointmentId);
 });
 
 

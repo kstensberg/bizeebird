@@ -3,7 +3,8 @@
 const getSingleAppointment = (db, appointmentId) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            db.get('SELECT AppointmentId AS appointmentId, StartTime AS startDate, EndTime AS endTime, Notes AS notes FROM Appointments ' +
+            db.get('SELECT AppointmentId as appointmentId, StartTime as startDate, EndTime as endDate, Status as status, Notes as notes, ' +
+            'Customer_CustomerId as customerId FROM Appointments ' +
             'WHERE AppointmentId = ?', appointmentId, (err, row) => {
                 if (err) {
                     reject(err);
@@ -18,7 +19,7 @@ const getAppointmentBirds = (db, appointmentId) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             db.all('SELECT AppointmentBirdId as appointmentBirdId, Bird_BirdId as birdId, GroomingWings as wings, ' +
-            'GroomingNails AS nails, CageNeeded AS cage, AppointmentBirdNotes AS notes FROM AppointmentBirds ' +
+            'GroomingNails AS nails, CageNeeded AS cage, ApptBirdNotes AS notes, Appointment_AppointmentId as appointmentId FROM AppointmentBirds ' +
             'WHERE Appointment_AppointmentId = ?', appointmentId, (err, row) => {
                 if (err) {
                     reject(err);
@@ -37,14 +38,14 @@ const getAppointment = async (db, appointmentId) => {
     for (let i = 0; i < appointmentBirds.length; i++) {
         formattedBirds.push(appointmentBirds[i]);
     }
-
     const appointmentData = {
         appointmentId: appointmentId,
-        startDate: result[2].startDate,
-        endDate: result[2].endDate,
-        rate: result[2].rate,
-        notes: result[2].notes,
-        appointmentBirds: formattedBirds
+        customerId: result[0].customerId,
+        startDate: result[0].startDate,
+        endDate: result[0].endDate,
+        rate: result[0].rate,
+        notes: result[0].notes,
+        birds: formattedBirds
     };
 
     return appointmentData;
