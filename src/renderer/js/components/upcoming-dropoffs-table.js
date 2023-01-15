@@ -6,7 +6,6 @@ var UpcomingDropoffsTable = {
     dataRows: [],
     oninit: async function(vnode) {
         const response = await window.contextBridge.database.getUpcomingDropoffs();
-
         for (const row of response) {
             this.dataRows.push([
                 new Date(row.Date).toLocaleDateString("en-US"),
