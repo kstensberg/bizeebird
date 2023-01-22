@@ -79,27 +79,25 @@ const getCustomerBirds = (db, customerID) => {
 };
 
 const upsertCustomerBirds = async (db, customer) => {
-    const customerBirds = await getCustomerBirds(db, customer.customerId);
-    const dbBirdIds = [];
-    const uiBirdIds = [];
-    for (const customerBird of customerBirds) {
-        dbBirdIds.push(customerBird.birdId);
-    }
-    for (const bird of customer.birds) {
-        uiBirdIds.push(bird.birdId);
-    }
-    const diff = dbBirdIds.filter(x => !uiBirdIds.includes(x));
-    for (const bird of customer.birds) {
-        if (!dbBirdIds.includes(bird.birdId)) {
-            insertBird(db, bird, customer);
+    const dbBirds = await getCustomerBirds(db, customer.customerId);
+    const uiBirds = customer.birds;
+
+    const isFound = (collection, value) => {
+        return collection.some(function(item) {
+            return item.birdId === value;
+        });
+    };
+    for (const uiBird of uiBirds) {
+        if (isFound(dbBirds, uiBird.birdId) == false) {
+            insertBird(db, uiBird, customer);
         }
-        if (dbBirdIds.includes(bird.birdId)) {
-            updateBird(db, bird, customer);
+        if (isFound(dbBirds, uiBird.birdId)) {
+            updateBird(db, uiBird, customer);
         }
-        if (dbBirdIds.includes(bird.birdId) && diff.length >= 1) {
-            for (let i = 0; i <= diff.length; i++) {
-                deleteBird(db, diff[i]);
-            }
+    }
+    for (const dbBird of dbBirds) {
+        if (isFound(uiBirds, dbBird.birdId) == false) {
+            deleteBird(db, dbBird.birdId);
         }
     }
 };
