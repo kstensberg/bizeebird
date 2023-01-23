@@ -33,7 +33,7 @@ var HistorySearch = {
                     'type': 'button',
                     'class': 'btn btn-link',
                     'onclick': async () => {
-                        await window.contextBridge.openCustomerDialog(row.customerId);
+                        await window.contextBridge.openAppointmentDialog(row.appointmentId);
                     }
                 }, row.customerName),
                 boardingString,
