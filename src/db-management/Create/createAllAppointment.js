@@ -41,17 +41,13 @@ const createAppointmentBirds = (db, appointment, appointmentId) => {
 };
 
 const updateAppointment = (db, appointment) => {
-    return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.run('UPDATE Appointments SET StartTime = $startDate, EndTime = $endDate, Status = $status, ' +
-            'Notes = $notes WHERE AppointmentId = $appointmentId', {
-                $startDate: appointment.startDate,
-                $endDate: appointment.endDate,
-                $status: appointment.status,
-                $notes: appointment.notes,
-                $appointmentId: appointment.appointmentId
-            });
-        });
+    db.run('UPDATE Appointments SET StartTime = $startDate, EndTime = $endDate, Status = $status, ' +
+        'Notes = $notes WHERE AppointmentId = $appointmentId', {
+        $startDate: appointment.startDate,
+        $endDate: appointment.endDate,
+        $status: appointment.status,
+        $notes: appointment.notes,
+        $appointmentId: appointment.appointmentId
     });
 };
 

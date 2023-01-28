@@ -354,14 +354,6 @@ class CustomerDialog {
                                     if (CustomerDialogModel.customerId != null && CustomerDialogModel.customerId != undefined) {
                                         data.customerId = CustomerDialogModel.customerId;
                                     }
-
-                                    const customerSearch = await window.contextBridge.database.searchCustomersByName(CustomerDialogModel.name);
-
-                                    if (customerSearch.length > 0) {
-                                        alreadyExistsModal.show();
-                                        return;
-                                    }
-
                                     await window.contextBridge.database.saveCustomer(data);
 
                                     window.close();
