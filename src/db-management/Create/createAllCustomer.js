@@ -49,18 +49,14 @@ const createBird = (db, customerId, birds) => {
     });
 };
 
-const updateCustomer = (db, customer) => {
-    return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.run('UPDATE Customers SET Name = $name, Email = $email, BoardingRate = $rate, ' +
-            'Notes = $notes WHERE CustomerId = $customerId', {
-                $name: customer.name,
-                $email: customer.email,
-                $rate: customer.rate,
-                $notes: customer.notes,
-                $customerId: customer.customerId
-            });
-        });
+const updateCustomer = async (db, customer) => {
+    await db.run('UPDATE Customers SET Name = $name, Email = $email, BoardingRate = $rate, ' +
+        'Notes = $notes WHERE CustomerId = $customerId', {
+        $name: customer.name,
+        $email: customer.email,
+        $rate: customer.rate,
+        $notes: customer.notes,
+        $customerId: customer.customerId
     });
 };
 
@@ -246,7 +242,9 @@ const checkIfDupeName = (db, name) => {
 
 const crudCustomer = async (db, customer) => {
     if ('customerId' in customer) {
-        await Promise.all([updateCustomer(db, customer), upsertCustomerBirds(db, customer), upsertCustomerPhoneNumbers(db, customer)]);
+        await updateCustomer(db, customer);
+        await upsertCustomerBirds(db, customer);
+        await upsertCustomerPhoneNumbers(db, customer);
     } else {
         const dupe = await Promise.all([checkIfDupeEmail(db, customer.email), checkIfDupeName(db, customer.name), checkIfDupePhoneNumber(db, customer.phoneNumbers)]);
         if (dupe.length > 3) {
