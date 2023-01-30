@@ -5,10 +5,12 @@ class DatePicker {
         this.hiddenInput = vnode.attrs.hiddenInput ?? false;
         this.inline = vnode.attrs.inline ?? true;
         this.onselect = vnode.attrs.onselect ?? function(){};
+        this.startDate = vnode.attrs.startDate ?? null;
+        this.endDate = vnode.attrs.endDate ?? null;
     }
 
     oncreate(vnode) {
-        this.easypick = new easepick.create({
+        this.easepick = new easepick.create({
             element: vnode.dom,
             css: [
                 './lib/easepick-1.2.0/index.css'
@@ -38,6 +40,19 @@ class DatePicker {
         }
 
         return m('input', config);
+    }
+
+    onupdate(vnode) {
+        if (vnode.attrs.startDate != null) {
+            const startDate = Date.parse(vnode.attrs.startDate);
+            this.easepick.gotoDate(startDate);
+            this.easepick.setStartDate(startDate);
+        }
+
+        if (vnode.attrs.endDate != null) {
+            const endDate = Date.parse(vnode.attrs.endDate);
+            this.easepick.setEndDate(endDate);
+        }
     }
 }
 

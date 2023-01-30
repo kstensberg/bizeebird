@@ -128,6 +128,8 @@ class AppointmentDialog {
                                                     m('td',
                                                         m(DatePicker, {
                                                             hiddenInput: true,
+                                                            startDate: AppointmentDialogModel.startDate,
+                                                            endDate: AppointmentDialogModel.endDate,
                                                             onselect: function(start, end) {
                                                                 AppointmentDialogModel.startDate = start;
                                                                 AppointmentDialogModel.endDate = end;
@@ -329,7 +331,7 @@ window.contextBridge.attachEvent('loadAppointment', async function (event, appoi
     AppointmentDialogModel.selectedCustomer = appointment.customerId;
     await AppointmentDialogModel.setCustomer(appointment.customerId);
     choices.setChoiceByValue(appointment.customerId);
-    
+
     for (const modelBird of AppointmentDialogModel.customerBirds) {
         for (const appointmentBird of appointment.birds) {
             if (appointmentBird.birdId == modelBird.birdId) {
