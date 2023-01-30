@@ -5,7 +5,7 @@ const getAllAppointments = (db) => {
         db.serialize(() => {
             db.all('SELECT Customers.CustomerId AS customerId, Customers.Name AS customerName, Customers.BoardingRate ' +
             'AS rate, Birds.Name AS birdName, Birds.Breed AS breed, Appointments.StartTime AS startDate, ' +
-            'Appointments.EndTime AS endDate, Appointments.Status AS appointmentStatus, ' +
+            'Appointments.EndTime AS endDate, Appointments.Status AS appointmentStatus, Appointments.AppointmentId AS appointmentId, ' +
             'AppointmentBirds.GroomingWings AS wings, AppointmentBirds.GroomingNails AS nails, ' +
             'AppointmentBirds.CageNeeded AS cage FROM Appointments LEFT JOIN Customers ON Customers.CustomerId = Appointments.Customer_CustomerId ' +
             'LEFT JOIN AppointmentBirds ON AppointmentBirds.Appointment_AppointmentId = Appointments.AppointmentId ' +

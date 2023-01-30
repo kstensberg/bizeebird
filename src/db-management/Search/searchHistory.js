@@ -5,7 +5,7 @@ const searchHistory = (db, searchString) => {
         db.serialize(() => {
             searchString = '%' + searchString + '%';
             var query = 'SELECT Customers.Name AS customerName, Customers.BoardingRate AS rate, Birds.Name AS birdName, Birds.Breed AS breed, ' +
-            'Appointments.StartTime AS startDate, Appointments.EndTime AS endDate, ' +
+            'Appointments.StartTime AS startDate, Appointments.EndTime AS endDate, Appointments.AppointmentId AS appointmentId, ' +
             'Appointments.Status AS status, AppointmentBirds.GroomingWings AS wings, AppointmentBirds.GroomingNails AS nails, ' +
             'AppointmentBirds.CageNeeded AS cage ' +
             'FROM Appointments LEFT JOIN Customers ON Customers.CustomerId = Appointments.Customer_CustomerId LEFT JOIN AppointmentBirds ON ' +
