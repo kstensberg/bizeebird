@@ -32,7 +32,34 @@ ipcMain.handle('searchCustomersByName', async function(event, searchString) {
 
     if (searchString == 'test123') {
         return [{
-            customerId: 123
+            customerId: 123,
+            name: 'Custy McCustomer'
+        }];
+    }
+
+    return [];
+});
+
+ipcMain.handle('searchCustomersByEmail', async function(event, searchString) {
+    //TODO
+
+    if (searchString == 'test@test.com') {
+        return [{
+            customerId: 123,
+            name: 'Custy McCustomer'
+        }];
+    }
+
+    return [];
+});
+
+ipcMain.handle('searchCustomersByPhone', async function(event, searchString) {
+    //TODO
+
+    if (searchString == '5555') {
+        return [{
+            customerId: 123,
+            name: 'Custy McCustomer'
         }];
     }
 

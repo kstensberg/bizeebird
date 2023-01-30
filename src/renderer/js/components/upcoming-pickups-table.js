@@ -20,10 +20,10 @@ var UpcomingPickupsTable = {
                 row.birdName,
                 row.breed,
                 row.wings == 1 ?
-                    m('input', { 'type': 'checkbox','checked': 'checked','disabled': 'disabled' }) :
+                    m('input', { 'type': 'checkbox','checked': 'checked','aria-disabled': 'true' }) :
                     m('input', { 'type': 'checkbox','disabled': 'disabled' }),
                 row.nails == 1 ?
-                    m('input', { 'type': 'checkbox','checked': 'checked','disabled': 'disabled' }) :
+                    m('input', { 'type': 'checkbox','checked': 'checked','aria-disabled': 'true' }) :
                     m('input', { 'type': 'checkbox','disabled': 'disabled' }),
                 '$' + row.rate,
                 row.notes

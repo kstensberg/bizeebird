@@ -9,6 +9,7 @@ const CustomerDialogModel = {
     name: null,
     nameErrors: [],
     phoneNumbers: [null],
+    phoneNumberErrors: [null],
     email: null,
     emailErrors: [],
     rate: null,
@@ -64,13 +65,33 @@ class CustomerDialog {
                                             'class': 'form-control',
                                             'type': 'text',
                                             'value': CustomerDialogModel.name,
-                                            'onchange': function(event) {
+                                            'onchange': async function(event) {
+                                                event.redraw = false;
+
                                                 CustomerDialogModel.name = event.target.value;
                                                 CustomerDialogModel.nameErrors = validateSingle(CustomerDialogModel.name, formConstraints.name);
+
+                                                if (CustomerDialogModel.nameErrors == null) {
+                                                    const searchResult = await window.contextBridge.database.searchCustomersByName(CustomerDialogModel.name);
+
+                                                    if (searchResult.length > 0) {
+                                                        CustomerDialogModel.nameErrors = [
+                                                            m('button', {
+                                                                'class': 'btn btn-link',
+                                                                onclick: async function(){
+                                                                    loadCustomer(searchResult[0].customerId);
+                                                                }
+                                                            }, `Duplicate Customer found: ${searchResult[0].name}`)
+                                                        ];
+                                                    }
+                                                }
+
+                                                m.redraw();
                                             }
                                         }),
                                         m('div',
                                             CustomerDialogModel.nameErrors?.map((error) => {
+                                                console.log(error);
                                                 return m('div', error);
                                             })
                                         )
@@ -87,10 +108,27 @@ class CustomerDialog {
                                                         'type': 'tel',
                                                         'class': 'form-control',
                                                         'value': phoneNumber,
-                                                        'onchange': function(event) {
+                                                        'onchange': async function(event) {
+                                                            event.redraw = false;
+
                                                             CustomerDialogModel.phoneNumbers[idx] = event.target.value;
+
+                                                            const searchResult = await window.contextBridge.database.searchCustomersByPhone(event.target.value);
+
+                                                            if (searchResult.length > 0) {
+                                                                CustomerDialogModel.phoneNumberErrors = [
+                                                                    m('button', {
+                                                                        'class': 'btn btn-link',
+                                                                        onclick: async function(){
+                                                                            loadCustomer(searchResult[0].customerId);
+                                                                        }
+                                                                    }, `Duplicate Customer found: ${searchResult[0].name}`)
+                                                                ];
+                                                            }
+
+                                                            m.redraw();
                                                         }
-                                                    }),
+                                                    })
                                                 ]);
                                             })),
                                             m('div', [
@@ -108,6 +146,12 @@ class CustomerDialog {
                                                     }
                                                 })
                                             ]),
+                                            m('div',
+                                                CustomerDialogModel.phoneNumberErrors?.map((error) => {
+                                                    console.log(error);
+                                                    return m('div', error);
+                                                })
+                                            )
                                         ]
                                     )
                                 ]),
@@ -119,8 +163,27 @@ class CustomerDialog {
                                             'type': 'email',
                                             'value': CustomerDialogModel.email,
                                             'onchange': async function(event) {
+                                                event.redraw = false;
+
                                                 CustomerDialogModel.email = event.target.value;
                                                 CustomerDialogModel.emailErrors = validateSingle(CustomerDialogModel.email, formConstraints.email);
+
+                                                if (CustomerDialogModel.emailErrors == null) {
+                                                    const searchResult = await window.contextBridge.database.searchCustomersByEmail(CustomerDialogModel.email);
+
+                                                    if (searchResult.length > 0) {
+                                                        CustomerDialogModel.emailErrors = [
+                                                            m('button', {
+                                                                'class': 'btn btn-link',
+                                                                onclick: async function(){
+                                                                    loadCustomer(searchResult[0].customerId);
+                                                                }
+                                                            }, `Duplicate Customer found: ${searchResult[0].name}`)
+                                                        ];
+                                                    }
+                                                }
+
+                                                m.redraw();
                                             }
                                         }),
                                         m('div',
@@ -363,8 +426,12 @@ class CustomerDialog {
 
 m.mount(document.body, CustomerDialog);
 
-window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
+async function loadCustomer(customerId) {
     const customer = await window.contextBridge.database.getCustomer(customerId);
+
+    CustomerDialogModel.nameErrors = null;
+    CustomerDialogModel.emailErrors = null;
+    CustomerDialogModel.phoneNumberErrors = null;
 
     CustomerDialogModel.customerId = customer.customerId;
     CustomerDialogModel.name = customer.name;
@@ -376,4 +443,8 @@ window.contextBridge.attachEvent('loadCustomer', async function (event, customer
     CustomerDialogModel.birds = customer.birds;
 
     m.redraw();
+}
+
+window.contextBridge.attachEvent('loadCustomer', async function (event, customerId) {
+    return loadCustomer(customerId);
 });
