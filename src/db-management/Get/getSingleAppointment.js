@@ -2,18 +2,18 @@
 
 const numericStatusToString = (status) => {
     switch (status) {
-        case 0:
-            return 'Scheduled';
-        case 1:
-            return 'Checked In';
-        case 2:
-            return 'Checked Out';
-        case 3:
-            return 'Canceled';
-        case 4:
-            return 'No Show';
-        default:
-            return null;
+            case 0:
+                return 'Scheduled';
+            case 1:
+                return 'Checked In';
+            case 2:
+                return 'Checked Out';
+            case 3:
+                return 'Canceled';
+            case 4:
+                return 'No Show';
+            default:
+                return null;
     }
 };
 

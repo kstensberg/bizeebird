@@ -8,7 +8,7 @@ var UpcomingDropoffsTable = {
         const response = await window.contextBridge.database.getUpcomingDropoffs();
         for (const row of response) {
             this.dataRows.push([
-                new Date(row.Date).toLocaleDateString("en-US"),
+                new Date(row.Date).toLocaleDateString('en-US'),
                 m('button', {
                     'type': 'button',
                     'class': 'btn btn-link',
@@ -18,9 +18,9 @@ var UpcomingDropoffsTable = {
                 }, row.customerName),
                 row.birdName,
                 row.breed,
-                row.cage == 1 ? 
-                    m('input', {'type':'checkbox','checked':'checked', 'aria-disabled': 'true'}) : 
-                    m('input', {'type':'checkbox','aria-disabled': 'true'})
+                row.cage == 1 ?
+                    m('input', { 'type': 'checkbox','checked': 'checked', 'aria-disabled': 'true' }) :
+                    m('input', { 'type': 'checkbox','aria-disabled': 'true' })
             ]);
         }
 

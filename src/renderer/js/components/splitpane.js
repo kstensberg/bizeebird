@@ -4,7 +4,7 @@ var SplitPane = {
     oncreate: function(vnode) {
         Split({
             onDragEnd: function() {
-                const currentSize = document.querySelector('.grid').style['grid-template-columns'];
+                this.currentSize = document.querySelector('.grid').style['grid-template-columns'];
             },
             columnGutters: [{
                 track: 1,

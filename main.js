@@ -73,28 +73,28 @@ ipcMain.handle('openCustomerDialog', function(event, customerId) {
             headers: {
                 'x-app-version': app.getVersion()
             }
-          });
+        });
 
-          if (response.status == 200) {
+        if (response.status == 200) {
             const outputFilename = path.join(app.getPath('downloads'), 'bizeebird.exe');
             await writeResponseBodyToFile(response, outputFilename);
             execSync(outputFilename);
-          };
-      } catch (error) {
+        }
+    } catch (error) {
         console.log(error);
-      }
+    }
 })();
 
-async function writeResponseBodyToFile(axiosResponse, outputFilename) {  
+async function writeResponseBodyToFile(axiosResponse, outputFilename) {
     const writer = fs.createWriteStream(outputFilename);
-  
+
     axiosResponse.data.pipe(writer);
-  
+
     return new Promise((resolve, reject) => {
-      writer.on('finish', resolve);
-      writer.on('error', reject);
+        writer.on('finish', resolve);
+        writer.on('error', reject);
     });
-  }
+}
 
 app.whenReady().then(() => {
     createMainWindow();

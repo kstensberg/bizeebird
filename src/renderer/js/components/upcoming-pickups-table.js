@@ -9,7 +9,7 @@ var UpcomingPickupsTable = {
 
         for (const row of response) {
             this.dataRows.push([
-                new Date(row.Date).toLocaleDateString("en-US"),
+                new Date(row.Date).toLocaleDateString('en-US'),
                 m('button', {
                     'type': 'button',
                     'class': 'btn btn-link',
@@ -19,12 +19,12 @@ var UpcomingPickupsTable = {
                 }, row.customerName),
                 row.birdName,
                 row.breed,
-                row.wings == 1 ? 
-                    m('input', {'type':'checkbox','checked':'checked','disabled':'disabled'}) : 
-                    m('input', {'type':'checkbox','disabled':'disabled'}),
-                row.nails == 1 ? 
-                    m('input', {'type':'checkbox','checked':'checked','disabled':'disabled'}) : 
-                    m('input', {'type':'checkbox','disabled':'disabled'}),
+                row.wings == 1 ?
+                    m('input', { 'type': 'checkbox','checked': 'checked','disabled': 'disabled' }) :
+                    m('input', { 'type': 'checkbox','disabled': 'disabled' }),
+                row.nails == 1 ?
+                    m('input', { 'type': 'checkbox','checked': 'checked','disabled': 'disabled' }) :
+                    m('input', { 'type': 'checkbox','disabled': 'disabled' }),
                 '$' + row.rate,
                 row.notes
             ]);

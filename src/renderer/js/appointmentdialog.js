@@ -142,19 +142,19 @@ class AppointmentDialog {
                                                 [
                                                     m('th', 'Boarding Rate'),
                                                     m('td',
-                                                    m('div', {'class':'input-group mb-2'},
-                                                        [
-                                                        m('div', {'class':'input-group-prepend'}, 
-                                                            m('span', {'class':'input-group-text'}, 
-                                                            '$'
-                                                            )
-                                                        ),
-                                                        m('input', {'class':'form-control','type':'number','value': AppointmentDialogModel.rate,
-                                                        'onchange': function(event) {
-                                                            AppointmentDialogModel.rate = Number(event.target.value);
-                                                        }})
-                                                        ]
-                                                    )
+                                                        m('div', { 'class': 'input-group mb-2' },
+                                                            [
+                                                                m('div', { 'class': 'input-group-prepend' },
+                                                                    m('span', { 'class': 'input-group-text' },
+                                                                        '$'
+                                                                    )
+                                                                ),
+                                                                m('input', { 'class': 'form-control','type': 'number','value': AppointmentDialogModel.rate,
+                                                                    'onchange': function(event) {
+                                                                        AppointmentDialogModel.rate = Number(event.target.value);
+                                                                    } })
+                                                            ]
+                                                        )
                                                     )
                                                 ]
                                             ),
@@ -353,7 +353,7 @@ window.contextBridge.attachEvent('loadAppointment', async function (event, appoi
             }
         }
     }
-    
+
     AppointmentDialogModel.notes = appointment.notes;
     AppointmentDialogModel.startDate = appointment.startDate;
     AppointmentDialogModel.endDate = appointment.endDate;

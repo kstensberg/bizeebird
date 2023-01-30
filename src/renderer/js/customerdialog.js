@@ -49,13 +49,7 @@ const validateSingle = (value, constraints) => {
     return result;
 };
 
-var alreadyExistsModal = null;
-
 class CustomerDialog {
-    oncreate(vnode) {
-        alreadyExistsModal = new bootstrap.Modal(document.getElementById('already-exists-modal'));
-    }
-
     view(vnode) {
         return m('div', { 'class': 'dialog-toplevel' },
             [
@@ -360,37 +354,6 @@ class CustomerDialog {
                                 }
                             }, 'OK')
                         ]
-                    )
-                ),
-                m('div', { 'id': 'already-exists-modal', 'class': 'modal','tabindex': '-1' },
-                    m('div', { 'class': 'modal-dialog' },
-                        m('div', { 'class': 'modal-content' },
-                            [
-                                m('div', { 'class': 'modal-header' },
-                                    [
-                                        m('h5', { 'class': 'modal-title' },
-                                            'Customer already exists'
-                                        ),
-                                        m('button', { 'class': 'btn-close','type': 'button','data-bs-dismiss': 'modal','aria-label': 'Close' })
-                                    ]
-                                ),
-                                m('div', { 'class': 'modal-body' },
-                                    m('p',
-                                        `the customer, ${CustomerDialogModel.name}, already exists. still save?`
-                                    )
-                                ),
-                                m('div', { 'class': 'modal-footer' },
-                                    [
-                                        m('button', { 'class': 'btn btn-secondary','type': 'button','data-bs-dismiss': 'modal' },
-                                            'Close'
-                                        ),
-                                        m('button', { 'class': 'btn btn-primary','type': 'button' },
-                                            'Save changes'
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
                     )
                 )
             ]

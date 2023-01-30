@@ -6,9 +6,6 @@ class AppointmentBird {
         this.onchange = vnode.attrs.onchange;
     }
     view() {
-
-        const appointmentBird = this;
-
         var birdNameLabel = this.bird.birdName;
 
         if (this.bird.breed) {
