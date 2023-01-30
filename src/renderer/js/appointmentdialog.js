@@ -328,12 +328,8 @@ window.contextBridge.attachEvent('loadAppointment', async function (event, appoi
     AppointmentDialogModel.appointmentId = appointmentId;
     const appointment = await window.contextBridge.database.getAppointment(appointmentId);
 
-    console.log('appointment', appointment);
-
     if (appointment.rate == null || appointment.rate == undefined) {
         const customer = await window.contextBridge.database.getCustomer(appointment.customerId);
-        console.log('customer', customer);
-
         appointment.rate = customer.rate;
     }
 

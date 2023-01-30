@@ -5,8 +5,6 @@ class DatePicker {
         this.hiddenInput = vnode.attrs.hiddenInput ?? false;
         this.inline = vnode.attrs.inline ?? true;
         this.onselect = vnode.attrs.onselect ?? function(){};
-        this.startDate = vnode.attrs.startDate ?? null;
-        this.endDate = vnode.attrs.endDate ?? null;
     }
 
     oncreate(vnode) {
