@@ -1,5 +1,5 @@
 validate.validators.optionalEmail = function(value, options, key, attributes) {
-    if (value == '') {
+    if (value == '' || value == null) {
         return null;
     }
 
@@ -7,5 +7,7 @@ validate.validators.optionalEmail = function(value, options, key, attributes) {
         return null;
     }
 
-    return 'email is not valid';
+    alert(value);
+
+    return 'is not valid';
 };
