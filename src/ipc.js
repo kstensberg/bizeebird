@@ -73,9 +73,6 @@ ipcMain.handle('saveCustomer', async function(event, customer) {
 });
 
 ipcMain.handle('getAppointment', async function(event, appointmentId) {
-    //TODO
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 2);
     const getAppointment = require('./db-management/Get/getSingleAppointment');
     return getAppointment(db, appointmentId);
 });

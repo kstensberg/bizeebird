@@ -323,13 +323,24 @@ class AppointmentDialog {
 m.mount(document.body, AppointmentDialog);
 
 window.contextBridge.attachEvent('loadAppointment', async function (event, appointmentId) {
+    AppointmentDialogModel.appointmentId = appointmentId;
     const appointment = await window.contextBridge.database.getAppointment(appointmentId);
 
     AppointmentDialogModel.selectedCustomer = appointment.customerId;
     await AppointmentDialogModel.setCustomer(appointment.customerId);
     choices.setChoiceByValue(appointment.customerId);
-
-    AppointmentDialogModel.appointmentId = appointmentId;
+    
+    for (const modelBird of AppointmentDialogModel.customerBirds) {
+        for (const appointmentBird of appointment.birds) {
+            if (appointmentBird.birdId == modelBird.birdId) {
+                modelBird.selected = true;
+                modelBird.wings = appointmentBird.wings == 1;
+                modelBird.nails = appointmentBird.nails == 1;
+                modelBird.cage = appointmentBird.cage == 1;
+                modelBird.notes = appointmentBird.notes;
+            }
+        }
+    }
     
     AppointmentDialogModel.notes = appointment.notes;
     AppointmentDialogModel.startDate = appointment.startDate;
