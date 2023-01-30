@@ -167,16 +167,16 @@ class AppointmentDialog {
                                                             m('option', { 'value': 'Scheduled' },
                                                                 'Scheduled'
                                                             ),
-                                                            m('option', { 'value': 'CheckedIn' },
+                                                            m('option', { 'value': 'Checked In' },
                                                                 'Checked In'
                                                             ),
-                                                            m('option', { 'value': 'CheckedOut' },
+                                                            m('option', { 'value': 'Checked Out' },
                                                                 'Checked Out'
                                                             ),
                                                             m('option', { 'value': 'Cancelled' },
                                                                 'Cancelled'
                                                             ),
-                                                            m('option', { 'value': 'NoShow' },
+                                                            m('option', { 'value': 'No Show' },
                                                                 'No Show'
                                                             )
                                                         ]
@@ -348,7 +348,7 @@ window.contextBridge.attachEvent('loadAppointment', async function (event, appoi
     AppointmentDialogModel.startDate = appointment.startDate;
     AppointmentDialogModel.endDate = appointment.endDate;
     AppointmentDialogModel.rate = appointment.boardingRate;
-    AppointmentDialogModel.status = appointment.staus;
+    AppointmentDialogModel.status = appointment.status;
 
     m.redraw();
 });

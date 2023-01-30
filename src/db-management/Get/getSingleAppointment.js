@@ -1,5 +1,22 @@
 'use strict';
 
+const numericStatusToString = (status) => {
+    switch (status) {
+        case 0:
+            return 'Scheduled';
+        case 1:
+            return 'Checked In';
+        case 2:
+            return 'Checked Out';
+        case 3:
+            return 'Canceled';
+        case 4:
+            return 'No Show';
+        default:
+            return null;
+    }
+};
+
 const getSingleAppointment = (db, appointmentId) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
@@ -44,6 +61,7 @@ const getAppointment = async (db, appointmentId) => {
         startDate: result[0].startDate,
         endDate: result[0].endDate,
         rate: result[0].rate,
+        status: numericStatusToString(result[0].status),
         notes: result[0].notes,
         birds: formattedBirds
     };
