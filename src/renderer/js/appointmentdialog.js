@@ -2,6 +2,8 @@
 
 import { DatePicker } from './components/date-picker.js';
 
+var choices = null;
+
 var AppointmentDialogModel = {
     appointmentId: null,
     selectedCustomer: null,
@@ -85,8 +87,10 @@ class AppointmentDialog {
                                                     m('th', 'Customer'),
                                                     m('td',
                                                         m('select', {
-                                                            oncreate: ({ dom }) => {
-                                                                return new Choices(dom, {}).setChoices(async () => {
+                                                            oncreate: async ({ dom }) => {
+                                                                choices = new Choices(dom, {});
+
+                                                                await choices.setChoices(async () => {
                                                                     return (await window.contextBridge.database.getAllCustomers()).map((row) => {
                                                                         return {
                                                                             value: row.customerId,
@@ -321,15 +325,17 @@ m.mount(document.body, AppointmentDialog);
 window.contextBridge.attachEvent('loadAppointment', async function (event, appointmentId) {
     const appointment = await window.contextBridge.database.getAppointment(appointmentId);
 
-    AppointmentDialogModel.appointmentId = appointmentId;
     AppointmentDialogModel.selectedCustomer = appointment.customerId;
+    await AppointmentDialogModel.setCustomer(appointment.customerId);
+    choices.setChoiceByValue(appointment.customerId);
+
+    AppointmentDialogModel.appointmentId = appointmentId;
+    
     AppointmentDialogModel.notes = appointment.notes;
     AppointmentDialogModel.startDate = appointment.startDate;
     AppointmentDialogModel.endDate = appointment.endDate;
     AppointmentDialogModel.rate = appointment.boardingRate;
     AppointmentDialogModel.status = appointment.staus;
-    
-    AppointmentDialogModel.customerBirds = [];
 
     m.redraw();
 });
