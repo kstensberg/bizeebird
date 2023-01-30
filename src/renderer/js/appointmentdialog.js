@@ -328,6 +328,15 @@ window.contextBridge.attachEvent('loadAppointment', async function (event, appoi
     AppointmentDialogModel.appointmentId = appointmentId;
     const appointment = await window.contextBridge.database.getAppointment(appointmentId);
 
+    console.log('appointment', appointment);
+
+    if (appointment.rate == null || appointment.rate == undefined) {
+        const customer = await window.contextBridge.database.getCustomer(appointment.customerId);
+        console.log('customer', customer);
+
+        appointment.rate = customer.rate;
+    }
+
     AppointmentDialogModel.selectedCustomer = appointment.customerId;
     await AppointmentDialogModel.setCustomer(appointment.customerId);
     choices.setChoiceByValue(appointment.customerId);
@@ -347,7 +356,7 @@ window.contextBridge.attachEvent('loadAppointment', async function (event, appoi
     AppointmentDialogModel.notes = appointment.notes;
     AppointmentDialogModel.startDate = appointment.startDate;
     AppointmentDialogModel.endDate = appointment.endDate;
-    AppointmentDialogModel.rate = appointment.boardingRate;
+    AppointmentDialogModel.rate = appointment.rate;
     AppointmentDialogModel.status = appointment.status;
 
     m.redraw();
