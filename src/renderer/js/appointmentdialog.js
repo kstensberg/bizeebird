@@ -142,14 +142,19 @@ class AppointmentDialog {
                                                 [
                                                     m('th', 'Boarding Rate'),
                                                     m('td',
-                                                        m('input', {
-                                                            'class': 'form-control',
-                                                            'type': 'number',
-                                                            'value': AppointmentDialogModel.rate,
-                                                            'onchange': function(event) {
-                                                                AppointmentDialogModel.rate = Number(event.target.value);
-                                                            }
-                                                        })
+                                                    m('div', {'class':'input-group mb-2'},
+                                                        [
+                                                        m('div', {'class':'input-group-prepend'}, 
+                                                            m('span', {'class':'input-group-text'}, 
+                                                            '$'
+                                                            )
+                                                        ),
+                                                        m('input', {'class':'form-control','type':'number','value': AppointmentDialogModel.rate,
+                                                        'onchange': function(event) {
+                                                            AppointmentDialogModel.rate = Number(event.target.value);
+                                                        }})
+                                                        ]
+                                                    )
                                                     )
                                                 ]
                                             ),

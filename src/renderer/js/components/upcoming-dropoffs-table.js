@@ -19,8 +19,8 @@ var UpcomingDropoffsTable = {
                 row.birdName,
                 row.breed,
                 row.cage == 1 ? 
-                    m('input', {'type':'checkbox','checked':'checked','disabled':'disabled'}) : 
-                    m('input', {'type':'checkbox','disabled':'disabled'})
+                    m('input', {'type':'checkbox','checked':'checked', 'aria-disabled': 'true'}) : 
+                    m('input', {'type':'checkbox','aria-disabled': 'true'})
             ]);
         }
 
@@ -31,8 +31,6 @@ var UpcomingDropoffsTable = {
             headers: ['Date', 'Customers', 'Bird Name', 'Bird Breed', 'Cage Needed'],
             data: this.dataRows
         });
-
-
     }
 };
 

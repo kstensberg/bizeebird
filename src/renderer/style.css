@@ -158,3 +158,12 @@ fieldset.labeled-container {
 .btn img {
   margin-right: 10px;
 }
+
+.input-group-text {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+input[type="checkbox"][aria-disabled="true"] {
+  pointer-events: none;
+}
