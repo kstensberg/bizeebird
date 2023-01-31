@@ -201,58 +201,14 @@ const deletePhoneNumber = async (db, phoneNumber, customerId) => {
     }
 };
 
-const checkIfDupeEmail = (db, email) => {
-    return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.all('SELECT DISTINCT CustomerId FROM Customers WHERE Email = ?', email, (err, rows) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(rows);
-            });
-        });
-    });
-};
-
-const checkIfDupePhoneNumber = (db, phoneNumbers) => {
-    return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.all('SELECT DISTINCT Customer_CustomerId FROM CustomerPhoneNumbers WHERE PhoneNumber IN (?)', phoneNumbers, (err, rows) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(rows);
-            });
-        });
-    });
-};
-
-const checkIfDupeName = (db, name) => {
-    return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.all('SELECT DISTINCT CustomerId FROM Customers WHERE Name = ?', name, (err, rows) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(rows);
-            });
-        });
-    });
-};
-
 const crudCustomer = async (db, customer) => {
     if ('customerId' in customer) {
         await updateCustomer(db, customer);
         await upsertCustomerBirds(db, customer);
         await upsertCustomerPhoneNumbers(db, customer);
     } else {
-        const dupe = await Promise.all([checkIfDupeEmail(db, customer.email), checkIfDupeName(db, customer.name), checkIfDupePhoneNumber(db, customer.phoneNumbers)]);
-        if (dupe.length > 3) {
-            console.log('duplicate of: ' + dupe);
-        } else {
-            const customerId = await createCustomer(db, customer);
-            await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
-        }
+        const customerId = await createCustomer(db, customer);
+        await Promise.all([createPhoneNumber(db, customerId, customer.phoneNumbers), createBird(db, customerId, customer.birds)]);
     }
 };
 
