@@ -90,7 +90,6 @@ class CustomerDialog {
                                         }),
                                         m('div',
                                             CustomerDialogModel.nameErrors?.map((error) => {
-                                                console.log(error);
                                                 return m('div', error);
                                             })
                                         )
@@ -147,7 +146,6 @@ class CustomerDialog {
                                             ]),
                                             m('div',
                                                 CustomerDialogModel.phoneNumberErrors?.map((error) => {
-                                                    console.log(error);
                                                     return m('div', error);
                                                 })
                                             )
