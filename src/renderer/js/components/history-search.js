@@ -2,6 +2,14 @@
 
 import { Table } from './table.js';
 
+const typewatch = function(){
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    }  
+}();  
+
 var HistorySearch = {
     dataRows: [],
     updateTable: async function(searchString) {
@@ -11,6 +19,7 @@ var HistorySearch = {
             data = await window.contextBridge.database.getAllHistory();
         } else {
             data = await window.contextBridge.database.searchHistory(searchString);
+            console.log('data.length', data.length);
         }
 
         for (const row of data) {
@@ -57,7 +66,10 @@ var HistorySearch = {
                     'type': 'text',
                     'placeholder': '',
                     onkeyup: function(e) {
-                        component.updateTable(e.target.value);
+                        typewatch(function(){
+                            component.updateTable(e.target.value);
+                        }, 500);
+                        
                     }
                 }),
                 m('label', { 'for': 'floatingInput' },
