@@ -72,7 +72,7 @@ class CustomerDialog {
 
                                                 if (CustomerDialogModel.nameErrors == null) {
                                                     const searchResult = await window.contextBridge.database.searchCustomersByName(CustomerDialogModel.name);
-
+                                                    console.log(searchResult);
                                                     if (searchResult.length > 0) {
                                                         CustomerDialogModel.nameErrors = [
                                                             m('button', {

@@ -28,42 +28,39 @@ ipcMain.handle('searchCustomers', async function(event, searchString) {
 });
 
 ipcMain.handle('searchCustomersByName', async function(event, searchString) {
-    //TODO
-
-    if (searchString == 'test123') {
-        return [{
-            customerId: 123,
-            name: 'Custy McCustomer'
-        }];
+    const dupeCheck = require('./db-management/Search/dupeCheckName');
+    const result = await dupeCheck(db, searchString);
+    if (result == undefined) {
+        return [];
     }
-
-    return [];
+    return [{
+        customerId: result.customerId,
+        name: result.name
+    }];
 });
 
 ipcMain.handle('searchCustomersByEmail', async function(event, searchString) {
-    //TODO
-
-    if (searchString == 'test@test.com') {
-        return [{
-            customerId: 123,
-            name: 'Custy McCustomer'
-        }];
+    const dupeCheck = require('./db-management/Search/dupeCheckEmail');
+    const result = await dupeCheck(db, searchString);
+    if (result == undefined) {
+        return [];
     }
-
-    return [];
+    return [{
+        customerId: result.customerId,
+        name: result.name
+    }];
 });
 
 ipcMain.handle('searchCustomersByPhone', async function(event, searchString) {
-    //TODO
-
-    if (searchString == '5555') {
-        return [{
-            customerId: 123,
-            name: 'Custy McCustomer'
-        }];
+    const dupeCheck = require('./db-management/Search/dupeCheckPhone');
+    const result = await dupeCheck(db, searchString);
+    if (result == undefined) {
+        return [];
     }
-
-    return [];
+    return [{
+        customerId: result.customerId,
+        name: result.name
+    }];
 });
 
 ipcMain.handle('getAllHistory', async function(event) {

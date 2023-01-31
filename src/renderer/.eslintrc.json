@@ -9,7 +9,7 @@
       "contextBridge": true,
       "easepick": true,
       "Choices": true,
-      "validator": true
+      "validate": true
     },
     "ignorePatterns": [
       "lib/**/*.js"
