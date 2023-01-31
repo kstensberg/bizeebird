@@ -3,6 +3,9 @@
 const Utilities = require('../utilities.js');
 
 const createAppointment = (db, appointment) => {
+    if (appointment.startDate > appointment.endDate) {
+        throw 'start date should never be greater than end date';
+    }
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             db.run('INSERT INTO Appointments (StartTime, EndTime, Status, ' +
@@ -43,6 +46,9 @@ const createAppointmentBirds = (db, appointment, appointmentId) => {
 };
 
 const updateAppointment = (db, appointment) => {
+    if (appointment.startDate > appointment.endDate) {
+        throw 'start date should never be greater than end date';
+    }
     db.run('UPDATE Appointments SET StartTime = $startDate, EndTime = $endDate, Status = $status, ' +
         'Notes = $notes WHERE AppointmentId = $appointmentId', {
         $startDate: appointment.startDate,
