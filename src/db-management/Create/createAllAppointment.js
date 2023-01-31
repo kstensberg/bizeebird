@@ -1,5 +1,7 @@
 'use strict';
 
+const Utilities = require('../utilities.js');
+
 const createAppointment = (db, appointment) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
@@ -130,29 +132,11 @@ const deleteBird = async (db, birdId) => {
     });
 };
 
-const stringStatusToNumeric = (status) => {
-    if (status == 'Scheduled') {
-        return 0;
-    } else if (status == 'Checked In') {
-        return 1;
-    } else if (status == 'Checked Out') {
-        return 2;
-    } else if (status == 'Cancelled') {
-        return 3;
-    } else {
-        return 4;
-    }
-};
-
-const apptTimeStampToISOString = (date) => {
-    return new Date(date).toISOString();
-};
-
 const formatAppointment = (appointment) => {
     const formattedAppointment = appointment;
-    formattedAppointment.status = stringStatusToNumeric(formattedAppointment.status);
-    formattedAppointment.startDate = apptTimeStampToISOString(formattedAppointment.startDate);
-    formattedAppointment.endDate = apptTimeStampToISOString(formattedAppointment.endDate);
+    formattedAppointment.status = Utilities.stringStatusToNumeric(formattedAppointment.status);
+    formattedAppointment.startDate = Utilities.apptTimeStampToISOString(formattedAppointment.startDate);
+    formattedAppointment.endDate = Utilities.apptTimeStampToISOString(formattedAppointment.endDate);
     return formattedAppointment;
 };
 

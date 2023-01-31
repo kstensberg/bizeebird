@@ -1,5 +1,7 @@
 'use strict';
 
+const Utilities = require('../utilities.js');
+
 const getSingleCustomer = (db, customerId) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
@@ -19,11 +21,16 @@ const getCustomerBirds = (db, customerId) => {
         db.serialize(() => {
             db.all('SELECT Deleted AS deleted, BirdId AS birdId, Name AS name, Breed AS breed, ' +
             'Color AS color, Age AS age, Gender AS gender, Notes AS notes FROM Birds ' +
-            'WHERE Customer_CustomerId = ?', customerId, (err, row) => {
+            'WHERE Customer_CustomerId = ?', customerId, (err, rows) => {
                 if (err) {
                     reject(err);
                 }
-                resolve(row);
+
+                for (let idx = 0; idx < rows.length; idx++) {
+                    rows[idx].gender = Utilities.numericGenderToString(rows[idx].gender);
+                }
+
+                resolve(rows);
             });
         });
     });

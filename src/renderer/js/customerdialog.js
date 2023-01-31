@@ -311,7 +311,7 @@ class CustomerDialog {
                                                                                     m('input', {
                                                                                         'type': 'radio',
                                                                                         'class': 'form-radio-input',
-                                                                                        'value': 'male',
+                                                                                        'value': 'Male',
                                                                                         checked: CustomerDialogModel.currentBirdInput.gender == 'male',
                                                                                         onchange: function(event) {
                                                                                             CustomerDialogModel.currentBirdInput.gender = 'male';
@@ -321,7 +321,7 @@ class CustomerDialog {
                                                                                     m('input', {
                                                                                         'type': 'radio',
                                                                                         'class': 'form-radio-input',
-                                                                                        'value': 'female',
+                                                                                        'value': 'Female',
                                                                                         checked: CustomerDialogModel.currentBirdInput.gender == 'female',
                                                                                         onchange: function(event) {
                                                                                             CustomerDialogModel.currentBirdInput.gender = 'female';
