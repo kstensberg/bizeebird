@@ -1,5 +1,7 @@
 'use strict';
 
+const Utilities = require ('../utilities.js');
+
 const createCustomer = (db, customer) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
@@ -41,7 +43,7 @@ const createBird = (db, customerId, birds) => {
                 $breed: bird.breed,
                 $color: bird.color,
                 $age: bird.age,
-                $gender: bird.gender,
+                $gender: Utilities.stringGenderToNumeric(bird.gender),
                 $notes: bird.notes,
                 $customerId: customerId
             });

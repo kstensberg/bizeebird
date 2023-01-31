@@ -7,8 +7,8 @@ const typewatch = function(){
     return function(callback, ms){
         clearTimeout (timer);
         timer = setTimeout(callback, ms);
-    }  
-}();  
+    };
+}();
 
 var HistorySearch = {
     dataRows: [],
@@ -69,7 +69,7 @@ var HistorySearch = {
                         typewatch(function(){
                             component.updateTable(e.target.value);
                         }, 500);
-                        
+
                     }
                 }),
                 m('label', { 'for': 'floatingInput' },
