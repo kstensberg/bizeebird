@@ -47,8 +47,7 @@ class DatePicker {
         }
 
         if (vnode.attrs.endDate != null) {
-            const endDate = Date.parse(vnode.attrs.endDate);
-            this.easepick.setEndDate(endDate);
+            this.easepick.setEndDate(vnode.attrs.endDate);
         }
     }
 }
