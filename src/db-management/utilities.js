@@ -5,16 +5,16 @@ const apptTimeStampToISOString = (date) => {
 };
 
 const stringStatusToNumeric = (status) => {
-    switch (status) {
-            case 'Scheduled':
+    switch (status.toLowerCase()) {
+            case 'scheduled':
                 return 0;
-            case 'Checked In':
+            case 'checked in':
                 return 1;
-            case 'Checked Out':
+            case 'checked out':
                 return 2;
-            case 'Cancelled':
+            case 'cancelled':
                 return 3;
-            case 'No Show':
+            case 'no show':
                 return 4;
             default:
                 return null;
@@ -50,10 +50,10 @@ const numericGenderToString = (gender) => {
 };
 
 const stringGenderToNumeric = (gender) => {
-    switch (gender) {
-            case 'Male':
+    switch (gender.toLowerCase()) {
+            case 'male':
                 return 0;
-            case 'Female':
+            case 'female':
                 return 1;
             default:
                 return null;

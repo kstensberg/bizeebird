@@ -107,7 +107,7 @@ const updateBird = async (db, bird, customer) => {
         $breed: bird.breed,
         $color: bird.color,
         $age: bird.age,
-        $gender: bird.gender,
+        $gender: Utilities.stringGenderToNumeric(bird.gender),
         $notes: bird.notes,
         $birdId: bird.birdId,
         $customerId: customer.customerId
@@ -121,7 +121,7 @@ const insertBird = async (db, bird, customer) => {
         $breed: bird.breed,
         $color: bird.color,
         $age: bird.age,
-        $gender: bird.gender,
+        $gender: Utilities.stringGenderToNumeric(bird.gender),
         $notes: bird.notes,
         $customerId: customer.customerId
     });
