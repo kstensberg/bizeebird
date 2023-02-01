@@ -42,9 +42,8 @@ class DatePicker {
 
     onupdate(vnode) {
         if (vnode.attrs.startDate != null) {
-            const startDate = Date.parse(vnode.attrs.startDate);
-            this.easepick.gotoDate(startDate);
-            this.easepick.setStartDate(startDate);
+            this.easepick.gotoDate(vnode.attrs.startDate);
+            this.easepick.setStartDate(vnode.attrs.startDate);
         }
 
         if (vnode.attrs.endDate != null) {
