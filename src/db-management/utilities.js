@@ -1,7 +1,8 @@
 'use strict';
+const moment = require('moment');
 
 const apptTimeStampToISOString = (date) => {
-    return new Date(date).toISOString();
+    return moment(date).format('YYYY-MM-DD 00:00:00');
 };
 
 const stringStatusToNumeric = (status) => {

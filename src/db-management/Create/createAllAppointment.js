@@ -11,8 +11,8 @@ const createAppointment = (db, appointment) => {
             db.run('INSERT INTO Appointments (StartTime, EndTime, Status, ' +
             'Notes, Customer_CustomerId) ' +
             'VALUES ($startDate, $endDate, $status, $notes, $customerId)', {
-                $startDate: appointment.startDate,
-                $endDate: appointment.endDate,
+                $startDate: Utilities.apptTimeStampToISOString(appointment.startDate),
+                $endDate: Utilities.apptTimeStampToISOString(appointment.endDate),
                 $status: appointment.status,
                 $notes: appointment.notes,
                 $customerId: appointment.customerId
@@ -51,8 +51,8 @@ const updateAppointment = (db, appointment) => {
     }
     db.run('UPDATE Appointments SET StartTime = $startDate, EndTime = $endDate, Status = $status, ' +
         'Notes = $notes WHERE AppointmentId = $appointmentId', {
-        $startDate: appointment.startDate,
-        $endDate: appointment.endDate,
+        $startDate: Utilities.apptTimeStampToISOString(appointment.startDate),
+        $endDate: Utilities.apptTimeStampToISOString(appointment.endDate),
         $status: appointment.status,
         $notes: appointment.notes,
         $appointmentId: appointment.appointmentId
