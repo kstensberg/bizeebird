@@ -66,7 +66,7 @@ var HistorySearch = {
                     'type': 'text',
                     'placeholder': '',
                     onkeyup: function(e) {
-                        typewatch(function(){
+                        typewatch(function() {
                             component.updateTable(e.target.value);
                         }, 500);
 

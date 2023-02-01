@@ -2,6 +2,14 @@
 
 import { Table } from './table.js';
 
+const typewatch = function(){
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+}();
+
 var CustomerSearch = {
     dataRows: [],
     updateTable: async function(searchString) {
@@ -49,7 +57,9 @@ var CustomerSearch = {
                     'type': 'text',
                     'placeholder': 'name@example.com',
                     onkeyup: function(e) {
-                        component.updateTable(e.target.value);
+                        typewatch(function() {
+                            component.updateTable(e.target.value);
+                        }, 500);
                     }
                 }),
                 m('label', { 'for': 'floatingInput' },
