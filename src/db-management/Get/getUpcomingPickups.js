@@ -10,7 +10,7 @@ const getUpcomingPickups = (db) => {
             'LEFT JOIN Birds ON Birds.Customer_CustomerId = Customers.CustomerId ' +
             'LEFT JOIN Appointments ON Appointments.Customer_CustomerId = Customers.CustomerId ' +
             'LEFT JOIN AppointmentBirds ON AppointmentBirds.Appointment_AppointmentId = Appointments.AppointmentId ' +
-            'WHERE Appointments.Status = 1 ' +
+            'WHERE Appointments.Status = 1 AND Appointments.EndTime >= DATE("now", "-7 days") ' +
             'GROUP BY Appointments.AppointmentId ORDER BY Appointments.EndTime ASC';
             db.all(query, (err, rows) => {
                 if (err) {
