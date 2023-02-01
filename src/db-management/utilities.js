@@ -2,6 +2,7 @@
 const moment = require('moment');
 
 const apptTimeStampToISOString = (date) => {
+    // this works and we're not sure why - haunted :/
     return moment(date).format('YYYY-MM-DD 00:00:00');
 };
 

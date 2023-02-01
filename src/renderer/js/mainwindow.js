@@ -30,9 +30,11 @@ var BizeeBirdBoardingApp = {
 m.mount(document.body, BizeeBirdBoardingApp);
 
 window.contextBridge.attachEvent('appointmentSaved', function () {
+    // reload entire page here instead of a mythril redraw because the widget state is not dirty
     window.location.reload();
 });
 
 window.contextBridge.attachEvent('customerSaved', function () {
+    // reload entire page here instead of a mythril redraw because the widget state is not dirty
     window.location.reload();
 });
