@@ -23,6 +23,7 @@ var AppointmentDialogModel = {
         this.customerBirds = dbBirds.map((bird) => {
             return {
                 birdId: bird.birdId,
+                breed: bird.breed,
                 name: bird.name,
                 selected: false,
                 wings: false,
@@ -208,7 +209,7 @@ class AppointmentDialog {
                                                     AppointmentDialogModel.toggleBirdSelected(bird.birdId);
                                                 }
                                             }),
-                                            bird.name
+                                            ' ' + bird.name + ' (' + bird.breed + ')'
                                         ]
                                     ),
                                     m('div',
