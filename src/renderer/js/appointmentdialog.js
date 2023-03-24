@@ -18,6 +18,8 @@ var AppointmentDialogModel = {
         this.selectedCustomer = customerId;
         const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
+        const apptNotes = await window.contextBridge.database.getAppointmentNotes(customerId);
+        console.log(apptNotes); // returns undefined
 
         this.rate = customer.rate;
         this.customerBirds = dbBirds.map((bird) => {
