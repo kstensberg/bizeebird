@@ -23,10 +23,10 @@ var AppointmentDialogModel = {
         this.rate = customer.rate;
         this.customerBirds = dbBirds.map((bird) => {
             let birdNotes;
-            if (apptBirdNotes.length <= 0) {
-                birdNotes = apptBirdNotes.ApptBirdNotes;
+            if (apptBirdNotes.length <= 0 || bird.birdNotes.length <= 0) {
+                birdNotes = '';
             } else {
-                birdNotes = apptBirdNotes[0].ApptBirdNotes;
+                birdNotes = apptBirdNotes[0].ApptBirdNotes + '\n' + bird.birdNotes;
             }
             return {
                 birdId: bird.birdId,
