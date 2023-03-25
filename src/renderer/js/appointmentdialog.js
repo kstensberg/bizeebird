@@ -7,6 +7,7 @@ var choices = null;
 var AppointmentDialogModel = {
     appointmentId: null,
     selectedCustomer: null,
+    customerPhoneNumbers: null,
     customerBirds: [],
     notes: null,
     startDate: null,
@@ -19,6 +20,7 @@ var AppointmentDialogModel = {
         const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
         const apptBirdNotes = await window.contextBridge.database.getAppointmentBirdNotes(customerId);
+        this.customerPhoneNumbers = customer.phoneNumbers;
 
         this.rate = customer.rate;
         this.customerBirds = dbBirds.map((bird) => {
@@ -76,7 +78,7 @@ var AppointmentDialogModel = {
                 return;
             }
         }
-    }
+    },
 };
 
 
@@ -116,6 +118,18 @@ class AppointmentDialog {
                                                                 await AppointmentDialogModel.setCustomer(event.detail.value);
                                                                 m.redraw();
                                                             }
+                                                        })
+                                                    )
+                                                ]
+                                            ),
+                                            m('tr',
+                                                [
+                                                    m('th', 'Phone Number(s):'),
+                                                    m('td',
+                                                        m('input', {
+                                                            readonly: true,
+                                                            'class': 'form-control',
+                                                            'value': AppointmentDialogModel.customerPhoneNumbers,
                                                         })
                                                     )
                                                 ]
