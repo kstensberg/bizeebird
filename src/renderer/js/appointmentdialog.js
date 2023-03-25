@@ -23,10 +23,14 @@ var AppointmentDialogModel = {
         this.rate = customer.rate;
         this.customerBirds = dbBirds.map((bird) => {
             let birdNotes;
+            let cage = false;
             if (apptBirdNotes.length <= 0 || bird.birdNotes.length <= 0) {
                 birdNotes = '';
             } else {
                 birdNotes = apptBirdNotes[0].ApptBirdNotes + '\n' + bird.birdNotes;
+            }
+            if (apptBirdNotes[0]?.CageNeeded == 1) {
+                cage = true;
             }
             return {
                 birdId: bird.birdId,
@@ -35,7 +39,7 @@ var AppointmentDialogModel = {
                 selected: false,
                 wings: false,
                 nails: false,
-                cage: false,
+                cage: cage,
                 notes: birdNotes
             };
         });
