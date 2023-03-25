@@ -98,7 +98,12 @@ class AppointmentDialog {
                                         [
                                             m('tr',
                                                 [
-                                                    m('th', 'Customer'),
+                                                    m('th', {
+                                                        'class': 'link',
+                                                        'onclick': async () => {
+                                                            await window.contextBridge.openCustomerDialog(AppointmentDialogModel.selectedCustomer);
+                                                        }
+                                                    }, 'Customer'),
                                                     m('td',
                                                         m('select', {
                                                             oncreate: async ({ dom }) => {
