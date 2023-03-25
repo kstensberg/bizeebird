@@ -19,6 +19,7 @@ var AppointmentDialogModel = {
         const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
         const apptNotes = await window.contextBridge.database.getAppointmentNotes(customerId);
+        AppointmentDialogModel.notes = apptNotes[0].ApptNotes;
 
         this.rate = customer.rate;
         this.customerBirds = dbBirds.map((bird) => {
@@ -30,7 +31,7 @@ var AppointmentDialogModel = {
                 wings: false,
                 nails: false,
                 cage: false,
-                notes: apptNotes[0].ApptNotes
+                notes: ''
             };
         });
     },

@@ -22,7 +22,7 @@ const getAppointmentNotes = (db, customerId) => {
 
 // for testing
 getAppointmentNotes(db, 289).then(function(result) {
-    console.log(result);
+    // console.log(result);
 });
 // ....
 
