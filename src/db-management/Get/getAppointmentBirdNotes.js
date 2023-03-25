@@ -1,12 +1,5 @@
 'use strict';
 
-// below is only present in this file to call the getAppointmentNotes function for testing
-const sqlite3 = require('sqlite3').verbose();
-const dbLocation = process.env.APPDATA;
-const db = new sqlite3.Database(dbLocation + '/BiZeeBird/bizeebird.db');
-// ....
-
-
 const getAppointmentBirdNotes = (db, customerId) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
@@ -22,11 +15,5 @@ const getAppointmentBirdNotes = (db, customerId) => {
         });
     });
 };
-
-// for testing
-getAppointmentBirdNotes(db, 612).then(function(result) {
-    console.log(result);
-});
-// ....
 
 module.exports = getAppointmentBirdNotes;
