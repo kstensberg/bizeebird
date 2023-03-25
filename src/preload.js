@@ -26,5 +26,6 @@ contextBridge.exposeInMainWorld('contextBridge', {
         saveAppointment: (appointment) => ipcRenderer.invoke('saveAppointment', appointment),
         saveCustomer: (customer) => ipcRenderer.invoke('saveCustomer', customer),
         getAppointmentNotes: (customerId) => ipcRenderer.invoke('getAppointmentNotes', customerId),
+        getAppointmentBirdNotes: (customerId) => ipcRenderer.invoke('getAppointmentBirdNotes', customerId)
     }
 });

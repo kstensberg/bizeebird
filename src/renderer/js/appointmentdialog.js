@@ -19,10 +19,19 @@ var AppointmentDialogModel = {
         const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
         const apptNotes = await window.contextBridge.database.getAppointmentNotes(customerId);
-        AppointmentDialogModel.notes = apptNotes[0].ApptNotes;
+        const apptBirdNotes = await window.contextBridge.database.getAppointmentBirdNotes(customerId);
+        if (apptNotes.length > 0) {
+            AppointmentDialogModel.notes = apptNotes[0].ApptNotes;
+        }
 
         this.rate = customer.rate;
         this.customerBirds = dbBirds.map((bird) => {
+            let birdNotes;
+            if (apptBirdNotes.length <= 0) {
+                birdNotes = apptBirdNotes.ApptBirdNotes;
+            } else {
+                birdNotes = apptBirdNotes[0].ApptBirdNotes;
+            }
             return {
                 birdId: bird.birdId,
                 breed: bird.breed,
@@ -31,7 +40,7 @@ var AppointmentDialogModel = {
                 wings: false,
                 nails: false,
                 cage: false,
-                notes: ''
+                notes: birdNotes
             };
         });
     },
