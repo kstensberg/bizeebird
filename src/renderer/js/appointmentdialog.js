@@ -18,11 +18,7 @@ var AppointmentDialogModel = {
         this.selectedCustomer = customerId;
         const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
-        const apptNotes = await window.contextBridge.database.getAppointmentNotes(customerId);
         const apptBirdNotes = await window.contextBridge.database.getAppointmentBirdNotes(customerId);
-        if (apptNotes.length > 0) {
-            AppointmentDialogModel.notes = apptNotes[0].ApptNotes;
-        }
 
         this.rate = customer.rate;
         this.customerBirds = dbBirds.map((bird) => {
