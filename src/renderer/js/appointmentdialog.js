@@ -19,19 +19,18 @@ var AppointmentDialogModel = {
         this.selectedCustomer = customerId;
         const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
-        const apptBirdNotes = await window.contextBridge.database.getAppointmentBirdNotes(customerId);
+        const apptBird = await window.contextBridge.database.getAppointmentBird(customerId);
         this.customerPhoneNumbers = customer.phoneNumbers;
         this.rate = customer.rate;
-        const selectedBird = dbBirds.length == 1 ? true : false;
+        let selectedBird;
+        dbBirds.length == 1 ? selectedBird = true : selectedBird = false;
 
         this.customerBirds = dbBirds.map((bird) => {
-            let birdNotes;
-            const cage = apptBirdNotes[0]?.CageNeeded == 1 ? true : false;
-            if (apptBirdNotes.length <= 0 || bird.birdNotes.length <= 0) {
-                birdNotes = '';
-            } else {
-                birdNotes = `${apptBirdNotes[0].ApptBirdNotes}\n${bird.birdNotes}`;
-            }
+            let cage = false;
+            apptBird[0]?.CageNeeded == 1 ? cage = true : cage = false;
+
+            const apptBirdNotes = bird.birdNotes || '';
+
             return {
                 birdId: bird.birdId,
                 breed: bird.breed,
@@ -40,7 +39,7 @@ var AppointmentDialogModel = {
                 wings: false,
                 nails: false,
                 cage: cage,
-                notes: birdNotes
+                notes: apptBirdNotes
             };
         });
     },
@@ -130,7 +129,7 @@ class AppointmentDialog {
                                                     m('th', 'Phone Number(s):'),
                                                     m('td',
                                                         m('input', {
-                                                            readonly: true,
+                                                            disabled: true,
                                                             'class': 'form-control',
                                                             'value': AppointmentDialogModel.customerPhoneNumbers,
                                                         })
