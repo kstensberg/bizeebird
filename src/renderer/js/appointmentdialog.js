@@ -21,24 +21,22 @@ var AppointmentDialogModel = {
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
         const apptBirdNotes = await window.contextBridge.database.getAppointmentBirdNotes(customerId);
         this.customerPhoneNumbers = customer.phoneNumbers;
-
         this.rate = customer.rate;
+        const selectedBird = dbBirds.length == 1 ? true : false;
+
         this.customerBirds = dbBirds.map((bird) => {
             let birdNotes;
-            let cage = false;
+            const cage = apptBirdNotes[0]?.CageNeeded == 1 ? true : false;
             if (apptBirdNotes.length <= 0 || bird.birdNotes.length <= 0) {
                 birdNotes = '';
             } else {
-                birdNotes = apptBirdNotes[0].ApptBirdNotes + '\n' + bird.birdNotes;
-            }
-            if (apptBirdNotes[0]?.CageNeeded == 1) {
-                cage = true;
+                birdNotes = `${apptBirdNotes[0].ApptBirdNotes}\n${bird.birdNotes}`;
             }
             return {
                 birdId: bird.birdId,
                 breed: bird.breed,
                 name: bird.name,
-                selected: false,
+                selected: selectedBird,
                 wings: false,
                 nails: false,
                 cage: cage,
@@ -98,7 +96,12 @@ class AppointmentDialog {
                                         [
                                             m('tr',
                                                 [
-                                                    m('th', 'Customer'),
+                                                    m('th', {
+                                                        'class': 'link',
+                                                        'onclick': async () => {
+                                                            await window.contextBridge.openCustomerDialog(AppointmentDialogModel.selectedCustomer);
+                                                        }
+                                                    }, 'Customer'),
                                                     m('td',
                                                         m('select', {
                                                             oncreate: async ({ dom }) => {
