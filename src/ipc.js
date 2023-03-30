@@ -108,3 +108,8 @@ ipcMain.handle('saveAppointment', async function(event, appointment) {
 
     triggerEventOnAllWindows('appointmentSaved');
 });
+
+ipcMain.handle('getAppointmentBirdNotes', async function(event, customerId) {
+    const getAppointmentBirdNotes = require('./db-management/Get/getAppointmentBirdNotes');
+    return getAppointmentBirdNotes(db, customerId);
+});

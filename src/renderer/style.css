@@ -167,3 +167,8 @@ fieldset.labeled-container {
 input[type="checkbox"][aria-disabled="true"] {
   pointer-events: none;
 }
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}

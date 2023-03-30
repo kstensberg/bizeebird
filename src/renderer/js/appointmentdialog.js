@@ -7,6 +7,7 @@ var choices = null;
 var AppointmentDialogModel = {
     appointmentId: null,
     selectedCustomer: null,
+    customerPhoneNumbers: null,
     customerBirds: [],
     notes: null,
     startDate: null,
@@ -18,18 +19,28 @@ var AppointmentDialogModel = {
         this.selectedCustomer = customerId;
         const customer = await window.contextBridge.database.getCustomer(customerId);
         const dbBirds = await window.contextBridge.database.getCustomerBirds(customerId);
-
+        const apptBirdNotes = await window.contextBridge.database.getAppointmentBirdNotes(customerId);
+        this.customerPhoneNumbers = customer.phoneNumbers;
         this.rate = customer.rate;
+        const selectedBird = dbBirds.length == 1 ? true : false;
+
         this.customerBirds = dbBirds.map((bird) => {
+            let birdNotes;
+            const cage = apptBirdNotes[0]?.CageNeeded == 1 ? true : false;
+            if (apptBirdNotes.length <= 0 || bird.birdNotes.length <= 0) {
+                birdNotes = '';
+            } else {
+                birdNotes = `${apptBirdNotes[0].ApptBirdNotes}\n${bird.birdNotes}`;
+            }
             return {
                 birdId: bird.birdId,
                 breed: bird.breed,
                 name: bird.name,
-                selected: false,
+                selected: selectedBird,
                 wings: false,
                 nails: false,
-                cage: false,
-                notes: ''
+                cage: cage,
+                notes: birdNotes
             };
         });
     },
@@ -65,7 +76,7 @@ var AppointmentDialogModel = {
                 return;
             }
         }
-    }
+    },
 };
 
 
@@ -85,7 +96,12 @@ class AppointmentDialog {
                                         [
                                             m('tr',
                                                 [
-                                                    m('th', 'Customer'),
+                                                    m('th', {
+                                                        'class': 'link',
+                                                        'onclick': async () => {
+                                                            await window.contextBridge.openCustomerDialog(AppointmentDialogModel.selectedCustomer);
+                                                        }
+                                                    }, 'Customer'),
                                                     m('td',
                                                         m('select', {
                                                             oncreate: async ({ dom }) => {
@@ -105,6 +121,18 @@ class AppointmentDialog {
                                                                 await AppointmentDialogModel.setCustomer(event.detail.value);
                                                                 m.redraw();
                                                             }
+                                                        })
+                                                    )
+                                                ]
+                                            ),
+                                            m('tr',
+                                                [
+                                                    m('th', 'Phone Number(s):'),
+                                                    m('td',
+                                                        m('input', {
+                                                            readonly: true,
+                                                            'class': 'form-control',
+                                                            'value': AppointmentDialogModel.customerPhoneNumbers,
                                                         })
                                                     )
                                                 ]
