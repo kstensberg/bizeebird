@@ -96,7 +96,7 @@ class AppointmentDialog {
                                             m('tr',
                                                 [
                                                     m('th', {
-                                                        'class': 'link',
+                                                        'class': 'toCustomerLink',
                                                         'onclick': async () => {
                                                             await window.contextBridge.openCustomerDialog(AppointmentDialogModel.selectedCustomer);
                                                         }
