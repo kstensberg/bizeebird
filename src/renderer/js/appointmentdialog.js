@@ -110,7 +110,7 @@ class AppointmentDialog {
                                                                     return (await window.contextBridge.database.getAllCustomers()).map((row) => {
                                                                         return {
                                                                             value: row.customerId,
-                                                                            label: row.name
+                                                                            label: row.birdName ? `${row.name}  |  ${row.birdName}` : row.name
                                                                         };
                                                                     });
                                                                 });
