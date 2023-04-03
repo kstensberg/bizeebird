@@ -31,15 +31,20 @@ const createAppointmentBirds = (db, appointment, appointmentId) => {
     db.serialize(() => {
         birds.forEach(bird =>
             db.run('INSERT INTO AppointmentBirds (GroomingWings, GroomingNails, CageNeeded, ' +
-            'Bird_BirdId, Appointment_AppointmentId, ApptBirdNotes) VALUES ($GroomingWings, ' +
+            'Bird_BirdId, Appointment_AppointmentId) VALUES ($GroomingWings, ' +
             '$GroomingNails, $CageNeeded, $Bird_BirdId, ' +
-            '$Appointment_AppointmentId, $ApptBirdNotes)', {
+            '$Appointment_AppointmentId)', {
                 $GroomingWings: bird.wings,
                 $GroomingNails: bird.nails,
                 $CageNeeded: bird.cage,
                 $Bird_BirdId: bird.birdId,
-                $Appointment_AppointmentId: appointmentId,
-                $ApptBirdNotes: bird.notes
+                $Appointment_AppointmentId: appointmentId
+            })
+        );
+        birds.forEach(bird =>
+            db.run('UPDATE Birds SET Deleted = 0, Notes = $BirdNotes WHERE BirdId = $BirdId', {
+                $BirdNotes: bird.notes,
+                $BirdId: bird.birdId,
             })
         );
     });
@@ -108,28 +113,38 @@ const getAppointmentBirds = (db, appointment) => {
 };
 
 const updateBird = async (db, bird, appointment) => {
-    await db.run('UPDATE AppointmentBirds SET GroomingWings = $groomingWings, GroomingNails = $groomingNails, CageNeeded = $cageNeeded, ' +
-        'ApptBirdNotes = $apptBirdNotes ' +
+    await db.serialize(function() {
+        db.run('UPDATE AppointmentBirds SET GroomingWings = $groomingWings, GroomingNails = $groomingNails, CageNeeded = $cageNeeded ' +
         'WHERE Bird_BirdId = $birdId AND Appointment_AppointmentId = $appointmentId', {
-        $groomingWings: bird.wings,
-        $groomingNails: bird.nails,
-        $cageNeeded: bird.cage,
-        $apptBirdNotes: bird.notes,
-        $birdId: bird.birdId,
-        $appointmentId: appointment.appointmentId
+            $groomingWings: bird.wings,
+            $groomingNails: bird.nails,
+            $cageNeeded: bird.cage,
+            $birdId: bird.birdId,
+            $appointmentId: appointment.appointmentId
+        });
+        db.run('UPDATE Birds SET Notes = $birdNotes WHERE BirdId = $birdId', {
+            $birdNotes: bird.notes,
+            $birdId: bird.birdId
+        });
     });
 };
 
 const insertBird = async (db, bird, appointment) => {
-    await db.run('INSERT INTO AppointmentBirds (GroomingWings, GroomingNails, CageNeeded, ApptBirdNotes, Bird_BirdId, Appointment_AppointmentId) ' +
-    'VALUES($groomingWings, $groomingNails, $cageNeeded, $apptBirdNotes, $birdId, $appointmentId)', {
-        $groomingWings: bird.wings,
-        $groomingNails: bird.nails,
-        $cageNeeded: bird.cage,
-        $apptBirdNotes: bird.notes,
-        $birdId: bird.birdId,
-        $appointmentId: appointment.appointmentId
+    await db.serialize(function() {
+        db.run('INSERT INTO AppointmentBirds (GroomingWings, GroomingNails, CageNeeded, Bird_BirdId, Appointment_AppointmentId) ' +
+        'VALUES($groomingWings, $groomingNails, $cageNeeded, $birdId, $appointmentId)', {
+            $groomingWings: bird.wings,
+            $groomingNails: bird.nails,
+            $cageNeeded: bird.cage,
+            $birdId: bird.birdId,
+            $appointmentId: appointment.appointmentId
+        });
+        db.run('UPDATE Birds SET Notes = $BirdNotes WHERE BirdId = $BirdId', {
+            $BirdNotes: bird.notes,
+            $BirdId: bird.birdId
+        });
     });
+
 };
 
 const deleteBird = async (db, birdId) => {
