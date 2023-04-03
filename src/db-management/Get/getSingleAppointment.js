@@ -21,7 +21,7 @@ const getAppointmentBirds = (db, appointmentId) => {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             db.all('SELECT AppointmentBirdId as appointmentBirdId, Bird_BirdId as birdId, GroomingWings as wings, ' +
-            'GroomingNails AS nails, CageNeeded AS cage, ApptBirdNotes AS notes, Appointment_AppointmentId as appointmentId FROM AppointmentBirds ' +
+            'GroomingNails AS nails, CageNeeded AS cage, Appointment_AppointmentId as appointmentId FROM AppointmentBirds ' +
             'WHERE Appointment_AppointmentId = ?', appointmentId, (err, row) => {
                 if (err) {
                     reject(err);

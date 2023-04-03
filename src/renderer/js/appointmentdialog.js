@@ -29,8 +29,6 @@ var AppointmentDialogModel = {
             let cage = false;
             apptBird[0]?.CageNeeded == 1 ? cage = true : cage = false;
 
-            const apptBirdNotes = bird.birdNotes || '';
-
             return {
                 birdId: bird.birdId,
                 breed: bird.breed,
@@ -39,7 +37,7 @@ var AppointmentDialogModel = {
                 wings: false,
                 nails: false,
                 cage: cage,
-                notes: apptBirdNotes
+                notes: bird.birdNotes
             };
         });
     },
@@ -337,7 +335,7 @@ class AppointmentDialog {
                                                 cage: customerBird.cage,
                                                 nails: customerBird.nails,
                                                 notes: customerBird.notes,
-                                                wings: customerBird.wings
+                                                wings: customerBird.wings,
                                             });
                                         }
                                     }
@@ -360,7 +358,7 @@ m.mount(document.body, AppointmentDialog);
 window.contextBridge.attachEvent('loadAppointment', async function (event, appointmentId) {
     AppointmentDialogModel.appointmentId = appointmentId;
     const appointment = await window.contextBridge.database.getAppointment(appointmentId);
-
+    console.log(appointment);
     if (appointment.rate == null || appointment.rate == undefined) {
         const customer = await window.contextBridge.database.getCustomer(appointment.customerId);
         appointment.rate = customer.rate;
@@ -377,7 +375,7 @@ window.contextBridge.attachEvent('loadAppointment', async function (event, appoi
                 modelBird.wings = appointmentBird.wings == 1;
                 modelBird.nails = appointmentBird.nails == 1;
                 modelBird.cage = appointmentBird.cage == 1;
-                modelBird.notes = appointmentBird.notes;
+                modelBird.birdNotes = appointmentBird.birdNotes;
             }
         }
     }
